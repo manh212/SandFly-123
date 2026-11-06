@@ -23,7 +23,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import java.util.ArrayDeque
 import android.widget.Toast
 import java.lang.ref.WeakReference
 import java.util.ArrayDeque
@@ -31,7 +30,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.ClipboardHistory
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
-import com.google.android.accessibility.utils.Role
 
 /**
  * Granular editing: the text of the focused item opens in a screen of its own, split into pieces
