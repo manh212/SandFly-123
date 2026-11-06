@@ -8,6 +8,7 @@ import static org.robolectric.Shadows.shadowOf;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -167,11 +168,17 @@ public class BrailleKeyboardServiceTest {
     BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, item);
     assertTrue(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
 
-    shadowOf(window).setTitle("IME Switcher Menu");
+    shadowOf(window).setTitle(null);
+    Resources systemResources = Resources.getSystem();
+    int pickerTitleId = systemResources.getIdentifier("select_input_method", "string", "android");
+    AccessibilityNodeInfoCompat pickerPane = AccessibilityNodeInfoCompat.obtain();
+    pickerPane.setPaneTitle(systemResources.getString(pickerTitleId));
+    shadowOf(pickerPane.unwrap()).addChild(item.unwrap());
     BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, item);
     assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
     shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
     assertEquals(1, keyboard.userShowRequests);
+    pickerPane.recycle();
     item.recycle();
     window.recycle();
   }

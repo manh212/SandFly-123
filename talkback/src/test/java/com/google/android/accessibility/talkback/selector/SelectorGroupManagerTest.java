@@ -122,6 +122,30 @@ public class SelectorGroupManagerTest {
   }
 
   @Test
+  public void speechVolumeAndChannelAreSeparateControlsInTheSameGroup() {
+    SelectorGroupManager.ensureInitialized(context);
+    String speechVolume =
+        SelectorGroupManager.itemId(context, SelectorController.Setting.SPEECH_VOLUME);
+    String speechChannel =
+        SelectorGroupManager.itemId(context, SelectorController.Setting.SPEECH_STREAM);
+    assertFalse(speechVolume.equals(speechChannel));
+    assertEquals(
+        context.getString(R.string.title_pref_speech_volume),
+        SelectorGroupManager.availableItems(context).stream()
+            .filter(item -> item.id.equals(speechVolume))
+            .findFirst()
+            .orElseThrow()
+            .title.toString());
+    assertTrue(SelectorGroupManager.addItem(context, SelectorGroupManager.USER_GROUP_ID,
+        speechVolume));
+    assertTrue(SelectorGroupManager.addItem(context, SelectorGroupManager.USER_GROUP_ID,
+        speechChannel));
+    assertTrue(SelectorGroupManager.getGroups(context).stream()
+        .anyMatch(group -> group.id.equals(SelectorGroupManager.USER_GROUP_ID)
+            && group.items.containsAll(List.of(speechVolume, speechChannel))));
+  }
+
+  @Test
   public void defaultGroupsCanShareControlsAlreadyEnabledByTheUser() {
     String speechChannel =
         SelectorGroupManager.itemId(context, SelectorController.Setting.SPEECH_STREAM);

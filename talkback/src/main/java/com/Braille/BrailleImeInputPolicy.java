@@ -2,6 +2,7 @@ package com.Braille;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
@@ -75,14 +76,62 @@ public final class BrailleImeInputPolicy {
         if (window == null) {
             return false;
         }
-        CharSequence title = window.getTitle();
-        window.recycle();
-        if (!TextUtils.equals(title, "Select input method")
-                && !TextUtils.equals(title, "IME Switcher Menu")) {
+        try {
+            return isKeyboardPickerWindow(node, window)
+                    && (hasPickerLabel(node, context.getString(R.string.meridian_braille_keyboard_ime))
+                        || hasPickerLabel(node, context.getString(R.string.meridian_braille_ime_subtype)));
+        } finally {
+            window.recycle();
+        }
+    }
+
+    private static boolean isKeyboardPickerWindow(
+            AccessibilityNodeInfoCompat node, AccessibilityWindowInfoCompat window) {
+        CharSequence windowTitle = window.getTitle();
+        if (TextUtils.equals(windowTitle, "Select input method")
+                || TextUtils.equals(windowTitle, "IME Switcher Menu")) {
+            return true;
+        }
+
+        Resources systemResources = Resources.getSystem();
+        int titleId = systemResources.getIdentifier("select_input_method", "string", "android");
+        if (titleId == 0) {
             return false;
         }
-        return hasPickerLabel(node, context.getString(R.string.meridian_braille_keyboard_ime))
-                || hasPickerLabel(node, context.getString(R.string.meridian_braille_ime_subtype));
+        String pickerTitle = systemResources.getString(titleId);
+        if (TextUtils.equals(windowTitle, pickerTitle) || hasPickerPane(node, pickerTitle)) {
+            return true;
+        }
+
+        AccessibilityNodeInfoCompat root = window.getRoot();
+        if (root == null) {
+            return false;
+        }
+        try {
+            boolean found = false;
+            for (AccessibilityNodeInfoCompat title :
+                    root.findAccessibilityNodeInfosByViewId("android:id/alertTitle")) {
+                found |= TextUtils.equals(title.getText(), pickerTitle);
+                title.recycle();
+            }
+            return found;
+        } finally {
+            root.recycle();
+        }
+    }
+
+    private static boolean hasPickerPane(AccessibilityNodeInfoCompat node, String pickerTitle) {
+        AccessibilityNodeInfoCompat ancestor = node.getParent();
+        while (ancestor != null) {
+            boolean matches = TextUtils.equals(ancestor.getPaneTitle(), pickerTitle);
+            AccessibilityNodeInfoCompat parent = matches ? null : ancestor.getParent();
+            ancestor.recycle();
+            if (matches) {
+                return true;
+            }
+            ancestor = parent;
+        }
+        return false;
     }
 
     private static boolean isKeyboardPickerPackage(CharSequence packageName) {

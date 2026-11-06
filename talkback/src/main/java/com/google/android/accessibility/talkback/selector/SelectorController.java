@@ -412,6 +412,10 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_vertical_navigation_key,
         R.string.selector_vertical_navigation,
         R.bool.pref_selector_vertical_navigation_default),
+    SPEECH_VOLUME(
+        R.string.pref_selector_speech_volume_key,
+        R.string.selector_speech_volume,
+        R.bool.pref_selector_speech_volume_default),
     SPEECH_STREAM(
         R.string.pref_selector_speech_stream_key,
         R.string.selector_speech_stream,
@@ -697,6 +701,7 @@ public class SelectorController implements UserInputEventListener {
           Setting.CONTROL_TELLING_TIME,
           Setting.SWITCH_TTS_ENGINE,
           Setting.SPEECH_STREAM,
+          Setting.SPEECH_VOLUME,
           Setting.SWITCH_VOICE_PROFILE,
           Setting.GESTURE_PROFILE);
 
@@ -1064,6 +1069,10 @@ public class SelectorController implements UserInputEventListener {
       }
       case SWITCH_TTS_ENGINE -> {
         actionDescription = context.getString(R.string.title_selector_switch_tts_engine);
+        hint = getAdjustSelectedSettingGestures();
+      }
+      case SPEECH_VOLUME -> {
+        actionDescription = context.getString(R.string.title_pref_speech_volume);
         hint = getAdjustSelectedSettingGestures();
       }
       case SPEECH_STREAM -> {
@@ -2452,6 +2461,10 @@ public class SelectorController implements UserInputEventListener {
         changeTtsEngine(eventId, isNext);
         return;
       }
+      case SPEECH_VOLUME -> {
+        changeSpeechVolume(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
+        return;
+      }
       case SPEECH_STREAM -> {
         cycleSpeechStream(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
         return;
@@ -2709,6 +2722,13 @@ public class SelectorController implements UserInputEventListener {
    */
   private void moveVertically(EventId eventId, boolean isNext) {
     verticalNavigator.move(eventId, isNext);
+  }
+
+  private void changeSpeechVolume(EventId eventId, boolean increase) {
+    int volume = SpeechVolumeControl.change(context, prefs, increase);
+    String announcement = context.getString(R.string.selector_speech_volume_value, volume);
+    announceSetting(eventId, announcement, getAdjustSelectedSettingGestures());
+    showQuickMenuActionOverlay(eventId, announcement);
   }
 
   public void cycleSpeechStream(EventId eventId, boolean forward) {
