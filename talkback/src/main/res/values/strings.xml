@@ -4538,11 +4538,11 @@
     <string name="action_developer_settings_continue">Đồng ý và tiếp tục</string>
     <string name="title_selector_repeat_translate" tools:ignore="MissingTranslation">Nhắc lại và dịch lời đọc</string>
   <string name="clipboard_history_copy" translatable="false">Copy</string>
-    <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>
-    <string name="keycombo_shortcut_reading_group_next">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
-    <string name="shortcut_value_choose_keyboard">choose_keyboard</string>
-    <string name="shortcut_choose_keyboard">Chọn bàn phím</string>
-    <string name="shortcut_value_switch_speech_stream">switch_speech_stream</string>
-    <string name="shortcut_switch_speech_stream">Chuyển kênh giọng nói</string>
-    <string name="keyboard_editing_active">Đang chỉnh sửa</string>
+    <string name="keycombo_shortcut_reading_group_previous" tools:ignore="MissingTranslation">Chuyển đến nhóm điều khiển đọc trước</string>
+    <string name="keycombo_shortcut_reading_group_next" tools:ignore="MissingTranslation">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
+    <string name="shortcut_value_choose_keyboard" tools:ignore="MissingTranslation">choose_keyboard</string>
+    <string name="shortcut_choose_keyboard" tools:ignore="MissingTranslation">Chọn bàn phím</string>
+    <string name="shortcut_value_switch_speech_stream" tools:ignore="MissingTranslation">switch_speech_stream</string>
+    <string name="shortcut_switch_speech_stream" tools:ignore="MissingTranslation">Chuyển kênh giọng nói</string>
+    <string name="keyboard_editing_active" tools:ignore="MissingTranslation">Đang chỉnh sửa</string>
 </resources>
