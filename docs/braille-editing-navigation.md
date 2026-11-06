@@ -2,12 +2,27 @@
 
 ## Compatibility fixes
 
-The Braille input method tracks when its window was hidden while editing the
-current field. Repeated implicit show requests for the same editor are declined.
-A new editor or an explicit user request can reopen it. This is intended for
-chat clients, including Gemini, which may repeatedly request the keyboard.
-The host application and Android retain control of focus and may still make
-explicit keyboard requests.
+The Braille input method remembers a deliberate dismissal only for the editor
+that was dismissed. Repeated implicit show requests for that same editor are
+declined so chat clients, including Gemini, cannot immediately reopen the
+keyboard after the user closes it. New editors are permitted to show; a
+manually requested show always clears the old dismissal, including explicit
+and forced Android IME requests, selecting the Braille keyboard in the system
+picker, and activating an editable field. Legacy unscoped dismissal flags are
+discarded when a new editor starts rather than blocking every input field.
+
+The IME explicitly accepts manual requests instead of letting implicit-show
+restrictions veto them. Picker activations can arrive before Android updates
+its selected IME; in that case the show request stays pending for up to two
+seconds while keyboard selection and service binding complete. A user-triggered
+request is tracked until Android signals `onWindowShown()`; if no input view
+appears, Meridian makes one bounded retry while the original keyboard and
+input connection remain active.
+Retries stop after dismissal, editor exit, an IME change, or a second unsuccessful
+attempt. Diagnostics separately report show requests, acceptance, and
+window-visible callbacks. The host application and Android retain ultimate
+control of actually displaying the IME window, so acceptance is not a guarantee
+on every OEM build.
 
 Braille input uses InputConnection.commitText for standard editors. When an
 editor declines a commit, it attempts input key events. Editors with a null
@@ -50,10 +65,12 @@ a single logical line through the Android text API.
 
 ## Validation
 
-Relevant Robolectric tests include BrailleEditingSupportTest and
-BrailleKeyboardServiceTest, exercising gesture navigation ranges, deletion of
-the focused character/word, real cursor selection, password speech privacy,
-input policies, and fallback key-event injection. The repository's selected
+Relevant Robolectric tests include BrailleEditingSupportTest,
+BrailleImeInputPolicyTest, and BrailleKeyboardServiceTest, exercising gesture
+navigation ranges, deletion of the focused character/word, real cursor selection,
+password speech privacy, scoped dismissal, picker-selection races, manual
+explicit and forced shows, bounded show retries, input policies, and fallback
+key-event injection. The repository's selected
 GitHub Actions tests, lint and build must pass before publishing.
 
 On-device verification remains necessary for Gemini's keyboard visibility,

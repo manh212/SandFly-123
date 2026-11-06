@@ -90,7 +90,11 @@ public class BrailleKeyboardService extends InputMethodService {
     private static volatile String lastUserShowOutcome = "not requested";
     private static final long USER_ACTIVATION_SHOW_DELAY_MS = 180L;
     private static final long USER_ACTIVATION_BIND_TIMEOUT_MS = 2000L;
+    private static final long USER_ACTIVATION_RETRY_MS = 800L;
+    private static final long USER_ACTIVATION_PICKER_POLL_MS = 150L;
     private static long pendingUserShowUntil;
+    private long manualShowGeneration;
+    private boolean manualShowPending;
 
     private SharedPreferences prefs;
     private final BrailleImeInputPolicy imeInputPolicy = new BrailleImeInputPolicy();
@@ -170,6 +174,24 @@ public class BrailleKeyboardService extends InputMethodService {
     private BrailleImeCanvasView imeCanvasView;
     private final boolean[] pendingChordDots = new boolean[7];
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable pickerSelectionRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (pendingUserShowUntil == 0L) {
+                return;
+            }
+            if (isBrailleKeyboardSelected(BrailleKeyboardService.this)) {
+                queueUserShow();
+                return;
+            }
+            if (SystemClock.uptimeMillis() >= pendingUserShowUntil) {
+                pendingUserShowUntil = 0L;
+                lastUserShowOutcome = "picker selection was not activated";
+                return;
+            }
+            mainHandler.postDelayed(this, USER_ACTIVATION_PICKER_POLL_MS);
+        }
+    };
     private final Runnable userActivationShowRunnable = () -> {
         if (prefs == null) {
             lastUserShowOutcome = "preferences unavailable";
@@ -194,15 +216,86 @@ public class BrailleKeyboardService extends InputMethodService {
         }
         lastUserShowOutcome =
                 getCurrentInputConnection() == null
-                        ? "show requested while input connection unavailable"
-                        : "show requested with input connection";
+                        ? "user show requested; awaiting window (no input connection)"
+                        : "user show requested; awaiting window";
+        manualShowPending = true;
+        final long generation = manualShowGeneration;
         showInputForUserActivation();
+        mainHandler.postDelayed(
+                () -> checkManualShowResult(generation, false), USER_ACTIVATION_RETRY_MS);
     };
+
+    // Android may silently ignore a show request, especially during editor/IME transitions.
+    // One bounded retry is safe; never retry after dismissal, loss of input, or IME switching.
+    private void checkManualShowResult(long generation, boolean alreadyRetried) {
+        if (generation != manualShowGeneration || !manualShowPending) {
+            return;
+        }
+        if (isInputViewShown()) {
+            manualShowPending = false;
+            lastUserShowOutcome = "keyboard view visible";
+            return;
+        }
+        if (prefs == null || !isBrailleKeyboardSelected(this)
+                || !BrailleMeridianBridge.isAvailable()) {
+            manualShowPending = false;
+            lastUserShowOutcome = "show cancelled: keyboard or screen reader unavailable";
+            return;
+        }
+        imeInputPolicy.reloadFromPreferences(prefs);
+        if (imeInputPolicy.isUserDismissed()) {
+            manualShowPending = false;
+            lastUserShowOutcome = "show cancelled: user dismissed keyboard";
+            return;
+        }
+        if (getCurrentInputConnection() == null) {
+            manualShowPending = false;
+            lastUserShowOutcome = "no input connection after show request";
+            return;
+        }
+        if (alreadyRetried) {
+            manualShowPending = false;
+            lastUserShowOutcome = "no keyboard window after show retry";
+            android.util.Log.w("BrailleImeVisibility", lastUserShowOutcome);
+            return;
+        }
+        lastUserShowOutcome = "no keyboard window; retrying user show";
+        android.util.Log.w("BrailleImeVisibility", lastUserShowOutcome);
+        showInputForUserActivation();
+        mainHandler.postDelayed(
+                () -> checkManualShowResult(generation, true), USER_ACTIVATION_RETRY_MS);
+    }
+
+    private void cancelManualShow(String reason) {
+        manualShowPending = false;
+        manualShowGeneration++;
+        mainHandler.removeCallbacks(userActivationShowRunnable);
+        mainHandler.removeCallbacks(pickerSelectionRunnable);
+        lastUserShowOutcome = reason;
+    }
+
+    private void dismissKeyboardForUser() {
+        pendingUserShowUntil = 0L;
+        imeInputPolicy.onUserDismissed(prefs);
+        cancelManualShow("keyboard dismissed by user");
+        requestHideSelf(0);
+    }
 
     public static void showFromUserActivation(Context context) {
         if (!isBrailleKeyboardSelected(context)) {
+            lastUserShowOutcome = "user activation ignored: another keyboard is selected";
             return;
         }
+        queueUserShowFromContext(context);
+    }
+
+    // A system keyboard-picker click can arrive before DEFAULT_INPUT_METHOD is updated.
+    // Keep that explicit selection pending through the framework's IME transition.
+    public static void showFromPickerActivation(Context context) {
+        queueUserShowFromContext(context);
+    }
+
+    private static void queueUserShowFromContext(Context context) {
         BrailleImeInputPolicy.allowUserReopen(
                 context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE));
         BrailleKeyboardService keyboard = activeService;
@@ -211,11 +304,20 @@ public class BrailleKeyboardService extends InputMethodService {
             lastUserShowOutcome = "waiting for keyboard service";
             return;
         }
+        if (!isBrailleKeyboardSelected(context)) {
+            pendingUserShowUntil = SystemClock.uptimeMillis() + USER_ACTIVATION_BIND_TIMEOUT_MS;
+            lastUserShowOutcome = "waiting for keyboard selection";
+            keyboard.mainHandler.removeCallbacks(keyboard.pickerSelectionRunnable);
+            keyboard.mainHandler.post(keyboard.pickerSelectionRunnable);
+            return;
+        }
         keyboard.queueUserShow();
     }
 
     private void queueUserShow() {
         pendingUserShowUntil = 0L;
+        manualShowPending = false;
+        manualShowGeneration++;
         lastUserShowOutcome = "user activation queued";
         mainHandler.removeCallbacks(userActivationShowRunnable);
         mainHandler.postDelayed(userActivationShowRunnable, USER_ACTIVATION_SHOW_DELAY_MS);
@@ -240,6 +342,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 + "Keyboard view visible: " + (keyboard != null && keyboard.isInputViewShown()) + "\n"
                 + "Input connection available: "
                 + (keyboard != null && keyboard.getCurrentInputConnection() != null) + "\n"
+                + "Manual show pending: " + (keyboard != null && keyboard.manualShowPending) + "\n"
                 + "Last user show: " + lastUserShowOutcome + "\n";
     }
 
@@ -322,6 +425,9 @@ public class BrailleKeyboardService extends InputMethodService {
         initFeedbackEngines();
         reloadAllSettings();
         activeService = this;
+        if (pendingUserShowUntil != 0L) {
+            mainHandler.post(pickerSelectionRunnable);
+        }
     }
 
     @Override
@@ -377,10 +483,15 @@ public class BrailleKeyboardService extends InputMethodService {
 
         if (pendingUserShowUntil != 0L) {
             if (SystemClock.uptimeMillis() <= pendingUserShowUntil) {
-                queueUserShow();
+                if (isBrailleKeyboardSelected(this)) {
+                    queueUserShow();
+                } else {
+                    mainHandler.removeCallbacks(pickerSelectionRunnable);
+                    mainHandler.post(pickerSelectionRunnable);
+                }
             } else {
                 pendingUserShowUntil = 0L;
-                lastUserShowOutcome = "keyboard service did not start in time";
+                lastUserShowOutcome = "keyboard selection timed out";
             }
         }
 
@@ -434,7 +545,9 @@ public class BrailleKeyboardService extends InputMethodService {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && isInputViewShown()
                 && !event.isCanceled()) {
+            pendingUserShowUntil = 0L;
             imeInputPolicy.onUserDismissed(prefs);
+            cancelManualShow("keyboard dismissed by Back");
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -443,6 +556,9 @@ public class BrailleKeyboardService extends InputMethodService {
     public void onFinishInput() {
         cancelPendingInput();
         navigationState.reset();
+        if (manualShowPending) {
+            cancelManualShow("input finished before keyboard was shown");
+        }
         imeInputPolicy.onFinishInput();
         super.onFinishInput();
     }
@@ -456,24 +572,42 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public boolean onShowInputRequested(int flags, boolean configChange) {
         imeInputPolicy.reloadFromPreferences(prefs);
-        boolean allowed = imeInputPolicy.shouldShow(getCurrentInputEditorInfo(), flags);
+        boolean explicit = BrailleImeInputPolicy.isExplicitShow(flags) || manualShowPending;
+        boolean allowedByPolicy = imeInputPolicy.shouldShow(getCurrentInputEditorInfo(), flags);
+        // Explicit/manual requests must not be vetoed by an old dismissal or by the
+        // default implicit-show policy (including hardware keyboard configuration).
+        boolean accepted = allowedByPolicy
+                && (explicit || super.onShowInputRequested(flags, configChange));
         android.util.Log.i("BrailleImeVisibility", "showRequest flags=" + flags
-                + " configChange=" + configChange + " allowed=" + allowed
+                + " configChange=" + configChange + " explicit=" + explicit
+                + " accepted=" + accepted
                 + " dismissedByUser=" + imeInputPolicy.isUserDismissed());
-        return allowed && super.onShowInputRequested(flags, configChange);
+        if (manualShowPending) {
+            lastUserShowOutcome =
+                    accepted ? "show accepted; awaiting keyboard window"
+                            : "show rejected by keyboard service";
+        }
+        return accepted;
     }
 
     @Override
     public void onWindowShown() {
         super.onWindowShown();
+        manualShowPending = false;
+        lastUserShowOutcome = "keyboard window shown";
+        android.util.Log.i("BrailleImeVisibility", "keyboardWindowShown");
     }
 
     @Override
     public void onWindowHidden() {
         cancelPendingInput();
         navigationState.reset();
+        if (manualShowPending) {
+            cancelManualShow("keyboard window hidden before show completed");
+        }
         imeInputPolicy.onHidden();
         super.onWindowHidden();
+        android.util.Log.i("BrailleImeVisibility", "keyboardWindowHidden");
     }
 
     private boolean hidePasswordInSpeech() {
@@ -1764,8 +1898,7 @@ public class BrailleKeyboardService extends InputMethodService {
             triggerFeedback(imeCanvasView, 50L, ToneGenerator.TONE_PROP_BEEP2, 90);
 
             speak("Đã đóng bàn phím", true);
-            imeInputPolicy.onUserDismissed(prefs);
-            requestHideSelf(0);
+            dismissKeyboardForUser();
         }
     }
 
@@ -1852,8 +1985,7 @@ public class BrailleKeyboardService extends InputMethodService {
             }
             case 6: {
                 speak("Đã đóng bàn phím", true);
-                imeInputPolicy.onUserDismissed(prefs);
-                requestHideSelf(0);
+                dismissKeyboardForUser();
                 break;
             }
         }
@@ -2402,7 +2534,7 @@ public class BrailleKeyboardService extends InputMethodService {
 
     @Override
     public void onDestroy() {
-        mainHandler.removeCallbacks(userActivationShowRunnable);
+        cancelManualShow("keyboard service destroyed");
         if (activeService == this) {
             activeService = null;
         }

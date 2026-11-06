@@ -114,7 +114,24 @@ class DiagnosticsExportTest {
     assertTrue(snapshot.contains("Keyboard service running: "))
     assertTrue(snapshot.contains("Manually dismissed: "))
     assertTrue(snapshot.contains("Input connection available: "))
+    assertTrue(snapshot.contains("Manual show pending: "))
     assertTrue(snapshot.contains("Last user show: "))
+  }
+
+  @Test
+  fun snapshot_identifiesDirectSilentTypingInsteadOfUnknown() {
+    val key = context.getString(R.string.pref_typing_confirmation_key)
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    val original = prefs.getString(key, null)
+    try {
+      prefs.edit().putString(key, "6").commit()
+      val snapshot = DiagnosticsExport.buildSnapshotSections(context)
+      assertTrue(snapshot.contains("Typing method: 6 (direct silent typing)"))
+    } finally {
+      val editor = prefs.edit()
+      if (original == null) editor.remove(key) else editor.putString(key, original)
+      editor.commit()
+    }
   }
 
   @Test

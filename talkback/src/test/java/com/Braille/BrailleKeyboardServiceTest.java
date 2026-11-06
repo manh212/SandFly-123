@@ -25,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethod;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
@@ -142,6 +143,51 @@ public class BrailleKeyboardServiceTest {
   }
 
   @Test
+  public void explicitShowIsAcceptedEvenAfterKeyboardWasDismissed() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+
+    assertTrue(keyboard.onShowInputRequested(InputMethod.SHOW_EXPLICIT, false));
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+  }
+
+  @Test
+  public void forcedShowIsAcceptedEvenAfterKeyboardWasDismissed() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+
+    assertTrue(keyboard.onShowInputRequested(InputMethod.SHOW_FORCED, false));
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+  }
+
+  @Test
+  public void manualShowRetriesOnceIfAndroidDoesNotShowKeyboard() {
+    BrailleKeyboardService.showFromUserActivation(keyboard);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(1, keyboard.userShowRequests);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(900));
+    assertEquals(2, keyboard.userShowRequests);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(900));
+    assertEquals(2, keyboard.userShowRequests);
+    assertTrue(BrailleKeyboardService.diagnosticStatus(keyboard)
+        .contains("no keyboard window after show retry"));
+  }
+
+  @Test
+  public void missingInputConnectionDoesNotTriggerRepeatedShow() {
+    keyboard.connection = null;
+    BrailleKeyboardService.showFromUserActivation(keyboard);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(1, keyboard.userShowRequests);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(900));
+    assertEquals(1, keyboard.userShowRequests);
+    assertTrue(BrailleKeyboardService.diagnosticStatus(keyboard)
+        .contains("no input connection after show request"));
+  }
+
+  @Test
   public void noInputConnectionStillRequestsShowAfterUserActivation() {
     keyboard.connection = null;
     BrailleKeyboardService.showFromUserActivation(keyboard);
@@ -181,6 +227,24 @@ public class BrailleKeyboardServiceTest {
     pickerPane.recycle();
     item.recycle();
     window.recycle();
+  }
+
+  @Test
+  public void pickerClickBeforeAndroidSelectionCompletesStillShowsBrailleKeyboard() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+    Settings.Secure.putString(keyboard.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD,
+        new ComponentName(keyboard, Keyboard.class).flattenToShortString() + ".other");
+
+    BrailleKeyboardService.showFromPickerActivation(keyboard);
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+    assertEquals(0, keyboard.userShowRequests);
+
+    Settings.Secure.putString(keyboard.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD,
+        new ComponentName(keyboard, BrailleKeyboardService.class).flattenToShortString());
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(500));
+    assertEquals(1, keyboard.userShowRequests);
   }
 
   @Test

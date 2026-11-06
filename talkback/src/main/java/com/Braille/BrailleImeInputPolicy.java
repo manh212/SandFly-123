@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethod;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
 import com.google.android.accessibility.talkback.R;
@@ -16,35 +17,63 @@ import com.google.android.accessibility.utils.Role;
 public final class BrailleImeInputPolicy {
     public static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
     public static final String PREF_USER_DISMISSED = "braille_ime_user_dismissed";
+    private static final String PREF_DISMISSED_EDITOR = "braille_ime_dismissed_editor";
 
+    private SharedPreferences preferences;
     private String currentEditor;
+    private String dismissedEditor;
     private boolean dismissed;
 
     public void reloadFromPreferences(SharedPreferences prefs) {
+        preferences = prefs;
         dismissed = prefs.getBoolean(PREF_USER_DISMISSED, false);
+        dismissedEditor = prefs.getString(PREF_DISMISSED_EDITOR, null);
     }
 
     public void onStartInput(EditorInfo info) {
-        currentEditor = identifyEditor(info);
+        String nextEditor = identifyEditor(info);
+        // Closing an IME must not disable it for every editor, including after a restart.
+        // Legacy preferences may have a dismissal flag but no editor identity.
+        if (dismissed && nextEditor != null && !TextUtils.equals(nextEditor, dismissedEditor)) {
+            clearUserDismissal();
+        }
+        currentEditor = nextEditor;
     }
 
     public void onHidden() {
+        // Android/app-driven hiding is not a user dismissal.
     }
 
     public void onUserDismissed(SharedPreferences prefs) {
+        preferences = prefs;
         dismissed = true;
-        prefs.edit().putBoolean(PREF_USER_DISMISSED, true).apply();
+        dismissedEditor = currentEditor;
+        prefs.edit()
+                .putBoolean(PREF_USER_DISMISSED, true)
+                .putString(PREF_DISMISSED_EDITOR, dismissedEditor == null ? "" : dismissedEditor)
+                .apply();
     }
 
     public static void allowUserReopen(SharedPreferences prefs) {
-        prefs.edit().putBoolean(PREF_USER_DISMISSED, false).apply();
+        prefs.edit().putBoolean(PREF_USER_DISMISSED, false).remove(PREF_DISMISSED_EDITOR).apply();
+    }
+
+    private void clearUserDismissal() {
+        dismissed = false;
+        dismissedEditor = null;
+        if (preferences != null) {
+            allowUserReopen(preferences);
+        }
     }
 
     public static void allowUserReopenForActivation(
             Context context, AccessibilityNodeInfoCompat node) {
-        if (context != null && node != null
-                && (node.isEditable() || Role.getRole(node) == Role.ROLE_EDIT_TEXT
-                    || isBrailleKeyboardPickerItem(context, node))) {
+        if (context == null || node == null) {
+            return;
+        }
+        if (isBrailleKeyboardPickerItem(context, node)) {
+            BrailleKeyboardService.showFromPickerActivation(context);
+        } else if (node.isEditable() || Role.getRole(node) == Role.ROLE_EDIT_TEXT) {
             BrailleKeyboardService.showFromUserActivation(context);
         }
     }
@@ -60,7 +89,7 @@ public final class BrailleImeInputPolicy {
         }
         try {
             if (isBrailleKeyboardPickerItem(context, source)) {
-                BrailleKeyboardService.showFromUserActivation(context);
+                BrailleKeyboardService.showFromPickerActivation(context);
             }
         } finally {
             source.recycle();
@@ -168,8 +197,25 @@ public final class BrailleImeInputPolicy {
     }
 
     public boolean shouldShow(EditorInfo info, int flags) {
-        currentEditor = identifyEditor(info);
+        String editor = identifyEditor(info);
+        if (editor != null) {
+            if (dismissed && !TextUtils.equals(editor, dismissedEditor)) {
+                clearUserDismissal();
+            }
+            currentEditor = editor;
+        }
+        // An explicit request must always bypass the remembered manual dismissal.
+        if (isExplicitShow(flags)) {
+            if (dismissed) {
+                clearUserDismissal();
+            }
+            return true;
+        }
         return !dismissed;
+    }
+
+    public static boolean isExplicitShow(int flags) {
+        return (flags & (InputMethod.SHOW_EXPLICIT | InputMethod.SHOW_FORCED)) != 0;
     }
 
     public static boolean shouldCapitalize(EditorInfo info, boolean enabled) {

@@ -474,6 +474,7 @@ object DiagnosticsExport {
       FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE_EXCEPT_ACTION_KEY ->
         "lift to type except action key"
       FocusProcessorForTapAndTouchExploration.SINGLE_TAP_TO_TYPE -> "direct key input"
+      FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING -> "direct silent typing"
       else -> "unknown"
     }
 
