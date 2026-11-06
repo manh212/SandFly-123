@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="sgm_group_summary" tools:ignore="MissingTranslation">%1$d mục, %2$s</string>
+  <string name="sgm_on" tools:ignore="MissingTranslation">Đang bật</string>
+  <string name="sgm_off" tools:ignore="MissingTranslation">Đang tắt</string>
+  <string name="sgm_item_count" tools:ignore="MissingTranslation">%1$d mục</string>
+  <string name="sgm_save" tools:ignore="MissingTranslation">Lưu</string>
+  <string name="sgm_add_group" tools:ignore="MissingTranslation">Thêm nhóm mới</string>
+  <string name="sgm_create_title" tools:ignore="MissingTranslation">Tạo nhóm điều hướng</string>
+  <string name="sgm_group_name" tools:ignore="MissingTranslation">Tên nhóm</string>
+  <string name="sgm_choose_items" tools:ignore="MissingTranslation">Chọn các mục</string>
+  <string name="sgm_selected_count" tools:ignore="MissingTranslation">Đã chọn %1$d mục</string>
+  <string name="sgm_create" tools:ignore="MissingTranslation">Tạo nhóm</string>
+  <string name="sgm_cancel" tools:ignore="MissingTranslation">Hủy</string>
+  <string name="sgm_done" tools:ignore="MissingTranslation">Xong</string>
+  <string name="sgm_rename" tools:ignore="MissingTranslation">Đổi tên nhóm</string>
+  <string name="sgm_edit_items" tools:ignore="MissingTranslation">Chỉnh sửa các mục</string>
+  <string name="sgm_enabled" tools:ignore="MissingTranslation">Bật nhóm</string>
+  <string name="sgm_delete" tools:ignore="MissingTranslation">Xóa nhóm</string>
+  <string name="sgm_delete_confirm" tools:ignore="MissingTranslation">Bạn có chắc chắn muốn xóa nhóm %1$s không?</string>
+  <string name="sgm_present" tools:ignore="MissingTranslation">Các mục đang có</string>
+  <string name="sgm_available" tools:ignore="MissingTranslation">Các mục có thể thêm</string>
+  <string name="sgm_move_up" tools:ignore="MissingTranslation">Di chuyển lên</string>
+  <string name="sgm_move_down" tools:ignore="MissingTranslation">Di chuyển xuống</string>
+  <string name="sgm_remove_item" tools:ignore="MissingTranslation">Xóa khỏi nhóm</string>
+  <string name="sgm_name_exists" tools:ignore="MissingTranslation">Tên nhóm đã tồn tại</string>
+  <string name="sgm_name_required" tools:ignore="MissingTranslation">Vui lòng nhập tên nhóm</string>
+  <string name="sgm_items_required" tools:ignore="MissingTranslation">Hãy chọn ít nhất một mục</string>
+  <string name="sgm_minimum_group" tools:ignore="MissingTranslation">Phải giữ ít nhất một nhóm điều hướng có mục</string>
+  <string name="sgm_minimum_enabled" tools:ignore="MissingTranslation">Cần giữ ít nhất một nhóm điều hướng được bật</string>
+  <string name="sgm_save_failed" tools:ignore="MissingTranslation">Không thể lưu thay đổi</string>
+  <string name="sgm_created" tools:ignore="MissingTranslation">Đã tạo nhóm %1$s</string>
+  <string name="sgm_renamed" tools:ignore="MissingTranslation">Đã đổi tên nhóm</string>
+  <string name="sgm_deleted" tools:ignore="MissingTranslation">Đã xóa nhóm</string>
+  <string name="sgm_added" tools:ignore="MissingTranslation">Đã thêm %1$s</string>
+  <string name="sgm_removed" tools:ignore="MissingTranslation">Đã xóa %1$s</string>
+  <string name="sgm_moved" tools:ignore="MissingTranslation">%1$s, vị trí %2$d trong %3$d</string>
+  <string name="sgm_no_available" tools:ignore="MissingTranslation">Không còn mục nào để thêm</string>
+</resources>

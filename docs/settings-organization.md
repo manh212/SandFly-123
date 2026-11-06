@@ -29,7 +29,7 @@ they do not maintain a second copy of its controls.
 
 - **Speech and voice profiles:** The reading-content page owns what is spoken. The voice page owns speech output and profile editing. App-specific voice choices only select an existing profile; profile rename and deletion happen in the profile editor.
 - **Navigation and shortcuts:** Navigation owns navigation behavior. The gestures page owns gesture assignments. Navigation links to direct touch for that task; the direct-touch backup route opens the same feature in backup-only mode.
-- **Menus and selector groups:** Menu customization has one home. On supported devices the selector row opens the selector-group editor. Existing duplicate selector items migrate to the user's group when one exists, and subsequent saves reject the same item appearing in multiple groups.
+- **Menus and selector groups:** Menu customization has one home. On supported devices the selector row opens the selector-group list. Each group has its own management and item editor screens. The same selector item may belong to several groups without being moved or removed from any other group.
 - **Quick settings:** The panel screen owns both the panel switch and its item order. The old copy in Advanced settings is removed.
 - **Notifications:** The notification landing screen is a topic index. Reading, app rules, word rules, filters, list composition, automation and timing options are each owned by their specific page. History actions open the app or blocked-word owner with a suggested change; history itself does not save those settings.
 - **OCR and subtitles:** Screen recognition's OCR engine and the shared Tesseract data download have one OCR owner. Subtitles keep their own engine choice, recognition region and speech behavior because those options control subtitle scanning; they can link to the shared OCR page for the data download.
@@ -50,7 +50,7 @@ they do not maintain a second copy of its controls.
 
 ## Preserved behavior and data
 
-Stored setting keys and values stay unchanged except where an old duplicate is explicitly migrated to its canonical key. Existing reading preset values remain intact when controls move between pages. Reset confirmation keeps its established scope and preserves unrelated settings. Selector migration keeps the user-group copy of any duplicate item and removes copies from other groups.
+Stored setting keys and values stay unchanged except where an old duplicate is explicitly migrated to its canonical key. Existing reading preset values remain intact when controls move between pages. Reset confirmation keeps its established scope and preserves unrelated settings. Shared selector items remain in every group that contains them. Removing the final item automatically deletes that group, except when doing so would remove the only group or the final enabled group.
 
 Runtime device, API level, permission and feature filters still determine which rows are visible. Dynamic lists and object editors—apps, notification rules, profiles, models, scripts, labels, menus and sound themes—remain within the feature that owns those objects. Related shortcuts are routes to the canonical page, not additional settings owners.
 

@@ -214,4 +214,68 @@ public class SelectorGroupManagerTest {
         2L,
         groups.stream().flatMap(group -> group.items.stream()).filter(item::equals).count());
   }
+  @Test
+  public void removingLastItemAutomaticallyDeletesGroupButPreservesSharedItem() {
+    assertTrue(SelectorGroupManager.saveGroups(
+        context, List.of(
+            new SelectorGroupManager.Group("first", "First", true, List.of("shared")),
+            new SelectorGroupManager.Group("second", "Second", true, List.of("shared", "other")))));
+
+    assertTrue(SelectorGroupManager.removeItem(context, "first", "shared"));
+
+    List<SelectorGroupManager.Group> groups = SelectorGroupManager.getGroups(context);
+    assertEquals(1, groups.size());
+    assertEquals("second", groups.get(0).id);
+    assertTrue(groups.get(0).items.contains("shared"));
+  }
+
+  @Test
+  public void removingOnlyItemFromOnlyGroupIsRejected() {
+    assertTrue(SelectorGroupManager.saveGroups(context, List.of(
+        new SelectorGroupManager.Group("only", "Only", true, List.of("one")))));
+
+    assertFalse(SelectorGroupManager.removeItem(context, "only", "one"));
+    assertEquals(1, SelectorGroupManager.getGroups(context).size());
+  }
+
+  @Test
+  public void deletingLastEnabledGroupByRemovingItemIsRejected() {
+    assertTrue(SelectorGroupManager.saveGroups(context, List.of(
+        new SelectorGroupManager.Group("enabled", "Enabled", true, List.of("one")),
+        new SelectorGroupManager.Group("disabled", "Disabled", false, List.of("other")))));
+
+    assertFalse(SelectorGroupManager.removeItem(context, "enabled", "one"));
+    assertEquals(2, SelectorGroupManager.getGroups(context).size());
+  }
+
+  @Test
+  public void removingLastItemFromDisabledGroupAutomaticallyDeletesIt() {
+    assertTrue(SelectorGroupManager.saveGroups(context, List.of(
+        new SelectorGroupManager.Group("enabled", "Enabled", true, List.of("one")),
+        new SelectorGroupManager.Group("disabled", "Disabled", false, List.of("other")))));
+
+    assertTrue(SelectorGroupManager.removeItem(context, "disabled", "other"));
+    assertEquals(1, SelectorGroupManager.getGroups(context).size());
+  }
+
+  @Test
+  public void creatingGroupRejectsDuplicateNameIgnoringCaseAndSurroundingSpaces() {
+    assertTrue(SelectorGroupManager.saveGroups(context, List.of(
+        new SelectorGroupManager.Group("first", "Văn bản", true, List.of("one")))));
+
+    assertTrue(SelectorGroupManager.isNameTaken(context, "  VĂN BẢN  ", ""));
+    assertFalse(SelectorGroupManager.addGroup(context, "văn bản", List.of("one")));
+    assertEquals(1, SelectorGroupManager.getGroups(context).size());
+  }
+
+  @Test
+  public void nameCheckExcludesGroupBeingRenamed() {
+    assertTrue(SelectorGroupManager.saveGroups(context, List.of(
+        new SelectorGroupManager.Group("first", "First", true, List.of("one")),
+        new SelectorGroupManager.Group("second", "Second", true, List.of("two")))));
+
+    assertFalse(SelectorGroupManager.isNameTaken(context, " first ", "first"));
+    assertTrue(SelectorGroupManager.isNameTaken(context, "SECOND", "first"));
+  }
+
 }

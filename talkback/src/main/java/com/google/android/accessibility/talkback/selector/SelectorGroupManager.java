@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -387,9 +388,21 @@ public final class SelectorGroupManager {
     return saveGroups(context, groups);
   }
 
+  public static boolean isNameTaken(Context context, String name, String excludedId) {
+    String normalized = name == null ? "" : name.trim().toLowerCase(Locale.ROOT);
+    for (Group group : getGroups(context)) {
+      if (!group.id.equals(excludedId)
+          && group.name.trim().toLowerCase(Locale.ROOT).equals(normalized)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static boolean addGroup(Context context, String name, List<String> itemIds) {
     String normalizedName = name == null ? "" : name.trim();
-    if (TextUtils.isEmpty(normalizedName) || itemIds == null || itemIds.isEmpty()) {
+    if (TextUtils.isEmpty(normalizedName) || itemIds == null || itemIds.isEmpty()
+        || isNameTaken(context, normalizedName, "")) {
       return false;
     }
     ArrayList<Group> groups = mutableGroups(context);
@@ -411,10 +424,20 @@ public final class SelectorGroupManager {
   public static boolean removeItem(Context context, String groupId, String itemId) {
     ArrayList<Group> groups = mutableGroups(context);
     Group group = findGroup(groups, groupId);
-    if (group == null || !group.items.contains(itemId) || group.items.size() <= 1) {
+    if (group == null || !group.items.contains(itemId)) {
       return false;
     }
-    group.items.remove(itemId);
+    if (group.items.size() == 1) {
+      if (groups.size() == 1) {
+        return false;
+      }
+      if (group.enabled && groups.stream().noneMatch(other -> other != group && other.enabled)) {
+        return false;
+      }
+      groups.remove(group);
+    } else {
+      group.items.remove(itemId);
+    }
     return saveGroups(context, groups);
   }
 
