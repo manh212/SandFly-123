@@ -264,11 +264,15 @@ public final class DeviceLicenseManager {
     if (!LicensePolicy.FEATURES.contains(feature)) return false;
     if (!configured()) return true;
     try {
-      if (!recentlyVerified(context)) return false;
       LicensePolicy policy = policy(context);
-      return policy == null ? prefs(context).getString("policy", "").isEmpty()
-          && (isLicensed(context) || prefs(context).getString("license", "").isEmpty())
-          : ApkSignatureVerifier.isOfficial(context) && policy.allows(feature, policyTime(context, policy));
+      if (policy == null) {
+        if (!prefs(context).getString("policy", "").isEmpty()) return false;
+        String legacy = prefs(context).getString("license", "");
+        return legacy == null || legacy.isEmpty()
+            || (recentlyVerified(context) && isLicensed(context));
+      }
+      return recentlyVerified(context) && ApkSignatureVerifier.isOfficial(context)
+          && policy.allows(feature, policyTime(context, policy));
     } catch (Exception e) { return false; }
   }
 
