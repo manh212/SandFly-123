@@ -722,13 +722,13 @@ final class ForumAdministration {
     if (name.isEmpty() && !needsActivity && !needsRank) return 0;
     if (!name.isEmpty()) service.put("forumLegacyNames/" + uid + "/" + ForumProtocol.id(),
         new JSONObject().put("name", name).put("capturedAt", FirebaseRest.timestamp()));
-    JSONObject changes = new JSONObject();
-    if (record.has("name")) changes.put("name", JSONObject.NULL);
-    if (record.has("authorName")) changes.put("authorName", JSONObject.NULL);
-    if (needsActivity) changes.put("lastAt", record.getLong("createdAt"));
-    if (needsRank) changes.put("rankAt",
+    JSONObject updated = new JSONObject(record.toString());
+    updated.remove("name");
+    updated.remove("authorName");
+    if (needsActivity) updated.put("lastAt", record.getLong("createdAt"));
+    if (needsRank) updated.put("rankAt",
         record.optLong("lastAt", record.optLong("createdAt")));
-    if (changes.length() > 0) service.patch(path, changes);
+    service.put(path, updated);
     return 1;
   }
 
