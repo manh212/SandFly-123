@@ -486,7 +486,19 @@ public class ScrollEventInterpreter implements AccessibilityEventListener {
     return (positionInfo != null) && positionInfo.equals(new PositionInfo(event));
   }
 
-  public static boolean hasValidIndex(AccessibilityEvent event) {
+  public static boolean hasScrollPosition(AccessibilityEvent event) {
+    return hasValidAdapterViewIndex(event)
+        || hasValidScrollViewIndex(event)
+        || hasSignificantDelta(AccessibilityEventUtils.getScrollDeltaX(event))
+        || hasSignificantDelta(AccessibilityEventUtils.getScrollDeltaY(event));
+  }
+
+  private static boolean hasSignificantDelta(int delta) {
+    return delta != AccessibilityEventUtils.DELTA_UNDEFINED
+        && (delta > SCROLL_NOISE_RANGE || delta < -SCROLL_NOISE_RANGE);
+  }
+
+  private static boolean hasValidIndex(AccessibilityEvent event) {
     return hasValidAdapterViewIndex(event)
         || hasValidScrollViewIndex(event)
         || AccessibilityEventUtils.hasValidScrollDelta(event);

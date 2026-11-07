@@ -217,7 +217,7 @@ public final class BackgroundEventGate {
     if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
       // Text/state/content-description changes may be meaningful feedback.
       return !WindowCachePolicy.isNonStructuralContent(event)
-          && !ScrollEventInterpreter.hasValidIndex(event);
+          && !ScrollEventInterpreter.hasScrollPosition(event);
     }
     // Never postpone a scroll response while the user is touching/swiping, nor
     // any delayed callback for a programmatic scroll that TalkBack is expecting.

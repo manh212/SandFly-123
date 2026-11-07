@@ -229,6 +229,11 @@ class BackgroundEventGateTest {
       it.itemCount = 20
     }
     assertTrue(gate.onAccessibilityEvent(scrollContent))
+    val scrollDelta = structural().also {
+      it.scrollDeltaX = 0
+      it.scrollDeltaY = 32
+    }
+    assertTrue(gate.onAccessibilityEvent(scrollDelta))
     assertTrue(gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)))
     assertTrue(gate.onAccessibilityEvent(
