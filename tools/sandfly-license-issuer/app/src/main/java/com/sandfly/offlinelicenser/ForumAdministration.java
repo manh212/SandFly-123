@@ -193,15 +193,16 @@ final class ForumAdministration {
         int byName = people.get(a).compareToIgnoreCase(people.get(b));
         return byName != 0 ? byName : a.compareTo(b);
       });
+      String currentDeveloper = developer;
       ui(screen, () -> {
         results.removeAllViews();
-        text(results, developer.isEmpty() ? "Chưa bổ nhiệm Nhà phát triển."
-            : "Nhà phát triển hiện tại: " + people.getOrDefault(developer, "Thành viên") + " · " + developer);
+        text(results, currentDeveloper.isEmpty() ? "Chưa bổ nhiệm Nhà phát triển."
+            : "Nhà phát triển hiện tại: " + people.getOrDefault(currentDeveloper, "Thành viên") + " · " + currentDeveloper);
         for (String uid : uids) {
           String name = people.get(uid);
           text(results, name + " · " + uid);
           button(results, "Bổ nhiệm Quản trị viên: " + name, () -> appoint(screen, uid));
-          if (!uid.equals(developer)) {
+          if (!uid.equals(currentDeveloper)) {
             button(results, "Bổ nhiệm Nhà phát triển: " + name,
                 () -> appointDeveloper(screen, uid, results));
           }
