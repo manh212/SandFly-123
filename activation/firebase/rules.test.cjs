@@ -693,13 +693,16 @@ test('legacy public names remain unreadable before owner completes migration', a
     console.log('FORUM_COVERAGE_EVAL', JSON.stringify(evaluated
       .sort((a, b) => b.text.length - a.text.length).slice(0, 110)).slice(0, 30000));
     const base = JSON.parse(readFileSync('database.rules.json', 'utf8'));
-    for (const mode of ['write', 'parentValidate', 'childValidate', 'everything']) {
+    for (const mode of ['write', 'parentValidate', 'childValidate', 'everything', 'uid', 'category', 'title', 'body', 'createdAt', 'lastAt', 'locked', 'rankAt', '$other']) {
       const candidate = JSON.parse(JSON.stringify(base));
       const rule = candidate.rules.forumTopics['$topic'];
       if (mode === 'write' || mode === 'everything') {
         rule['.write'] = "auth != null && root.child('admins').child(auth.uid).val() === true";
       }
       if (mode === 'parentValidate' || mode === 'everything') rule['.validate'] = true;
+      if (mode in rule && mode !== 'write' && mode !== 'everything' && mode !== 'childValidate' && mode !== 'parentValidate') {
+        if (typeof rule[mode] === 'object') rule[mode]['.validate'] = true;
+      }
       if (mode === 'childValidate' || mode === 'everything') {
         for (const child of Object.values(rule)) {
           if (child && typeof child === 'object' && '.validate' in child) child['.validate'] = true;
