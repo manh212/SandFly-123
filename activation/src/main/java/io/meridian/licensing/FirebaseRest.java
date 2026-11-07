@@ -284,6 +284,13 @@ public final class FirebaseRest {
   }
 
   private static void validatePath(String path) {
+    if (path.startsWith("supportUsers/")) {
+      String[] segments = path.split("/");
+      if (segments.length > 4 || (segments.length == 4
+          && !segments[3].matches("subject|type|createdAt|lastAt|status|statusAt|lastReplyId|lastReplyAt"))) {
+        throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
+      }
+    }
     if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators|forumPublicRoles|forumAdminRatings|forumChatIndex|forumChats|forumTopicLikes|forumPollVotes|forumPollGuards|forumReports|forumIdentity|forumMigration|forumDeviceBans|forumNameHistory|forumPinnedTopics|forumPinnedPosts|forumBans|forumNotices|forumAnnouncements|forumModerationArchive|forumEditAudit|forumDeleteAudit|forumModerationLog|forumLegacyNames)(?:/[a-zA-Z0-9_-]{1,128}){0,5}|(?:forumPostLikes|forumDailySlots|forumEnrollmentIndex)(?:/[a-zA-Z0-9_-]{1,128}){0,6}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
