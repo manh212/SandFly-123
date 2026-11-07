@@ -325,7 +325,8 @@ final class ForumAdministration {
     Screen screen = page("Báo cáo");
     run(screen, false, service -> {
       JSONObject all = service.get("forumReports");
-      List<String> topics = new ArrayList<>(), posts = new ArrayList<>();
+      List<String> topics = new ArrayList<>(), posts = new ArrayList<>(),
+          reportedUsers = new ArrayList<>();
       for (java.util.Iterator<String> it = all.keys(); it.hasNext();) {
         String id = it.next();
         JSONObject records = all.optJSONObject(id);
@@ -334,17 +335,26 @@ final class ForumAdministration {
           JSONObject report = records.optJSONObject(reportIds.next());
           if (report == null) continue;
           String post = report.optString("post");
-          if (topics.contains(id + "/" + post)) continue;
-          topics.add(id + "/" + post);
+          String reported = report.optString("targetUid");
+          String key = id + "/" + post + "/" + reported;
+          if (topics.contains(key)) continue;
+          topics.add(key);
           posts.add(post);
+          reportedUsers.add(reported);
         }
       }
       ui(screen, () -> {
         for (int i = 0; i < topics.size(); i++) {
           String id = topics.get(i).split("/")[0], post = posts.get(i);
-          text(screen.root, post.isEmpty() ? "Báo cáo chủ đề" : "Báo cáo bình luận");
+          String reported = reportedUsers.get(i);
+          text(screen.root, ForumProtocol.validUid(reported)
+              ? "Báo cáo người dùng: " + reported
+              : post.isEmpty() ? "Báo cáo chủ đề" : "Báo cáo bình luận");
           button(screen.root, "Xem nội dung", () -> topic(id));
           button(screen.root, "Ẩn nội dung", () -> hide(screen, id, post));
+          if (ForumProtocol.validUid(reported)) {
+            button(screen.root, "Chặn người dùng", () -> ban(screen, reported, true));
+          }
         }
         if (topics.isEmpty()) screen.status.setText("Không có báo cáo.");
       });
