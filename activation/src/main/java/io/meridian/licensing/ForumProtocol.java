@@ -47,8 +47,9 @@ public final class ForumProtocol {
   }
 
   public static String text(String raw, int min, int max, String label) {
-    String value = raw == null ? "" : raw.trim();
-    if (value.length() < min || value.length() > max || value.chars().anyMatch(ch -> Character.isISOControl(ch)
+    String input = raw == null ? "" : raw;
+    String value = input.trim();
+    if (value.length() < min || value.length() > max || input.chars().anyMatch(ch -> Character.isISOControl(ch)
         && ch != '\n' && ch != '\r' && ch != '\t')) {
       throw new IllegalArgumentException(label + " không hợp lệ.");
     }

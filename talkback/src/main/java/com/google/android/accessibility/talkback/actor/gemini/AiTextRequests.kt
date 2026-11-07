@@ -48,6 +48,9 @@ class AiTextRequests internal constructor(
   context: Context,
   announce: Consumer<String>,
   private val performer: AiTextRequestPerformer,
+  private val canUseFeature: (String) -> Boolean = { feature ->
+    com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, feature)
+  },
 ) {
   constructor(context: Context, announce: Consumer<String>) :
     this(context, announce, LocalGemmaRequestPerformer(context, announce))
@@ -56,7 +59,7 @@ class AiTextRequests internal constructor(
   private val prefs = SharedPreferencesUtils.getSharedPreferences(appContext)
 
   fun ask(prompt: String, json: Boolean, done: (String?, GeminiFailure?) -> Unit) {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "ai")) {
+    if (!canUseFeature("ai")) {
       done(null, GeminiFailure.other("Giấy phép hiện tại không có tính năng trí tuệ nhân tạo."))
       return
     }
@@ -89,7 +92,7 @@ class AiTextRequests internal constructor(
   private var imageRequestActive: AtomicBoolean? = null
 
   fun askImage(prompt: String, jpeg: ByteArray, done: (String?, GeminiFailure?) -> Unit) {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "ai")) {
+    if (!canUseFeature("ai")) {
       done(null, GeminiFailure.other("Giấy phép hiện tại không có tính năng trí tuệ nhân tạo."))
       return
     }

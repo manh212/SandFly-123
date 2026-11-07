@@ -42,7 +42,13 @@ import java.util.function.Consumer
 
 class AutomaticTranslation
 @VisibleForTesting
-internal constructor(context: Context, private val engine: Engine) : SpeechControllerImpl.SpeechHold {
+internal constructor(
+  context: Context,
+  private val engine: Engine,
+  private val canUseFeature: (String) -> Boolean = { feature ->
+    com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, feature)
+  },
+) : SpeechControllerImpl.SpeechHold {
   private val appContext = context.applicationContext
   private val prefs = SharedPreferencesUtils.getSharedPreferences(appContext)
   private val handler = Handler(Looper.getMainLooper())
@@ -86,7 +92,7 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
     flags: Int,
     release: Consumer<CharSequence?>,
   ): Boolean {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "translation")) return false
+    if (!canUseFeature("translation")) return false
     if (queueMode and SpeechController.QUEUE_MODE_BIT_INTERRUPT != 0) dropPending()
     val plain = text.toString()
 
@@ -103,7 +109,7 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
   }
 
   private fun process(text: CharSequence, notification: Boolean, done: (CharSequence) -> Unit) {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "translation")) {
+    if (!canUseFeature("translation")) {
       done(text)
       return
     }

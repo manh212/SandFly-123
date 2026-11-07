@@ -125,7 +125,7 @@ class AutomaticTranslationTest {
     engine.languages["Good morning"] = "en"
     engine.translations["Guten Morgen"] = "Good morning"
     engine.translations["Bonjour tout le monde"] = "Hello everyone"
-    auto = AutomaticTranslation(context, engine)
+    auto = AutomaticTranslation(context, engine) { true }
   }
 
   private fun say(text: String, queueMode: Int = SpeechController.QUEUE_MODE_QUEUE): Boolean =

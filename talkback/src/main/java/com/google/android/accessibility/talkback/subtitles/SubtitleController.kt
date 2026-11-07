@@ -40,6 +40,9 @@ class SubtitleController internal constructor(
   private val service: AccessibilityService,
   private val announce: (String) -> Unit,
   private val speaker: SubtitleSpeaker,
+  private val canUseFeature: (String) -> Boolean = { feature ->
+    com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, feature)
+  },
 ) {
   constructor(service: TalkBackService, announce: (String) -> Unit) : this(service, announce, object : SubtitleSpeaker {
     override fun isBusy(): Boolean = service.speechController.isSpeakingOrSpeechQueued
@@ -96,7 +99,7 @@ class SubtitleController internal constructor(
 
   fun toggle() {
     if (active) { stop(true); return }
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+    if (!canUseFeature("ocr")) {
       announce("Giấy phép hiện tại không có tính năng nhận dạng chữ OCR.")
       return
     }
@@ -213,7 +216,7 @@ class SubtitleController internal constructor(
   }
 
   private fun captureFrame() {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+    if (!canUseFeature("ocr")) {
       stop(false)
       return
     }
@@ -323,7 +326,7 @@ class SubtitleController internal constructor(
   }
 
   private fun deliverPending() {
-    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+    if (!canUseFeature("ocr")) {
       stop(false)
       return
     }

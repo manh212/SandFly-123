@@ -69,7 +69,7 @@ class AiTextRequestsTest {
     var failure: GeminiFailure? = null
 
     try {
-      AiTextRequests(context, Consumer<String> {}, performer)
+      AiTextRequests(context, Consumer<String> {}, performer) { true }
         .askImage("Recognize this screen", byteArrayOf(1, 2, 3)) { text, error ->
           answer = text
           failure = error

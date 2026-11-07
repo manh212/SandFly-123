@@ -54,7 +54,7 @@ class SubtitleControllerTest {
     SharedPreferencesUtils.getSharedPreferences(service).edit().clear()
       .putString(SubtitleSettings.ENGINE, "mlkit").putString(SubtitleSettings.REGION, "full").commit()
     speaker = Speaker()
-    controller = SubtitleController(service, { announcements += it }, speaker)
+    controller = SubtitleController(service, { announcements += it }, speaker) { true }
     controller.toggle()
     assertTrue(get("active") as Boolean)
     set("quietUntil", 0L)
