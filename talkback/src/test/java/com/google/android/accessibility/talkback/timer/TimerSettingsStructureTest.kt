@@ -98,12 +98,16 @@ class TimerSettingsStructureTest {
         "SystemHelpGroupFragment",
         "LogAndReportsFragment",
       ),
-      topLevel.filter { it.first != "forum_open" }.map { it.second?.substringAfterLast('.') },
+      topLevel.filter { it.first != "forum_open" && it.first != "meridian_owner_private_chat" }
+        .map { it.second?.substringAfterLast('.') },
     )
-    assertTrue(topLevel.filter { it.first != "forum_open" }.all { !it.second.isNullOrBlank() })
-    assertEquals(17, topLevel.size)
-    assertEquals("forum_open", topLevel.last().first)
-    assertEquals(null, topLevel.last().second)
+    assertTrue(topLevel.filter { it.first != "forum_open" && it.first != "meridian_owner_private_chat" }
+      .all { !it.second.isNullOrBlank() })
+    assertEquals(18, topLevel.size)
+    assertEquals("forum_open", topLevel[16].first)
+    assertEquals(null, topLevel[16].second)
+    assertEquals("meridian_owner_private_chat", topLevel[17].first)
+    assertEquals(null, topLevel[17].second)
     assertFalse(topLevel.any { it.first == SETUP_KEY })
     assertEquals(
       1,

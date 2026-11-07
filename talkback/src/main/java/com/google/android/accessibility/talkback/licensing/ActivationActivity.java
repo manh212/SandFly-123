@@ -59,16 +59,6 @@ public final class ActivationActivity extends Activity {
       }
     });
     addButton(layout, "Khôi phục kích hoạt", v -> restore(true));
-    EditText input = new EditText(this);
-    input.setHint("Mã kích hoạt");
-    layout.addView(input, new LinearLayout.LayoutParams(-1, -2));
-    addButton(layout, "Xác nhận kích hoạt", v -> {
-      status.setText("Đang kiểm tra trạng thái giấy phép…");
-      LicenseRecovery.activateManual(this, input.getText().toString(), message -> {
-        if (isFinishing() || isDestroyed()) return;
-        status.setText(message); input.setText("");
-      });
-    });
     refresh();
   }
   @Override protected void onResume() {
@@ -91,7 +81,7 @@ public final class ActivationActivity extends Activity {
   }
   private void restore(boolean force) {
     if (!ApkSignatureVerifier.isOfficial(this)) { refresh(); return; }
-    status.setText("Đang tìm giấy phép đã lưu…");
+    status.setText("Đang kiểm tra giấy phép…");
     WeakReference<ActivationActivity> reference = new WeakReference<>(this);
     LicenseRecovery.start(this, force, result -> {
       ActivationActivity activity = reference.get();
@@ -103,7 +93,7 @@ public final class ActivationActivity extends Activity {
           break;
         case NOT_FOUND:
           if (DeviceLicenseManager.isLicensed(activity)) activity.refresh();
-          else activity.status.setText("Chưa tìm thấy giấy phép đã lưu.");
+          else activity.status.setText("Chưa có giấy phép trực tuyến.");
           break;
         case OFFLINE:
           activity.status.setText(DeviceLicenseManager.status(activity) + "\nChưa kết nối được GitHub.");

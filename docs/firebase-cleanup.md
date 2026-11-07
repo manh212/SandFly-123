@@ -26,7 +26,7 @@ These boundaries are independently enforced by `activation/firebase/database.rul
 
 Existing support messages are not changed when only an attachment is removed. The message may still refer to a deleted attachment; attempting to fetch it reports that the log was cleaned. Older inline diagnostic fields live inside the original message; these are removed by deleting the entire conversation, not by the attachment-only action. Downloaded copies outside Firebase cannot be recalled.
 
-`forumCategories`, `forumTopics`, `forumPosts`, `forumProfiles` and `forumModerators` are reserved as **owner-only** cleanup paths. This change does not implement a public forum. An eventual forum implementation must add a validated public access policy and recheck its deletion dependencies.
+Forum-specific cleanup is available to the owner and covers discussion content and related forum records. The separate private owner mailbox is not included in the forum deletion action. The owner must review the full scope before performing destructive cleanup.
 
 ## Deployment
 
@@ -51,7 +51,3 @@ Security limitations: an unmodified Android app cannot provide tamperproof elaps
 - Client behavior on device: no SSE sockets remain, bounded polling and data consumption, notifications still work after reconnect, offline suspension blocks licensed access without permanently disabling the service, legitimate revalidation restores it.
 - Admin: can list small and large log metadata sets without downloading chunks; delete one log, a time range, one conversation and all eligible groups; confirm partial deletes and safe retries; check accessibility labels, order and focus.
 - Live Firebase Rules must be published separately by the owner only after review. GitHub Actions selects and runs applicable tests when the approved code is eventually pushed; do not execute local builds or tests contrary to repository policy.
-
-## Forum cleanup
-
-Forum cleanup now includes `forumNotices` and `forumBans` as well as the previously reserved forum groups. The administrator may delete individual topic content through **Quản trị diễn đàn** or all forum data through **Quản lý dữ liệu Firebase**. These operations must never delete `admins`, `devices`, `decisions`, `licenseEvents`, or requests with an existing decision. See [Community forum](forum.md) for recipient-only notification rules and account-identity limitations.

@@ -174,6 +174,16 @@ public final class FirebaseRest {
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
   }
 
+  public JSONObject ranked(String path, int limit, Long before) throws Exception {
+    if (!"forumTopics".equals(path) || limit < 1 || limit > 50) {
+      throw new IllegalArgumentException("Trang dữ liệu không hợp lệ.");
+    }
+    String query = "&orderBy=%22rankAt%22&limitToLast=" + limit;
+    if (before != null) query += "&endAt=" + before;
+    String raw = database(path, "GET", null, query);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
   public JSONObject activityAt(String path, long time) throws Exception {
     String raw = database(path, "GET", null, "&orderBy=%22lastAt%22&equalTo=" + time);
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
@@ -222,7 +232,21 @@ public final class FirebaseRest {
   }
 
   public void putBoolean(String path, boolean value) throws Exception {
-    database(path, "PUT", Boolean.toString(value), "&print=silent");
+    database(path, "PUT", String.valueOf(value), "&print=silent");
+  }
+
+  public void deleteForumReaction(String path) throws Exception {
+    if (!path.matches("(?:forumTopicLikes/[A-Za-z0-9_-]{1,128}/[A-Za-z0-9_-]{1,128}|forumPostLikes/[A-Za-z0-9_-]{1,128}/[A-Za-z0-9_-]{1,128}/[A-Za-z0-9_-]{1,128}|forumPinnedPosts/[A-Za-z0-9_-]{1,128}/[A-Za-z0-9_-]{1,128}|forumPinnedTopics/[A-Za-z0-9_-]{1,128}|forumModerators/[A-Za-z0-9_-]{1,128}|forumBans/[A-Za-z0-9_-]{1,128}|forumDeviceBans/[0-9a-f]{64})")) {
+      throw new IllegalArgumentException("Không thể thay đổi lượt thích ngoài diễn đàn.");
+    }
+    database(path, "DELETE", null, "&print=silent");
+  }
+
+  public void deleteForumContent(String path) throws Exception {
+    if (!path.matches("(?:forumTopics/[A-Za-z0-9_-]{1,128}|forumPosts/[A-Za-z0-9_-]{1,128}/[A-Za-z0-9_-]{1,128})")) {
+      throw new IllegalArgumentException("Không thể xóa dữ liệu ngoài diễn đàn.");
+    }
+    database(path, "DELETE", null, "&print=silent");
   }
 
   public JSONObject shallowKeys(String path) throws Exception {
@@ -231,7 +255,7 @@ public final class FirebaseRest {
   }
 
   public void deleteCleanupData(String path) throws Exception {
-    if (!path.matches("(?:supportStaff|supportIndex|supportUsers|supportMessages|supportStates|supportContacts|supportAttachments|supportLogChunks|forumCategories|forumTopics|forumPosts|forumProfiles|forumNotices|forumBans|forumModerators)(?:/[A-Za-z0-9_-]{1,128}){0,2}|requests/[A-Za-z0-9_-]{1,128}")) {
+    if (!path.matches("(?:supportStaff|supportIndex|supportUsers|supportMessages|supportStates|supportContacts|supportAttachments|supportLogChunks|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators|forumPublicRoles|forumAdminRatings|forumChatIndex|forumChats|forumPinnedTopics|forumPinnedPosts|forumPollVotes|forumPollGuards|forumTopicLikes|forumPostLikes|forumBans|forumDeviceBans|forumReports|forumNotices|forumAnnouncements|forumModerationArchive|forumDeleteAudit|forumModerationLog|forumLegacyNames|forumNameHistory|forumIdentity|forumMigration|forumDailySlots|forumEnrollmentIndex)(?:/[A-Za-z0-9_-]{1,128}){0,3}|forumEditAudit(?:/[A-Za-z0-9_-]{1,128}){0,4}|requests/[A-Za-z0-9_-]{1,128}")) {
       throw new IllegalArgumentException("Không được xóa dữ liệu giấy phép hoặc quyền quản trị.");
     }
     database(path, "DELETE", null, "&print=silent");
@@ -260,7 +284,7 @@ public final class FirebaseRest {
   }
 
   private static void validatePath(String path) {
-    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumNotices|forumBans|forumModerators)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators|forumPublicRoles|forumAdminRatings|forumChatIndex|forumChats|forumTopicLikes|forumPollVotes|forumPollGuards|forumReports|forumIdentity|forumMigration|forumDeviceBans|forumNameHistory|forumPinnedTopics|forumPinnedPosts|forumBans|forumNotices|forumAnnouncements|forumModerationArchive|forumEditAudit|forumDeleteAudit|forumModerationLog|forumLegacyNames)(?:/[a-zA-Z0-9_-]{1,128}){0,5}|(?:forumPostLikes|forumDailySlots|forumEnrollmentIndex)(?:/[a-zA-Z0-9_-]{1,128}){0,6}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
   }

@@ -231,6 +231,20 @@ public final class SupportActivity extends Activity {
       JSONObject header = service.get("supportIndex/" + id);
       JSONObject publicState = service.get("supportUsers/" + service.uid() + "/" + id);
       JSONObject messages = service.recent("supportMessages/" + id, "$key", 11, before);
+      java.util.Map<String,String> badges = new java.util.HashMap<>();
+      for (java.util.Iterator<String> keys = messages.keys(); keys.hasNext();) {
+        JSONObject entry = messages.optJSONObject(keys.next());
+        if (entry == null) continue;
+        String from = entry.optString("uid");
+        if (from.isEmpty() || badges.containsKey(from)) continue;
+        String badge = "";
+        try {
+          String role = service.get("forumPublicRoles/" + from).optString("badge");
+          if ("developer".equals(role)) badge = " · Thẻ Nhà phát triển";
+          else if ("moderator".equals(role)) badge = " · Thẻ Quản trị viên";
+        } catch (Exception ignored) {}
+        badges.put(from, badge);
+      }
       ui(() -> {
         if (editing) return;
         page(header.optString("subject", "Trao đổi hỗ trợ")); screen = 1;
@@ -242,7 +256,10 @@ public final class SupportActivity extends Activity {
         Collections.reverse(ids);
         for (String messageId : ids) {
           JSONObject message = messages.optJSONObject(messageId); if (message == null) continue;
-          String author = message.optString("kind").equals("staff") ? "Hỗ trợ: " + message.optString("name") : "Bạn";
+          String from = message.optString("uid");
+          String badge = badges.getOrDefault(from, "");
+          String author = !badge.isEmpty() ? message.optString("name") + badge
+              : message.optString("kind").equals("staff") ? "Hỗ trợ: " + message.optString("name") : "Bạn";
           text(author + " · " + date(message.optLong("createdAt")) + "\n" + message.optString("text"));
           if (SupportAttachment.present(message)) button("Xem nhật ký đã gửi", () -> receivedLog(id, messageId, message));
         }

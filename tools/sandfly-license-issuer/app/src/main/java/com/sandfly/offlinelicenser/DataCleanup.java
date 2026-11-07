@@ -24,8 +24,12 @@ final class DataCleanup {
       "supportUsers", "supportStates", "supportIndex"
   };
   private static final String[] FORUM = {
-      "forumPosts", "forumTopics", "forumCategories", "forumProfiles", "forumNotices",
-      "forumBans", "forumModerators"
+      "forumPosts", "forumTopics", "forumCategories", "forumProfiles", "forumModerators",
+      "forumPinnedTopics", "forumPinnedPosts", "forumTopicLikes", "forumPostLikes",
+      "forumPollVotes", "forumPollGuards", "forumReports", "forumNotices", "forumAnnouncements",
+      "forumModerationArchive", "forumEditAudit", "forumDeleteAudit", "forumModerationLog",
+      "forumNameHistory", "forumLegacyNames", "forumIdentity", "forumDailySlots", "forumEnrollmentIndex",
+      "forumBans", "forumDeviceBans", "forumPublicRoles", "forumAdminRatings"
   };
   private final MainActivity activity;
   private AlertDialog dialog;

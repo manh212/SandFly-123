@@ -1,8 +1,6 @@
 package com.google.android.accessibility.talkback.licensing;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
 import com.google.android.accessibility.talkback.BuildConfig;
 import android.provider.Settings;
 import io.meridian.licensing.RecoveryProtocol;
@@ -10,11 +8,8 @@ import io.meridian.licensing.LicensePolicy;
 import io.meridian.licensing.LicenseClock;
 import io.meridian.licensing.LicenseLease;
 import android.os.SystemClock;
-import java.security.*;
-import java.security.spec.ECGenParameterSpec;
 
 public final class DeviceLicenseManager {
-  private static final String DEVICE_ALIAS = "sandfly.meridian.device.v1";
   private static volatile CachedPolicy verifiedPolicy;
   private static final class CachedPolicy {
     final String token, request;
@@ -25,7 +20,7 @@ public final class DeviceLicenseManager {
   }
   private DeviceLicenseManager() {}
   public static boolean configured() {
-    return BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY.startsWith("SFPUB1.") || recoveryConfigured();
+    return recoveryConfigured();
   }
   public static boolean recoveryConfigured() {
     return BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY.startsWith("SFPUB1.");
@@ -34,41 +29,11 @@ public final class DeviceLicenseManager {
     return RecoveryProtocol.request(context.getPackageName(),
         Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
   }
-  private static PublicKey deviceKey() throws Exception {
-    KeyStore ks = KeyStore.getInstance("AndroidKeyStore");
-    ks.load(null);
-    if (!ks.containsAlias(DEVICE_ALIAS)) {
-      KeyPairGenerator generator = KeyPairGenerator.getInstance("EC", "AndroidKeyStore");
-      generator.initialize(new KeyGenParameterSpec.Builder(DEVICE_ALIAS,
-          KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_VERIFY)
-          .setAlgorithmParameterSpec(new ECGenParameterSpec("secp256r1"))
-          .setDigests(KeyProperties.DIGEST_SHA256).build());
-      generator.generateKeyPair();
-    }
-    java.security.cert.Certificate certificate = ks.getCertificate(DEVICE_ALIAS);
-    if (certificate == null) throw new IllegalStateException("Chưa tạo được khóa thiết bị");
-    return certificate.getPublicKey();
-  }
-  public static String request(Context context) throws Exception {
-    return LicenseProtocol.request(deviceKey());
-  }
   private static SharedPreferences prefs(Context context) {
-    return context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE);
+    SharedPreferences saved = context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE);
+    if (saved.contains("license")) saved.edit().remove("license").apply();
+    return saved;
   }
-  private static boolean ownsDeviceKey() {
-    try {
-      KeyStore store = KeyStore.getInstance("AndroidKeyStore");
-      store.load(null);
-      Key key = store.getKey(DEVICE_ALIAS, null);
-      java.security.cert.Certificate certificate = store.getCertificate(DEVICE_ALIAS);
-      return key instanceof PrivateKey
-          && certificate != null
-          && LicenseProtocol.provesPossession((PrivateKey) key, certificate.getPublicKey());
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
   private static SharedPreferences verification(Context context) {
     return context.getSharedPreferences("meridian_license_verification", Context.MODE_PRIVATE);
   }
@@ -105,7 +70,7 @@ public final class DeviceLicenseManager {
         return policy != null && policy.state.equals("active")
             && (policy.expiresAt == 0 || policyTime(context, policy) < policy.expiresAt);
       }
-      return !prefs(context).getString("license", "").isEmpty();
+      return false;
     } catch (Exception e) { return false; }
   }
 
@@ -113,7 +78,7 @@ public final class DeviceLicenseManager {
   private static volatile boolean lastRestriction;
 
   public static boolean restricted(Context context) {
-    if (!configured()) return false;
+    if (!configured()) return true;
     long now = SystemClock.elapsedRealtime();
     if (lastRestrictionCheck >= 0 && now >= lastRestrictionCheck && now - lastRestrictionCheck < 1_000) {
       return lastRestriction;
@@ -122,10 +87,9 @@ public final class DeviceLicenseManager {
     try {
       String token = prefs(context).getString("policy", "");
       if (!token.isEmpty()) {
-        LicensePolicy policy = policy(context);
-        blocked = policy == null || !policy.active(policyTime(context, policy)) || !recentlyVerified(context);
+        blocked = !isLicensed(context);
       } else {
-        blocked = !prefs(context).getString("license", "").isEmpty() && !recentlyVerified(context);
+        blocked = false;
       }
     } catch (Exception error) { blocked = true; }
     lastRestriction = blocked;
@@ -143,89 +107,41 @@ public final class DeviceLicenseManager {
   }
 
   public static boolean isLicensed(Context context) {
-    if (!configured()) return false;
     try {
-      if (!recentlyVerified(context)) return false;
-      String license = prefs(context).getString("license", "");
-      if (!ApkSignatureVerifier.isOfficial(context)) return false;
-      LicensePolicy policy = policy(context);
-      if (policy != null) return policy.active(policyTime(context, policy));
-      if (!prefs(context).getString("policy", "").isEmpty()) return false;
-      if (license == null || license.isEmpty()) return false;
-      if (license.startsWith("SFLIC2.")) {
-        return verifiesRecovery(recoveryRequest(context), license,
-            BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY);
-      }
-      return LicenseProtocol.verify(
-              request(context),
-              license,
-              LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY))
-          && ownsDeviceKey();
-    } catch (Exception e) {
+      prefs(context);
+      if (!recoveryConfigured() || !ApkSignatureVerifier.isOfficial(context)
+          || !recentlyVerified(context)) return false;
+      LicensePolicy online = policy(context);
+      return online != null && online.active(policyTime(context, online));
+    } catch (Exception error) {
       return false;
     }
   }
 
-  public static void activate(Context context, String license) throws Exception {
-    if (!ApkSignatureVerifier.isOfficial(context)) {
-      throw new IllegalStateException("Bản cài đặt Meridian không có chữ ký chính thức. Hãy cài APK từ nguồn phát hành chính thức.");
-    }
-    if (!configured()) throw new IllegalStateException("Khóa cấp phép của nhà phát hành chưa được cấu hình");
-    if (license == null) throw new IllegalArgumentException("Chưa nhập mã kích hoạt");
-    if (!prefs(context).getString("policy", "").isEmpty() || license.trim().startsWith("SFLIC3.")) {
-      throw new IllegalStateException("Chọn Khôi phục kích hoạt để lấy trạng thái giấy phép mới nhất.");
-    }
-    if (license.trim().startsWith("SFLIC2.")) {
-      if (!verifiesRecovery(recoveryRequest(context), license.trim(),
-          BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY)) {
-        throw new IllegalArgumentException("Giấy phép không khớp thiết bị hoặc khóa cấp phép mới chưa được tích hợp. Hãy cài bản Meridian mới nhất.");
-      }
-      save(context, license.trim());
-      return;
-    }
-    if (!LicenseProtocol.verify(
-            request(context), license.trim(),
-            LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY))
-        || !ownsDeviceKey()) {
-      throw new IllegalArgumentException("Mã hoặc định danh thiết bị không hợp lệ");
-    }
-    save(context, license.trim());
-  }
-  static boolean verifiesRecovery(String request, String license, String issuer) {
-    try {
-      return RecoveryProtocol.verify(request, license, RecoveryProtocol.publicKey(issuer));
-    } catch (Exception e) {
-      return false;
-    }
-  }
   static synchronized boolean acceptRemote(Context context, String license, long serverMillis) throws Exception {
-    if (!ApkSignatureVerifier.isOfficial(context)) throw new IllegalStateException("Bản cài đặt chưa được xác thực.");
+    if (license == null || !license.startsWith("SFLIC3.") || serverMillis <= 0) {
+      throw new IllegalArgumentException("Giấy phép trực tuyến không hợp lệ.");
+    }
+    if (!ApkSignatureVerifier.isOfficial(context) || !recoveryConfigured()) {
+      throw new IllegalStateException("Bản cài đặt chưa được xác thực.");
+    }
     String request = recoveryRequest(context);
     String cached = prefs(context).getString("policy", "");
-    if (license.startsWith("SFLIC3.")) {
-      LicensePolicy next = LicensePolicy.verify(request, license,
-          RecoveryProtocol.publicKey(BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY));
-      LicensePolicy old = cached.isEmpty() ? null : LicensePolicy.verify(request, cached,
-          RecoveryProtocol.publicKey(BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY));
-      if (old != null && (next.revision < old.revision
-          || (next.revision == old.revision && !cached.equals(license)))) {
-        return false;
-      }
-      SharedPreferences.Editor edit = prefs(context).edit().putString("policy", license);
-      if (serverMillis > 0) {
-        edit.putLong("trusted_time", serverMillis / 1000L)
-            .putLong("time_floor", Math.max(prefs(context).getLong("time_floor", 0), serverMillis / 1000L))
-            .putLong("trusted_elapsed", SystemClock.elapsedRealtime() / 1000L)
-            .putInt("trusted_boot", boot(context));
-      }
-      if (!edit.commit()) throw new IllegalStateException("Không lưu được trạng thái giấy phép.");
-    } else {
-      if (!cached.isEmpty()) return false;
-      if (!verifiesRecovery(request, license, BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY)) {
-        throw new IllegalArgumentException("Giấy phép không hợp lệ.");
-      }
-      save(context, license);
+    LicensePolicy next = LicensePolicy.verify(request, license,
+        RecoveryProtocol.publicKey(BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY));
+    LicensePolicy old = cached.isEmpty() ? null : LicensePolicy.verify(request, cached,
+        RecoveryProtocol.publicKey(BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY));
+    if (old != null && (next.revision < old.revision
+        || (next.revision == old.revision && !cached.equals(license)))) {
+      return false;
     }
+    SharedPreferences.Editor edit = prefs(context).edit().putString("policy", license)
+        .remove("license")
+        .putLong("trusted_time", serverMillis / 1000L)
+        .putLong("time_floor", Math.max(prefs(context).getLong("time_floor", 0), serverMillis / 1000L))
+        .putLong("trusted_elapsed", SystemClock.elapsedRealtime() / 1000L)
+        .putInt("trusted_boot", boot(context));
+    if (!edit.commit()) throw new IllegalStateException("Không lưu được trạng thái giấy phép.");
     recordVerification(context, serverMillis);
     lastRestrictionCheck = -1;
     return true;
@@ -261,32 +177,27 @@ public final class DeviceLicenseManager {
   }
 
   public static boolean allows(Context context, String feature) {
-    if (!LicensePolicy.FEATURES.contains(feature)) return false;
-    if (!configured()) return true;
+    if (!LicensePolicy.FEATURES.contains(feature) || !recoveryConfigured()) return false;
     try {
-      LicensePolicy policy = policy(context);
-      if (policy == null) {
-        if (!prefs(context).getString("policy", "").isEmpty()) return false;
-        String legacy = prefs(context).getString("license", "");
-        return legacy == null || legacy.isEmpty()
-            || (recentlyVerified(context) && isLicensed(context));
-      }
-      return recentlyVerified(context) && ApkSignatureVerifier.isOfficial(context)
-          && policy.allows(feature, policyTime(context, policy));
-    } catch (Exception e) { return false; }
+      if (!recentlyVerified(context) || !ApkSignatureVerifier.isOfficial(context)) return false;
+      LicensePolicy online = policy(context);
+      return online != null && online.allows(feature, policyTime(context, online));
+    } catch (Exception error) {
+      return false;
+    }
   }
 
   public static String status(Context context) {
+    if (!recoveryConfigured()) return "Chưa cấu hình xác minh trực tuyến.";
     try {
       LicensePolicy policy = policy(context);
-      if (policy != null && policy.state.equals("revoked")) return "Đã thu hồi giấy phép.";
-      if (policy != null && policy.state.equals("suspended")) return "Giấy phép đang bị tạm khóa.";
-      if (policy != null && policy.expiresAt > 0 && policyTime(context, policy) >= policy.expiresAt) {
+      if (policy == null) return "Chưa có giấy phép trực tuyến.";
+      if (policy.state.equals("revoked")) return "Đã thu hồi giấy phép.";
+      if (policy.state.equals("suspended")) return "Giấy phép đang bị tạm khóa.";
+      if (policy.expiresAt > 0 && policyTime(context, policy) >= policy.expiresAt) {
         return "Giấy phép đã hết hạn.";
       }
-      if (!recentlyVerified(context)) return "Cần kết nối Internet để xác minh giấy phép (tối đa 7 ngày ngoại tuyến).";
-      if (policy == null) return isLicensed(context)
-          ? "Đã đăng ký · Đầy đủ tính năng · Không thời hạn" : "Chưa có giấy phép hợp lệ.";
+      if (!recentlyVerified(context)) return "Cần xác minh giấy phép trực tuyến.";
       String state = policy.state.equals("revoked") ? "Đã thu hồi"
           : policy.state.equals("suspended") ? "Tạm khóa"
           : policy.active(policyTime(context, policy)) ? "Đang hoạt động" : "Đã hết hạn hoặc cần kiểm tra ngày giờ";
@@ -295,14 +206,5 @@ public final class DeviceLicenseManager {
           + (policy.expiresAt == 0 ? "Không thời hạn" : "Hết hạn: "
               + java.text.DateFormat.getDateTimeInstance().format(new java.util.Date(policy.expiresAt * 1000L)));
     } catch (Exception e) { return "Trạng thái giấy phép không hợp lệ. Hãy khôi phục kích hoạt."; }
-  }
-  private static void save(Context context, String license) {
-    if (!prefs(context).edit().putString("license", license).commit()) {
-      throw new IllegalStateException("Không lưu được giấy phép");
-    }
-  }
-  /** Existing users are not blocked until an actual issuer public key is configured. */
-  public static boolean mayUpdate(Context context) {
-    return !configured() || isLicensed(context);
   }
 }

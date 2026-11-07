@@ -101,6 +101,30 @@ public final class CatalogPublisherTest {
     assertTrue(client.files.isEmpty());
   }
 
+  @Test public void revokedOnlinePolicyReplacesLegacyCatalogRecord() throws Exception {
+    FakeClient client = new FakeClient();
+    CatalogPublisher publisher = new CatalogPublisher(client);
+    KeyPair issuer = keyPair();
+    String publicKey = RecoveryProtocol.publicKey(issuer.getPublic());
+    String request = RecoveryProtocol.request("meridian", "123456789abcdef0");
+    String legacy = RecoveryProtocol.issue(request, issuer.getPrivate(), 1_700_000_000L);
+    publisher.publish(request, legacy, publicKey);
+    assertEquals(2, new JSONObject(client.files.get(RecoveryProtocol.recordPath(request)).content).getInt("format"));
+    Signature signer = Signature.getInstance("SHA256withECDSA");
+    signer.initSign(issuer.getPrivate());
+    String revoked = new LicensePolicy(request, 1, 1_700_000_000L, 0,
+        "revoked", "standard", "full", LicensePolicy.FEATURES).sign(signer);
+    publisher.publish(request, revoked, publicKey);
+    JSONObject record = new JSONObject(client.files.get(RecoveryProtocol.recordPath(request)).content);
+    assertEquals(3, record.getInt("format"));
+    assertEquals(revoked, record.getString("value"));
+    LicensePolicy recovered = LicensePolicy.verify(request, record.getString("value"), issuer.getPublic());
+    assertEquals("revoked", recovered.state);
+    assertFalse(recovered.active(1_700_000_001L));
+    assertThrows(CatalogPublisher.SyncException.class,
+        () -> publisher.publish(request, legacy, publicKey));
+  }
+
   @Test public void signedStateRevisionsRejectRollbackAndLegacyDowngrades() throws Exception {
     FakeClient client = new FakeClient();
     CatalogPublisher publisher = new CatalogPublisher(client);

@@ -8,6 +8,7 @@ import io.meridian.licensing.RecoveryProtocol;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.spec.ECGenParameterSpec;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -23,26 +24,59 @@ public final class DeviceLicenseManagerRecoveryTest {
     return generator.generateKeyPair();
   }
 
-  @Test public void clearingLocalPreferencesKeepsTheRecoveryRequestAndValidSignature() throws Exception {
+  @Test public void recoveryRequestSurvivesLegacyPreferenceRemoval() throws Exception {
     Context context = RuntimeEnvironment.getApplication();
     Settings.Secure.putString(context.getContentResolver(), Settings.Secure.ANDROID_ID, "123456789abcdef0");
     String request = DeviceLicenseManager.recoveryRequest(context);
     KeyPair issuer = keyPair();
-    String license = RecoveryProtocol.issue(request, issuer.getPrivate(), 1700000000L);
+    String oldCode = RecoveryProtocol.issue(request, issuer.getPrivate(), 1700000000L);
     context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE)
-        .edit().putString("license", license).commit();
-    context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE).edit().clear().commit();
+        .edit().putString("license", oldCode).remove("policy").commit();
+    assertFalse(DeviceLicenseManager.isLicensed(context));
+    assertFalse(DeviceLicenseManager.allows(context, "scripts"));
+    assertFalse(context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE)
+        .contains("license"));
     assertEquals(request, DeviceLicenseManager.recoveryRequest(context));
-    assertTrue(DeviceLicenseManager.verifiesRecovery(request, license, RecoveryProtocol.publicKey(issuer.getPublic())));
   }
 
-  @Test public void recordCannotChooseItsOwnTrustedIssuer() throws Exception {
+  @Test public void onlineCatalogRejectsLegacyFormatEvenWithValidIssuerSignature() throws Exception {
+    String request = RecoveryProtocol.request("meridian", "123456789abcdef0");
+    KeyPair issuer = keyPair();
+    String oldCode = RecoveryProtocol.issue(request, issuer.getPrivate(), 1700000000L);
+    assertTrue(RecoveryProtocol.verify(request, oldCode, issuer.getPublic()));
+    JSONObject record = new JSONObject().put("format", 2).put("value", oldCode);
+    assertFalse(LicenseRecovery.isOnlinePolicyRecord(record));
+    assertFalse(LicenseRecovery.isOnlinePolicyRecord(new JSONObject().put("format", 3).put("value", oldCode)));
+    try {
+      DeviceLicenseManager.acceptRemote(RuntimeEnvironment.getApplication(), oldCode,
+          System.currentTimeMillis());
+      fail("Legacy remote tokens must be rejected");
+    } catch (IllegalArgumentException expected) {
+      assertEquals("Giấy phép trực tuyến không hợp lệ.", expected.getMessage());
+    }
+  }
+
+  @Test public void onlineCatalogRequiresNewFormatAndServerRecord() throws Exception {
+    assertTrue(LicenseRecovery.isOnlinePolicyRecord(
+        new JSONObject().put("format", 3).put("value", "SFLIC3.sample")));
+    assertFalse(LicenseRecovery.isOnlinePolicyRecord(new JSONObject()));
+    assertFalse(LicenseRecovery.isOnlinePolicyRecord(null));
+    assertFalse(LicenseRecovery.isOnlinePolicyRecord(
+        new JSONObject().put("format", 2).put("value", "SFLIC3.sample")));
+    try {
+      DeviceLicenseManager.acceptRemote(RuntimeEnvironment.getApplication(),
+          "SFLIC3.sample", 0L);
+      fail("Missing server time must be rejected");
+    } catch (IllegalArgumentException expected) {
+      assertEquals("Giấy phép trực tuyến không hợp lệ.", expected.getMessage());
+    }
+  }
+
+  @Test public void forgedLegacyTokenIsNotMadeValidByItsOwnPublicKey() throws Exception {
     String request = RecoveryProtocol.request("meridian", "123456789abcdef0");
     KeyPair attacker = keyPair();
     KeyPair trusted = keyPair();
     String forged = RecoveryProtocol.issue(request, attacker.getPrivate(), 1700000000L);
-    assertFalse(DeviceLicenseManager.verifiesRecovery(request, forged, RecoveryProtocol.publicKey(trusted.getPublic())));
-    assertFalse(DeviceLicenseManager.verifiesRecovery(request, forged, ""));
-    assertFalse(DeviceLicenseManager.verifiesRecovery(request, forged, "SFPUB1.invalid"));
+    assertFalse(RecoveryProtocol.verify(request, forged, trusted.getPublic()));
   }
 }

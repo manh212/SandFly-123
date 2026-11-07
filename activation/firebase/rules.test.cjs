@@ -327,97 +327,365 @@ test('cleanup cannot remove requests that already have a decision', async () => 
   await assertFails(db('alice').ref('requests/alice').remove());
 });
 
+test('forum root deletion is denied and scoped cleanup stays owner-only', async () => {
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumPosts/topic').set({post:'saved'});
+  });
+  await assertFails(db('alice').ref('forumPosts/topic').remove());
+  await assertFails(db('alice').ref('forumPosts/topic2').set({post:'new'}));
+  await assertFails(db('owner').ref('forumPosts').remove());
+});
 
-const forumTopic = '1700000000000-' + 'a'.repeat(20);
-const forumPost = '1700000000001-' + 'b'.repeat(20);
-const forumPost2 = '1700000000002-' + 'c'.repeat(20);
-const forumThread = uid => ({uid, name:uid === 'alice' ? 'Alice' : 'Bob',
-  category:'general', title:'Thảo luận ứng dụng', body:'Cùng chia sẻ các ý kiến', locked:false,
-  createdAt:{'.sv':'timestamp'}});
-const forumComment = (uid, parent = '', mention = '') => ({uid,
-  name:uid === 'alice' ? 'Alice' : 'Bob', text:'Một bình luận hữu ích', parent, mention,
-  createdAt:{'.sv':'timestamp'}});
 
-async function forumMembers() {
-  await assertSucceeds(db('alice').ref('forumProfiles/alice').set({name:'Alice'}));
-  await assertSucceeds(db('bob').ref('forumProfiles/bob').set({name:'Bob'}));
-  await assertSucceeds(db('alice').ref('forumTopics/' + forumTopic).set(forumThread('alice')));
+test('forum reports can be filed without exposing the moderation inbox', async () => {
+  const topicId = '1700000000000-' + 'a'.repeat(20);
+  const reportId = '1700000000001-' + 'b'.repeat(20);
+  await assertSucceeds(db('alice').ref('forumIdentity/alice').set({request, fingerprint: 'a'.repeat(64)}));
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumTopics/' + topicId).set({
+      uid: 'bob', category: 'general', title: 'Nội dung thảo luận',
+      body: 'Nội dung cần kiểm tra', locked: false, createdAt: 1, lastAt: 1
+    });
+  });
+  const path = 'forumReports/' + topicId + '/' + reportId;
+  const payload = {uid: 'alice', post: '', createdAt: {'.sv': 'timestamp'}};
+  await assertSucceeds(db('alice').ref(path).set(payload));
+  await assertFails(db('alice').ref(path).once('value'));
+  await assertFails(db('bob').ref(path).once('value'));
+  await assertFails(db('alice').ref('forumReports').once('value'));
+  await assertSucceeds(db('owner').ref('forumReports').once('value'));
+  await assertFails(db('alice').ref(path).remove());
+  await assertFails(db('alice').ref(path).set(payload));
+  await assertSucceeds(db('owner').ref(path).remove());
+  await assertFails(db('alice').ref(path).set({...payload, uid:'bob'}));
+  await assertFails(db('alice').ref('supportMessages').once('value'));
+  await assertFails(db('alice').ref('devices').once('value'));
+});
+
+const fid = suffix => String(Date.now()).padStart(13, '0') + '-' + suffix.repeat(20);
+const forumIdentity = fingerprint => ({request: 'SFREQ2.' + fingerprint, fingerprint});
+const forumTopic = uid => ({uid, category: 'general', title: 'Chủ đề kiểm tra', body: 'Bài viết thử nghiệm',
+  createdAt: {'.sv': 'timestamp'}, lastAt: {'.sv': 'timestamp'}, rankAt: {'.sv': 'timestamp'}, locked: false});
+
+async function forumSetup() {
+  await assertSucceeds(db('alice').ref('forumIdentity/alice').set(forumIdentity('b'.repeat(64))));
+  await assertSucceeds(db('bob').ref('forumIdentity/bob').set(forumIdentity('c'.repeat(64))));
+  const topic = fid('a');
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumTopics/' + topic).set({uid: 'alice', category: 'general',
+      title: 'Bài học chung', body: 'Câu hỏi trong diễn đàn', locked: false, createdAt: 1, lastAt: 1, rankAt: 1});
+    await context.database().ref('forumMigration/ready').set(true);
+  });
+  return topic;
 }
 
-test('forum reading is authenticated and topic lists require bounded queries', async () => {
-  await forumMembers();
-  await assertFails(env.unauthenticatedContext().database().ref('forumTopics/' + forumTopic).once('value'));
-  await assertSucceeds(db('bob').ref('forumTopics/' + forumTopic).once('value'));
+test('forum visitors can read bounded topic pages but cannot browse private users', async () => {
+  const topic = await forumSetup();
+  await assertSucceeds(db('bob').ref('forumTopics').orderByChild('lastAt').limitToLast(30).once('value'));
   await assertFails(db('bob').ref('forumTopics').once('value'));
-  await assertSucceeds(db('bob').ref('forumTopics').orderByKey().limitToLast(20).once('value'));
-  await assertSucceeds(db('bob').ref('forumProfiles/alice').once('value'));
-  await assertFails(db('bob').ref('forumProfiles').once('value'));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic).once('value'));
-  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic).orderByKey().limitToLast(20).once('value'));
-  await assertFails(db('bob').ref('supportIndex').once('value'));
+  await assertSucceeds(db('bob').ref('forumTopics/' + topic).once('value'));
   await assertFails(db('bob').ref('requests/alice').once('value'));
-  await assertFails(db('bob').ref('devices').once('value'));
+  await assertFails(db('bob').ref('forumIdentity/alice').once('value'));
+  await assertFails(db('bob').ref('forumNameHistory').once('value'));
+  await assertFails(db('bob').ref('forumLegacyNames').once('value'));
 });
 
-test('forum prevents impersonation, invalid posts, overwrites and ordinary member deletes', async () => {
-  await forumMembers();
-  await assertFails(db('bob').ref('forumTopics/' + forumTopic).set(forumThread('bob')));
-  await assertFails(db('bob').ref('forumTopics/' + forumTopic).remove());
-  await assertFails(db('bob').ref('forumTopics/' + forumTopic + '/locked').set(true));
-  await assertFails(db('alice').ref('forumTopics/' + forumTopic + '/title').set('Đổi tên'));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set({...forumComment('bob'),name:'Alice'}));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set({...forumComment('bob'),parent:'missing'}));
-  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).remove());
-  await assertFails(db('bob').ref('forumProfiles/alice').set({name:'Giả mạo'}));
+test('members see private chat only for their UID and moderators never read it', async () => {
+  await forumSetup();
+  const topic = fid('d');
+  await assertSucceeds(db('alice').ref('forumChats/alice/messages/' + topic)
+    .set({from:'alice',text:'Xin chào',createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('alice').ref('forumChats/alice/messages').once('value'));
+  await assertSucceeds(db('owner').ref('forumChats/alice/messages').once('value'));
+  await assertFails(db('bob').ref('forumChats/alice/messages').once('value'));
+  await assertFails(db('helper').ref('forumChats/alice/messages').once('value'));
+  await assertFails(db('bob').ref('forumChatIndex').once('value'));
+  await assertFails(db('bob').ref('forumChats/alice/messages/' + fid('e')).set({from:'bob',text:'X',createdAt:{'.sv':'timestamp'}}));
 });
 
-test('owner may lock topics and deny writes from banned members', async () => {
-  await forumMembers();
-  await assertSucceeds(db('owner').ref('forumTopics/' + forumTopic + '/locked').set(true));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
-  await assertSucceeds(db('owner').ref('forumTopics/' + forumTopic + '/locked').set(false));
+test('polls accept only one vote per UID and never allow later changes', async () => {
+  const topic = await forumSetup();
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumTopics/' + topic).update({pollOptions:['A','B','C'],pollClosed:false});
+  });
+  const path = 'forumPollVotes/' + topic + '/bob';
+  const guard = 'forumPollGuards/' + topic + '/' + 'c'.repeat(64);
+  await assertFails(db('bob').ref(path).set({choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref(guard).set({uid:'bob',choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref(path).set({choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref(guard).once('value'));
+  await assertFails(db('alice').ref(guard).once('value'));
+  await assertFails(db('alice').ref('forumPollGuards').once('value'));
+  await assertFails(db('bob').ref(path).set({choice:2,createdAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref(path).remove());
+  await assertFails(db('bob').ref('forumPollVotes/' + topic + '/alice').set({choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('alice').ref('forumTopics/' + topic + '/pollClosed').set(true));
+  await assertFails(db('alice').ref('forumPollVotes/' + topic + '/alice').set({choice:1,createdAt:{'.sv':'timestamp'}}));
+});
+
+test('a second UID on the same device cannot cast a second ballot', async () => {
+  const topic = await forumSetup();
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumTopics/' + topic)
+      .update({pollOptions:['A','B'],pollClosed:false});
+  });
+  const fingerprint = 'c'.repeat(64);
+  const guard = 'forumPollGuards/' + topic + '/' + fingerprint;
+  await assertSucceeds(db('bob').ref(guard)
+    .set({uid:'bob',choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref('forumPollVotes/' + topic + '/bob')
+    .set({choice:1,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bobFresh').ref('forumIdentity/bobFresh')
+    .set(forumIdentity(fingerprint)));
+  await assertFails(db('bobFresh').ref(guard)
+    .set({uid:'bobFresh',choice:0,createdAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bobFresh').ref('forumPollVotes/' + topic + '/bobFresh')
+    .set({choice:0,createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bobFresh').ref(guard).once('value'));
+});
+
+test('blocked members cannot write votes likes or new chats', async () => {
+  const topic = await forumSetup();
   await assertSucceeds(db('owner').ref('forumBans/bob').set(true));
-  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
-  await assertFails(db('bob').ref('forumTopics/' + forumPost).set(forumThread('bob')));
-  await assertFails(db('alice').ref('forumBans/bob').remove());
-  await assertFails(db('bob').ref('forumBans').once('value'));
-  await assertSucceeds(db('owner').ref('forumBans/bob').remove());
-  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
-  await assertSucceeds(db('owner').ref('forumPosts/' + forumTopic + '/' + forumPost).remove());
+  await assertFails(db('bob').ref('forumTopicLikes/' + topic + '/bob')
+    .set({likedAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref('forumChats/bob/messages/' + fid('f'))
+    .set({from:'bob',text:'Tin mới',createdAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref('forumTopics/' + topic).once('value'));
 });
 
-test('reply and mention notifications are validated and remain private to the recipient', async () => {
-  await forumMembers();
-  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost)
-    .set(forumComment('bob', '', 'alice')));
-  const key = forumTopic + '_' + forumPost;
-  const notice = {topic:forumTopic, post:forumPost, from:'bob', kind:'mention', lastAt:{'.sv':'timestamp'}};
-  await assertSucceeds(db('bob').ref('forumNotices/alice/' + key).set(notice));
-  await assertFails(db('bob').ref('forumNotices/alice/' + key).once('value'));
-  await assertSucceeds(db('alice').ref('forumNotices/alice').orderByChild('lastAt').limitToLast(20).once('value'));
-  await assertFails(db('bob').ref('forumNotices/alice/' + key).set(notice));
-  await assertFails(db('alice').ref('forumNotices/bob/' + key).set({...notice,from:'alice'}));
-  await assertFails(db('alice').ref('forumNotices/bob').once('value'));
-  await assertFails(db('bob').ref('forumNotices/bob').once('value'));
-  await assertSucceeds(db('alice').ref('forumPosts/' + forumTopic + '/' + forumPost2)
-    .set(forumComment('alice', forumPost)));
-  await assertSucceeds(db('alice').ref('forumNotices/bob/' + forumTopic + '_' + forumPost2)
-    .set({topic:forumTopic,post:forumPost2,from:'alice',kind:'reply',lastAt:{'.sv':'timestamp'}}));
-  await assertFails(db('bob').ref('forumNotices/bob/' + key).set(notice));
+test('guest quota is bounded to three slots per content kind using Vietnam day', async () => {
+  await forumSetup();
+  const day = Math.floor((Date.now() + 25200000) / 86400000);
+  for (let slot = 0; slot < 3; slot++) {
+    const item = fid(String(slot));
+    await assertSucceeds(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + day + '/topics/' + slot)
+      .set({id:item,uid:'bob',day,reservedAt:{'.sv':'timestamp'}}));
+    await assertFails(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + day + '/topics/' + slot)
+      .set({id:fid('b'),uid:'bob',day,reservedAt:{'.sv':'timestamp'}}));
+  }
+  await assertFails(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + day + '/topics/3')
+    .set({id:fid('e'),uid:'bob',day,reservedAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + (day-1) + '/topics/0')
+    .set({id:fid('e'),uid:'bob',day:day-1,reservedAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + day + '/posts/0')
+    .set({id:fid('e'),uid:'bob',day,reservedAt:{'.sv':'timestamp'}}));
 });
 
-test('owner cleanup removes forum content without touching protected licensing or admin entries', async () => {
-  await forumMembers();
-  await assertFails(db('alice').ref('forumTopics').remove());
-  await assertFails(db('bob').ref('forumProfiles').remove());
-  await assertSucceeds(db('owner').ref('forumPosts').remove());
-  await assertSucceeds(db('owner').ref('forumTopics').remove());
-  await assertSucceeds(db('owner').ref('forumProfiles').remove());
-  await assertSucceeds(db('owner').ref('forumNotices').remove());
-  await assertSucceeds(db('owner').ref('forumBans').remove());
-  await assertFails(db('owner').ref('admins/owner').remove());
-  await assertFails(db('owner').ref('devices').remove());
-  await assertFails(db('owner').ref('licenseEvents').remove());
+test('only the owner can appoint moderators and license version binds the role', async () => {
+  await forumSetup();
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('requests/alice').set(body());
+    await context.database().ref('decisions/alice').set({request, state:'approved', policy:'SFLIC3.signed', decidedAt:55});
+    await context.database().ref('devices/' + 'a'.repeat(64)).set({request,
+      name:'Người dùng',description:'Thiết bị',value:'SFLIC3.signed'});
+  });
+  const path = 'forumModerators/alice';
+  const role = {enabled:true,expiresAt:0,decisionAt:55,
+    device:'a'.repeat(64),policy:'SFLIC3.signed'};
+  await assertFails(db('alice').ref(path).set(role));
+  await assertFails(db('bob').ref(path).set(role));
+  await assertSucceeds(db('owner').ref(path).set(role));
+  await assertFails(db('bob').ref('forumModerators/alice').once('value'));
+  await assertSucceeds(db('alice').ref(path).once('value'));
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('decisions/alice/decidedAt').set(56);
+  });
+  await assertFails(db('alice').ref(path).once('value'));
+  await assertFails(db('alice').ref('forumPinnedTopics/' + fid('a')).set(true));
+});
+
+test('reported content can be hidden without making archived material public', async () => {
+  const topic = await forumSetup();
+  const post = fid('e');
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumPosts/' + topic + '/' + post)
+      .set({uid:'alice',text:'Nội dung cần ẩn',parent:'',mention:'',createdAt:1});
+  });
+  const archive = 'forumModerationArchive/' + topic + '/' + post;
+  await assertSucceeds(db('owner').ref(archive)
+    .set({content:{uid:'alice',text:'Nội dung cần ẩn',parent:'',mention:'',createdAt:1},
+      hiddenAt:{'.sv':'timestamp'},by:'owner'}));
+  await assertSucceeds(db('owner').ref('forumPosts/' + topic + '/' + post).remove());
+  await assertFails(db('bob').ref(archive).once('value'));
+  await assertSucceeds(db('owner').ref(archive).once('value'));
+});
+
+
+test('moderator role becomes unusable after the device policy changes', async () => {
+  const topic = await forumSetup();
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('requests/alice').set(body());
+    await context.database().ref('decisions/alice').set({request, state:'approved',
+      policy:'SFLIC3.signed',decidedAt:80});
+    await context.database().ref('devices/' + 'a'.repeat(64)).set({request,
+      name:'Người dùng',description:'Thiết bị',value:'SFLIC3.signed'});
+  });
+  await assertSucceeds(db('owner').ref('forumModerators/alice').set({enabled:true,expiresAt:0,
+    device:'a'.repeat(64),policy:'SFLIC3.signed',decisionAt:80}));
+  await assertSucceeds(db('alice').ref('forumPinnedTopics/' + topic).set(true));
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('devices/' + 'a'.repeat(64) + '/value').set('SFLIC3.new-policy');
+  });
+  await assertFails(db('alice').ref('forumModerators/alice').once('value'));
+  await assertFails(db('alice').ref('forumPinnedTopics/' + topic).remove());
+});
+
+test('a member cannot reorder topics without their own new reply', async () => {
+  const topic = await forumSetup();
+  await assertFails(db('bob').ref('forumTopics/' + topic + '/lastAt')
+    .set({'.sv':'timestamp'}));
+  const day = Math.floor((Date.now() + 25200000) / 86400000);
+  const post = fid('1');
+  await assertSucceeds(db('bob').ref('forumDailySlots/' + 'c'.repeat(64) + '/' + day + '/posts/0')
+    .set({id:post,uid:'bob',day,reservedAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bob').ref('forumPosts/' + topic + '/' + post)
+    .set({uid:'bob',text:'Tôi vừa bình luận',parent:'',mention:'',
+      createdAt:{'.sv':'timestamp'},quotaDay:day,quotaSlot:0}));
+  const saved = (await db('bob').ref('forumPosts/' + topic + '/' + post).once('value')).val();
+  await assertSucceeds(db('bob').ref('forumTopics/' + topic).update({lastAt:saved.createdAt,lastPost:post,rankAt:saved.createdAt}));
+  await assertFails(db('alice').ref('forumTopics/' + topic + '/lastAt')
+    .set({'.sv':'timestamp'}));
+});
+
+test('chat index points only to a real message from the updater', async () => {
+  await forumSetup();
+  const message = fid('2');
+  await assertFails(db('bob').ref('forumChatIndex/bob').set({from:'bob',
+    lastAt:{'.sv':'timestamp'},lastMessage:message}));
+  await assertSucceeds(db('bob').ref('forumChats/bob/messages/' + message)
+    .set({from:'bob',text:'Tin nhắn thử',createdAt:{'.sv':'timestamp'}}));
+  const stored = (await db('bob').ref('forumChats/bob/messages/' + message).once('value')).val();
+  await assertSucceeds(db('bob').ref('forumChatIndex/bob').set({from:'bob',
+    lastAt:stored.createdAt,lastMessage:message}));
+  await assertFails(db('alice').ref('forumChatIndex/bob').once('value'));
+  await assertFails(db('bob').ref('forumChatIndex/bob').set({from:'bob',
+    lastAt:stored.createdAt+1000,lastMessage:message}));
+});
+
+test('editing requires a matching owner-only history snapshot', async () => {
+  const topic = await forumSetup();
+  const original = (await db('alice').ref('forumTopics/' + topic).once('value')).val();
+  await assertFails(db('alice').ref('forumTopics/' + topic).update({
+    title:'Tiêu đề mới',body:'Nội dung mới',editedAt:{'.sv':'timestamp'}}));
+  const event = fid('3');
+  const history = 'forumEditAudit/' + topic + '/topic/' + event;
+  await assertFails(db('bob').ref(history).set({content:original,
+    editedAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('alice').ref(history).set({content:original,
+    editedAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref(history).once('value'));
+  await assertSucceeds(db('owner').ref(history).once('value'));
+  await assertSucceeds(db('alice').ref('forumTopics/' + topic).update({
+    title:'Tiêu đề mới',body:'Nội dung mới',editedAt:{'.sv':'timestamp'},editEvent:event}));
+  await assertFails(db('alice').ref('forumTopics/' + topic + '/body')
+    .set('Nội dung đã đổi nhưng không lưu lịch sử'));
+});
+
+test('same installation cannot obtain new daily slots after an anonymous UID reset', async () => {
+  await forumSetup();
+  const day = Math.floor((Date.now() + 25200000) / 86400000);
+  const fingerprint = 'c'.repeat(64);
+  const path = 'forumDailySlots/' + fingerprint + '/' + day + '/topics/0';
+  await assertSucceeds(db('bob').ref(path).set({id:fid('4'),uid:'bob',day,
+    reservedAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bobFresh').ref('forumIdentity/bobFresh')
+    .set(forumIdentity(fingerprint)));
+  await assertFails(db('bobFresh').ref(path).set({id:fid('5'),uid:'bobFresh',day,
+    reservedAt:{'.sv':'timestamp'}}));
+  await assertSucceeds(db('bobFresh').ref('forumDailySlots/' + fingerprint + '/' + day + '/topics/1')
+    .set({id:fid('6'),uid:'bobFresh',day,reservedAt:{'.sv':'timestamp'}}));
+});
+
+test('only current moderators and owner can see or change ratings', async () => {
+  const topic = await forumSetup();
+  const path = 'forumAdminRatings/' + topic;
+  const rating = stars => ({stars, by:'owner', updatedAt:{'.sv':'timestamp'}});
+  await assertFails(db('bob').ref(path).once('value'));
+  await assertFails(db('bob').ref(path).set({stars:5,by:'bob',updatedAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref('forumPublicRoles/bob').set({badge:'developer'}));
+  await assertSucceeds(db('owner').ref(path).set(rating(5)));
+  await assertSucceeds(db('owner').ref(path).once('value'));
+  await assertFails(db('alice').ref(path).once('value'));
+  await assertFails(db('bob').ref('forumTopics/' + topic + '/rankAt').set(1000000));
+  await assertSucceeds(db('owner').ref('forumTopics/' + topic + '/rankAt')
+    .set(1 + 2 * 604800000));
+  await assertSucceeds(db('bob').ref('forumTopics')
+    .orderByChild('rankAt').limitToLast(30).once('value'));
+  await assertSucceeds(db('owner').ref(path).set(rating(1)));
+  await assertFails(db('bob').ref('forumTopics/' + topic + '/rankAt')
+    .set(1 - 2 * 604800000));
+  await assertSucceeds(db('owner').ref('forumTopics/' + topic + '/rankAt')
+    .set(1 - 2 * 604800000));
+  await assertFails(db('owner').ref(path).set({stars:6,by:'owner',updatedAt:{'.sv':'timestamp'}}));
+});
+
+test('moderator badge requires live license and cannot be forged', async () => {
+  await forumSetup();
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('requests/alice').set(body());
+    await context.database().ref('decisions/alice').set({request,state:'approved',
+      policy:'SFLIC3.signed',decidedAt:80});
+    await context.database().ref('devices/' + 'a'.repeat(64)).set({request,
+      name:'Người dùng',description:'Thiết bị',value:'SFLIC3.signed'});
+  });
+  await assertFails(db('alice').ref('forumPublicRoles/alice').set({badge:'moderator'}));
+  await assertSucceeds(db('owner').ref('forumModerators/alice').set({enabled:true,expiresAt:0,
+    device:'a'.repeat(64),policy:'SFLIC3.signed',decisionAt:80}));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/alice').set({badge:'moderator'}));
+  await assertSucceeds(db('bob').ref('forumPublicRoles/alice').once('value'));
+  await assertFails(db('bob').ref('forumModerators/alice').once('value'));
+  await assertSucceeds(db('alice').ref('forumAdminRatings').once('value'));
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('devices/' + 'a'.repeat(64) + '/value').set('SFLIC3.changed');
+  });
+  await assertFails(db('bob').ref('forumPublicRoles/alice').once('value'));
+  await assertFails(db('alice').ref('forumAdminRatings').once('value'));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/alice').once('value'));
+  await assertFails(db('alice').ref('forumPublicRoles/alice').set({badge:'developer'}));
+});
+
+test('legacy public names remain unreadable before owner completes migration', async () => {
+  const topic = fid('7');
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumTopics/' + topic).set({
+      uid:'alice',name:'Tên cũ',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
+      locked:false,createdAt:1
+    });
+  });
+  await assertFails(db('bob').ref('forumTopics/' + topic).once('value'));
+  await assertFails(db('bob').ref('forumTopics').orderByChild('lastAt').limitToLast(30).once('value'));
+  await assertSucceeds(db('owner').ref('forumTopics/' + topic).once('value'));
+  await assertSucceeds(db('owner').ref().update({
+    ['forumTopics/' + topic + '/name']:null,
+    ['forumTopics/' + topic + '/lastAt']:1,
+    ['forumTopics/' + topic + '/rankAt']:1
+  }));
+  await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
+  const saved = (await db('bob').ref('forumTopics/' + topic).once('value')).val();
+  if ('name' in saved || !('lastAt' in saved)) throw new Error('Legacy name leaked');
+});
+
+test('registration entitlement survives an anonymous UID change only through a verified marker', async () => {
+  const fingerprint = 'e'.repeat(64);
+  const requestText = 'SFREQ2.' + fingerprint;
+  await assertSucceeds(db('alice').ref('requests/alice').set({
+    request: requestText, name: 'Tên đăng ký', description: 'Thiết bị chính',
+    createdAt: {'.sv':'timestamp'}
+  }));
+  await assertSucceeds(db('alice').ref('forumIdentity/alice').set(forumIdentity(fingerprint)));
+  await assertFails(db('alice').ref('forumEnrollmentIndex/' + 'f'.repeat(64)).set(true));
+  await assertFails(db('bob').ref('forumEnrollmentIndex/' + fingerprint).set(true));
+  await assertSucceeds(db('alice').ref('forumEnrollmentIndex/' + fingerprint).set(true));
+  await assertFails(db('alice').ref('forumEnrollmentIndex/' + fingerprint).remove());
+  await assertSucceeds(db('alice').ref('forumEnrollmentIndex/' + fingerprint).once('value'));
+  await assertFails(db('bob').ref('forumEnrollmentIndex/' + fingerprint).once('value'));
+  await assertSucceeds(db('bobFresh').ref('forumIdentity/bobFresh')
+    .set(forumIdentity(fingerprint)));
+  await assertSucceeds(db('bobFresh').ref('forumEnrollmentIndex/' + fingerprint).once('value'));
+  await assertFails(db('bobFresh').ref('requests/alice').once('value'));
+  await assertFails(db('bobFresh').ref('forumEnrollmentIndex/' + fingerprint).set(true));
+  const day = Math.floor((Date.now() + 25200000) / 86400000);
+  await assertFails(db('bobFresh').ref('forumDailySlots/' + fingerprint + '/' + day + '/topics/0')
+    .set({id:fid('8'),uid:'bobFresh',day,reservedAt:{'.sv':'timestamp'}}));
 });

@@ -135,6 +135,10 @@
             android:exported="false"
             android:label="@string/forum_title" />
         <activity
+            android:name="com.google.android.accessibility.talkback.licensing.OwnerChatActivity"
+            android:exported="false"
+            android:label="Nhắn tin" />
+        <activity
             android:name="com.google.android.accessibility.talkback.licensing.SupportActivity"
             android:exported="false"
             android:label="@string/support_title" />

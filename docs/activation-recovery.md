@@ -1,8 +1,8 @@
 # Activation and recovery
 
-Meridian accepts existing SFLIC1 registrations while the original installation
-key and saved registration are available. New registrations use SFREQ2/SFLIC2.
-The new request hashes the Android ID together with the application ID and a
+Current Meridian clients use SFREQ2 device requests and accept only online
+SFLIC3 policies. Earlier clients accepted SFLIC1 and SFLIC2 offline codes;
+these no longer grant access after updating. The request hashes the Android ID together with the application ID and a
 protocol domain separator. It does not depend on a generated installation key.
 
 On the same device, Android user and APK signing identity, Android 8 and later
@@ -50,7 +50,7 @@ a ten-second Keystore authentication validity window.
 
 The signed registration is stored locally before any upload. Its public record
 is `docs/catalog/<device-hash>.json`, with only a format number and the signed
-SFLIC2 value. Recipient names are absent from both the public file and signed
+SFLIC3 policy. Recipient names are absent from both the public file and signed
 payload. The tool uses the GitHub contents API, existing blob SHA values,
 bounded conflict retries, and a durable local queue. Already uploaded records
 are not rewritten. Changes to one device do not replace another device's file.
@@ -64,9 +64,9 @@ ordinary token expiry does not require another browser login. Existing encrypted
 PAT connections continue until browser setup completes, then the old local token
 is removed. Revoking a previously created PAT on GitHub is a separate owner action.
 
-An existing SFLIC1 user can update Meridian, copy SFREQ2, and have the new tool
-issue the replacement before clearing data. Existing SFLIC1 codes are not
-automatically converted and cannot recover a lost installation key.
+An existing SFLIC1 or SFLIC2 user can update Meridian, copy SFREQ2, and have
+the owner publish an SFLIC3 policy for the device. Existing offline codes are
+not automatically converted and never authorize a new Meridian build.
 
 ## Restore on the phone
 
@@ -76,11 +76,12 @@ It checks bounded response size, protocol format, the pinned public key,
 signature, device hash and official APK signing identity before saving the
 registration. It never trusts a public key supplied by the downloaded record.
 
-A valid saved registration works offline. A fresh install needs connectivity
-at least once to recover, or a valid SFLIC2 pasted manually. The existing
-60-second unregistered service countdown remains; successful recovery cancels
-it. Locked boot does not start recovery or the countdown. No missing or invalid
-record is treated as successful activation.
+A signed SFLIC3 policy verified from the catalog remains valid within the
+established seven-day offline lease. Fresh installations and legacy offline
+license holders must connect and retrieve a valid SFLIC3 policy. The existing
+60-second unregistered service countdown remains; successful verification
+cancels it. Locked boot does not start recovery or the countdown. No missing
+or invalid record is treated as successful activation.
 
 ## Administrator data and limits
 
@@ -149,3 +150,14 @@ protocol tests verify device binding, tamper rejection and issuer pinning.
 Publisher tests cover bootstrap refusal, conflict retries, idempotency, offline
 failure and isolation of device records. Hardware-backed signing, credential
 prompts, background job timing and screen-reader focus require phone testing.
+
+## Updated-client online-only acceptance
+
+New Meridian clients accept only device-matched, signed SFLIC3 policies from
+the online catalog. Local SFLIC1/SFLIC2 activation codes and format-2 catalog
+records do not unlock the screen reader or licensed features, regardless of
+whether a legacy code was saved before an in-place APK update. The registration
+screen no longer offers a code-paste action. An owner must reissue affected
+devices with an online SFLIC3 policy. A previously verified SFLIC3 policy
+remains usable during the established seven-day offline lease. These
+requirements do not alter the behavior of APK versions already installed.

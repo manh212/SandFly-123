@@ -40,26 +40,6 @@ final class LicenseRecovery {
         .putInt("boot", boot(context)).apply();
   }
 
-  static void activateManual(Context context, String value, java.util.function.Consumer<String> callback) {
-    Context app = context.getApplicationContext();
-    WORKER.execute(() -> {
-      String message;
-      try {
-        Result result = recover(app);
-        if (result == Result.RESTORED) {
-          message = DeviceLicenseManager.status(app);
-        } else if (result == Result.NOT_FOUND) {
-          DeviceLicenseManager.activate(app, value);
-          message = DeviceLicenseManager.status(app);
-        } else {
-          throw new IllegalStateException("Cần kết nối Internet để kiểm tra trạng thái khi nhập giấy phép lần đầu.");
-        }
-      } catch (Exception e) { message = e.getMessage(); }
-      String response = message;
-      MAIN.post(() -> { ActivationReminder.onPolicyChanged(); callback.accept(response); });
-    });
-  }
-
   static synchronized void start(Context context, boolean force, Callback callback) {
     Context app = context.getApplicationContext();
     if (!UserManagerCompat.isUserUnlocked(app) || !ApkSignatureVerifier.isOfficial(app)) return;
@@ -99,6 +79,11 @@ final class LicenseRecovery {
     });
   }
 
+  static boolean isOnlinePolicyRecord(JSONObject record) {
+    return record != null && record.optInt("format") == 3
+        && record.optString("value", "").startsWith("SFLIC3.");
+  }
+
   private static Result recover(Context context) {
     HttpURLConnection connection = null;
     try {
@@ -125,8 +110,8 @@ final class LicenseRecovery {
         }
       }
       JSONObject record = new JSONObject(new String(bytes.toByteArray(), StandardCharsets.UTF_8));
-      if (record.optInt("format") != 2 && record.optInt("format") != 3) return Result.INVALID;
-      String license = record.optString("value", "");
+      if (!isOnlinePolicyRecord(record)) return Result.INVALID;
+      String license = record.getString("value");
       long serverMillis = connection.getDate();
       if (serverMillis <= 0 || !DeviceLicenseManager.acceptRemote(context, license, serverMillis)) {
         return Result.INVALID;

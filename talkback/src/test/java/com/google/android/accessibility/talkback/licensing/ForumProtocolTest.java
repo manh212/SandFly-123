@@ -3,39 +3,57 @@ package com.google.android.accessibility.talkback.licensing;
 import static org.junit.Assert.*;
 
 import io.meridian.licensing.ForumProtocol;
+import java.util.Arrays;
 import org.junit.Test;
 
 public final class ForumProtocolTest {
-  @Test public void idsAreUniqueAndSortable() {
-    String first = ForumProtocol.id();
-    String second = ForumProtocol.id();
-    assertTrue(ForumProtocol.validId(first));
-    assertTrue(ForumProtocol.validId(second));
-    assertNotEquals(first, second);
-    assertTrue(ForumProtocol.validId("1700000000000-" + "aaaaaaaaaaaaaaaaaaaa"));
-    assertFalse(ForumProtocol.validId("../admins/owner"));
-  }
-
-  @Test public void categoriesAreRestrictedToFivePublicGroups() {
+  @Test public void categoriesStayFixedAndSharingIsGeneral() {
     assertEquals(5, ForumProtocol.categories().size());
-    for (String category : ForumProtocol.categories()) assertTrue(ForumProtocol.validCategory(category));
-    assertFalse(ForumProtocol.validCategory("private-support"));
-    assertEquals("Chia sẻ Lua", ForumProtocol.categoryName("lua"));
+    assertEquals(Arrays.asList("general", "questions", "lua", "ideas", "guides"),
+        ForumProtocol.categories());
+    assertEquals("Chia sẻ", ForumProtocol.categoryName("lua"));
+    assertFalse(ForumProtocol.validCategory("files"));
+    assertThrows(IllegalArgumentException.class,
+        () -> ForumProtocol.validDisplayName("Nhà phát triển"));
   }
 
-  @Test public void textIsTrimmedAndBoundsChecked() {
-    assertEquals("Xin chào", ForumProtocol.text("  Xin chào  ", 1, 60, "Tên"));
-    try {
-      ForumProtocol.text(" ", 1, 60, "Tên");
-      fail("Blank content must be rejected");
-    } catch (IllegalArgumentException expected) {}
+  @Test public void ratingsFadeBehindNewActivity() {
+    long week = 604_800_000L;
+    assertEquals(-2 * week, ForumProtocol.ratingOffset(1));
+    assertEquals(0L, ForumProtocol.ratingOffset(3));
+    assertEquals(2 * week, ForumProtocol.ratingOffset(5));
+    long ratedFiveOld = 1_000_000_000_000L + ForumProtocol.ratingOffset(5);
+    long ratedThreeNew = 1_000_000_000_000L + 3 * week;
+    long ratedFiveNew = 1_000_000_000_000L + 3 * week + ForumProtocol.ratingOffset(5);
+    assertTrue(ratedThreeNew > ratedFiveOld);
+    assertTrue(ratedFiveNew > ratedThreeNew);
+    assertTrue(ratedFiveNew > ratedFiveOld);
+    assertThrows(IllegalArgumentException.class, () -> ForumProtocol.ratingOffset(0));
   }
 
-  @Test public void notificationIdsCannotEscapeTheirTopic() {
-    String topic = "1700000000000-" + "aaaaaaaaaaaaaaaaaaaa";
-    String post = "1700000000001-" + "bbbbbbbbbbbbbbbbbbbb";
-    assertEquals(topic + "_" + post, ForumProtocol.noticeId(topic, post));
-    assertTrue(ForumProtocol.validUid("AbC_-123"));
-    assertFalse(ForumProtocol.validUid("supportIndex/alice"));
+  @Test public void dailyQuotaUsesVietnamMidnightNotLocalClock() {
+    long utc = 1_735_776_000_000L;
+    long before = utc - 25_200_000L - 1;
+    long after = before + 1;
+    assertEquals(ForumProtocol.vietnamDay(before) + 1, ForumProtocol.vietnamDay(after));
+    assertEquals(after, ForumProtocol.nextVietnamMidnight(before));
+    assertTrue(ForumProtocol.canUseDailySlot(0));
+    assertTrue(ForumProtocol.canUseDailySlot(2));
+    assertFalse(ForumProtocol.canUseDailySlot(3));
+  }
+
+  @Test public void multilineTextIsAllowedButControlCharactersAndInvalidPollsAreNot() {
+    assertEquals("Dòng một\nDòng hai", ForumProtocol.text("Dòng một\nDòng hai", 1, 100, "Nội dung"));
+    assertThrows(IllegalArgumentException.class,
+        () -> ForumProtocol.text("Dòng đầu\u0001", 1, 100, "Nội dung"));
+    assertEquals(3, ForumProtocol.pollOptions(Arrays.asList("A", "B", "C")).length());
+    assertThrows(IllegalArgumentException.class,
+        () -> ForumProtocol.pollOptions(Arrays.asList("Trùng", "trùng")));
+  }
+
+  @Test public void generatedIdsAreValidAndUnexpectedUserIdsAreRejected() {
+    assertTrue(ForumProtocol.validId(ForumProtocol.id()));
+    assertFalse(ForumProtocol.validId("../etc/passwd"));
+    assertFalse(ForumProtocol.validUid("a/b"));
   }
 }

@@ -25,6 +25,7 @@ public final class SupportNotifications {
 
   public static synchronized void start(Context context) {
     LicenseNotifications.start(context);
+    ForumNotifications.start(context);
     if (current != null) return;
     current = new Monitor(context.getApplicationContext());
     current.thread.start();
@@ -32,6 +33,7 @@ public final class SupportNotifications {
 
   public static synchronized void stop() {
     LicenseNotifications.stop();
+    ForumNotifications.stop();
     if (current == null) return;
     current.running = false;
     current.thread.interrupt();
@@ -93,9 +95,6 @@ public final class SupportNotifications {
           return;
         } catch (Exception ignored) {
         }
-        if (!running) return;
-        try { if (UserManagerCompat.isUserUnlocked(context)) ForumNotifications.poll(context); }
-        catch (Exception ignored) {}
         if (!running) return;
         try { Thread.sleep(POLL_MS); }
         catch (InterruptedException stopped) { return; }

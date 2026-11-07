@@ -67,5 +67,8 @@
   <com.google.android.accessibility.talkback.licensing.ForumEntryPreference
       android:key="forum_open"
       android:title="@string/forum_title" />
+  <com.google.android.accessibility.talkback.licensing.OwnerChatEntryPreference
+      android:key="meridian_owner_private_chat"
+      android:title="Nhắn tin" />
 </PreferenceScreen>
 

@@ -48,11 +48,19 @@ An outstanding change whose revision is older than GitHub cannot overwrite the n
 
 ## Compatibility and offline limits
 
-Existing SFLIC1 and SFLIC2 licenses remain unexpired in their own token format,
-but updated clients require a successful online verification within seven days.
-Legacy SFLIC1 devices without a newer recoverable catalog record may need the
-owner to reissue an SFLIC3 license before updating the client. New policies use
-SFLIC3 and must not include a perpetual legacy fallback.
+Updated Meridian accepts only signed SFLIC3 policies retrieved from the HTTPS
+GitHub catalog and verified against the device and issuer key. Previously
+issued SFLIC1 and SFLIC2 offline codes, including those stored before an APK
+update, are never treated as active licenses. The manual activation entry has
+been removed. Legacy format-2 catalog records do not grant access; the owner
+must issue and publish a signed SFLIC3 policy for those devices.
+
+A signed SFLIC3 policy must have been successfully verified against a catalog
+response with a server time anchor. The existing seven-day offline lease
+continues only after that successful verification; it is not a fallback for
+legacy offline codes. Old APKs cannot be retroactively forced to adopt this
+rule, and a modified APK can bypass client checks. Production enforcement
+therefore depends on users installing the updated signed application.
 
 Meridian checks the signed catalog through short-lived HTTPS requests at service
 startup and approximately every six hours while the service runs. Each response
@@ -94,7 +102,11 @@ one encrypted storage write. Concurrent signing and imports cannot overwrite a
 newer signed revision. Local pending changes remain explicitly pending until
 their corresponding remote writes succeed.
 
-Limited licenses use HTTPS server time, elapsed realtime within a boot and a persisted time floor. A significant backward clock change across a reboot requires correcting device time or reconnecting for a trusted time anchor. These checks do not provide a tamper-proof offline clock on a rooted or patched device. Fully offline clients cannot receive a new revoke command. Older APKs do not implement the new policy checks and must be updated to honor them. R8 renames the activation implementation in both APKs and CI verifies the resulting mappings and DEX; it cannot make client code impossible to patch.
+Limited licenses use HTTPS server time, elapsed realtime within a boot and a persisted time floor. A significant backward clock change across a reboot requires correcting device time or reconnecting for a trusted time anchor. These checks do not provide a tamper-proof offline clock on a rooted or patched device. Fully offline clients cannot receive a new revoke command. Older APKs do not implement the new policy checks and must be updated to honor them. The update checker and installer in updated Meridian remain available without an active license so that expired, revoked and unlicensed users can still install security and licensing updates. This change cannot modify the update checker in an APK that is already installed.
+
+The owner can use **Thu hồi giấy phép** in Meridian Admin for each known device, including a device whose stored license was legacy format. After signing, the administrator must let synchronization finish to publish the new signed revoked SFLIC3 state in the device catalog and private Firebase record. A compatible client only enforces that state once it actually fetches it; older versions that cannot consume SFLIC3, offline devices and modified APKs cannot be remotely forced to lock. No mass revocation is performed automatically; the issuer private key and system authentication remain on the owner device.
+
+R8 renames the activation implementation in both APKs and CI verifies the resulting mappings and DEX; it cannot make client code impossible to patch.
 
 Names and descriptions exist only in encrypted admin storage and access-controlled Firebase. Public GitHub catalog records contain the device hash and signed policy, including package label and feature rights. Service credentials for GitHub and the issuer's private key remain exclusively on the admin phone. Anonymous client authentication cannot grant itself administrator access, read other users' requests, edit a submitted request or issue an approval. Authentication sign-up and database quotas still apply; strong abuse prevention beyond provider quotas would require an additional trusted service or attestation design.
 

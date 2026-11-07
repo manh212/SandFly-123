@@ -114,6 +114,19 @@ final class SupportDesk {
             || e instanceof java.io.IOException) ? detail : "Không đọc hoặc lưu được phản hồi. Hãy thử lại.";
   }
 
+  private String senderBadge(FirebaseRest service, String from) {
+    if (from == null || !from.matches("[A-Za-z0-9_-]{1,128}")) return "";
+    try {
+      if (service.flag("admins/" + from)) return " · Thẻ Nhà phát triển";
+    } catch (Exception ignored) {}
+    try {
+      String role = service.get("forumPublicRoles/" + from).optString("badge");
+      if ("developer".equals(role)) return " · Thẻ Nhà phát triển";
+      if ("moderator".equals(role)) return " · Thẻ Quản trị viên";
+    } catch (Exception ignored) {}
+    return "";
+  }
+
   private void message(String value) { ui(() -> { status.setText(value); activity.message(value); }); }
 
   void refreshRole() {
@@ -128,7 +141,9 @@ final class SupportDesk {
         boolean staff = isOwner || profile.optBoolean("enabled");
         new IssuerStore(activity).ownerUiCached(isOwner);
         owner = isOwner;
-        displayName = isOwner ? "Quản trị viên" : profile.optString("name", "Hỗ trợ");
+        String publicName = isOwner ? service.get("forumProfiles/" + identity)
+            .optString("name", "Nhà phát triển") : "";
+        displayName = isOwner ? publicName : profile.optString("name", "Hỗ trợ");
         ui(() -> {
           loading = false; resetActions();
           status.setText(isOwner ? "Quyền quản trị đầy đủ. UID: " + identity
@@ -288,6 +303,13 @@ final class SupportDesk {
         JSONObject header = headerRead.get();
         java.util.concurrent.Future<JSONObject> contactRead = QUERIES.submit(() -> service.get("supportContacts/" + header.getString("owner")));
         JSONObject state = stateRead.get(), messages = messagesRead.get();
+        java.util.Map<String,String> roleBadges = new java.util.HashMap<>();
+        for (java.util.Iterator<String> keys = messages.keys(); keys.hasNext();) {
+          JSONObject entry = messages.optJSONObject(keys.next());
+          if (entry == null) continue;
+          String from = entry.optString("uid");
+          if (!roleBadges.containsKey(from)) roleBadges.put(from, senderBadge(service, from));
+        }
         long lastSeen = contactRead.get().optLong("lastSeen");
         ui(() -> {
           if (!dialog.isShowing()) return;
@@ -315,8 +337,11 @@ final class SupportDesk {
           String oldest = ids.isEmpty() ? null : ids.get(ids.size() - 1); Collections.reverse(ids);
           for (String messageId : ids) {
             JSONObject entry = messages.optJSONObject(messageId); if (entry == null) continue;
-            text(list, (entry.optString("kind").equals("staff") ? "Hỗ trợ" : "Người dùng") + ": " + entry.optString("name")
-                + " · " + date(entry.optLong("createdAt")) + "\n" + entry.optString("text"));
+            String from = entry.optString("uid");
+            String badge = roleBadges.getOrDefault(from, "");
+            String author = entry.optString("name");
+            text(list, author + badge + " · " + date(entry.optLong("createdAt"))
+                + "\n" + entry.optString("text"));
             if (SupportAttachment.present(entry)) {
               button(list, "Xem nhật ký", () -> work(() -> {
                 String file = loadLog(id, messageId, entry); ui(() -> showLog(file));

@@ -21,14 +21,6 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import java.lang.ref.WeakReference;
 
-/**
- * Offers registration immediately, then enforces a one-minute trial whenever the
- * accessibility service connects. Notifications are informative, not a clock source:
- * the deadline is based on elapsed realtime even when notification permission is denied.
- *
- * A valid offline registration cancels the deadline. If the issuer is not configured,
- * do not disable accessibility, because registration would be impossible.
- */
 public final class ActivationReminder {
   private static final String TAG = "ActivationReminder";
   private static final String CHANNEL = "meridian_activation_countdown";

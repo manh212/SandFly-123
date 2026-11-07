@@ -10,100 +10,123 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.ForumProtocol;
-import java.util.ArrayList;
-import java.util.List;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-final class ForumNotifications {
-  private static final String CHANNEL = "meridian_forum_updates";
-  private static final String STORE = "meridian_forum_notifications";
+public final class ForumNotifications {
+  private static final String CHANNEL = "meridian_forum";
+  private static Monitor monitor;
 
   private ForumNotifications() {}
 
-  static void poll(Context context) throws Exception {
-    FirebaseRest service = Enrollment.service(context);
-    String uid = service.uid();
-    JSONObject notices = service.activity("forumNotices/" + uid, 40, null);
-    SharedPreferences store = context.getSharedPreferences(STORE, Context.MODE_PRIVATE);
-    long latest = store.getLong("latest:" + uid, -1);
-    String oldIds = store.getString("ids:" + uid, "[]");
-    List<String> already = keys(oldIds);
-    List<String> fresh = new ArrayList<>();
-    long highest = latest;
-    for (java.util.Iterator<String> iterator = notices.keys(); iterator.hasNext();) {
-      String id = iterator.next();
-      JSONObject item = notices.optJSONObject(id);
-      if (item == null) continue;
-      long at = item.optLong("lastAt");
-      if (at > latest || (at == latest && !already.contains(id))) fresh.add(id);
-      highest = Math.max(highest, at);
+  public static synchronized void start(Context context) {
+    if (monitor != null) return;
+    monitor = new Monitor(context.getApplicationContext());
+    monitor.thread.start();
+  }
+
+  public static synchronized void stop() {
+    if (monitor == null) return;
+    monitor.running = false;
+    monitor.thread.interrupt();
+    monitor = null;
+  }
+
+  private static final class Monitor implements Runnable {
+    final Context context;
+    final Thread thread;
+    volatile boolean running = true;
+
+    Monitor(Context context) {
+      this.context = context;
+      thread = new Thread(this, "meridian-forum-poll");
+      thread.setDaemon(true);
     }
-    if (latest >= 0) {
-      fresh.sort((first, second) -> Long.compare(
-          notices.optJSONObject(first).optLong("lastAt"), notices.optJSONObject(second).optLong("lastAt")));
-      int from = Math.max(0, fresh.size() - 3);
-      for (int index = from; index < fresh.size(); index++) {
-        String id = fresh.get(index);
-        JSONObject item = notices.optJSONObject(id);
-        if (item != null && ForumProtocol.validId(item.optString("topic"))) {
-          show(context, item.optString("topic"), item.optString("kind"), id);
+
+    @Override public void run() {
+      while (running) {
+        try {
+          if (!ApkSignatureVerifier.isOfficial(context)) return;
+          FirebaseRest service = Enrollment.service(context);
+          String uid = service.uid();
+          SharedPreferences state = context.getSharedPreferences("forum_alerts_" + uid, Context.MODE_PRIVATE);
+          JSONObject notices = service.recent("forumNotices/" + uid, "$key", 50, null);
+          String newest = state.getString("notice", null);
+          String high = newest;
+          for (java.util.Iterator<String> it = notices.keys(); it.hasNext();) {
+            String id = it.next();
+            if (high == null || id.compareTo(high) > 0) high = id;
+            if (newest == null || id.compareTo(newest) <= 0) continue;
+            JSONObject entry = notices.optJSONObject(id);
+            if (entry == null || !ForumProtocol.validId(entry.optString("topic"))) continue;
+            String label = "mention".equals(entry.optString("kind")) ? "Nhắc đến bạn" : "Trả lời bạn";
+            notify(context, "forum:" + id, label, ForumActivity.class, entry.optString("topic"));
+          }
+          if (newest == null || (high != null && !high.equals(newest))) {
+            state.edit().putString("notice", high == null ? "" : high).apply();
+          }
+
+          JSONObject announcements = service.get("forumAnnouncements");
+          long oldAnnouncement = state.getLong("announcement", -1);
+          long maxAnnouncement = oldAnnouncement;
+          for (java.util.Iterator<String> it = announcements.keys(); it.hasNext();) {
+            String topic = it.next();
+            JSONObject item = announcements.optJSONObject(topic);
+            long timestamp = item == null ? 0 : item.optLong("createdAt");
+            if (timestamp > maxAnnouncement) maxAnnouncement = timestamp;
+            if (oldAnnouncement >= 0 && timestamp > oldAnnouncement && ForumProtocol.validId(topic)) {
+              notify(context, "announcement:" + topic, "Thông báo quan trọng", ForumActivity.class, topic);
+            }
+          }
+          if (oldAnnouncement < 0 || maxAnnouncement != oldAnnouncement) {
+            state.edit().putLong("announcement", Math.max(0, maxAnnouncement)).apply();
+          }
+
+          JSONObject messages = service.recent("forumChats/" + uid + "/messages", "$key", 25, null);
+          String oldMessage = state.getString("chat", null);
+          String newMessage = oldMessage;
+          for (java.util.Iterator<String> it = messages.keys(); it.hasNext();) {
+            String id = it.next();
+            if (newMessage == null || id.compareTo(newMessage) > 0) newMessage = id;
+            if (oldMessage == null || id.compareTo(oldMessage) <= 0) continue;
+            JSONObject item = messages.optJSONObject(id);
+            if (item != null && !uid.equals(item.optString("from"))) {
+              notify(context, "chat:" + id, "Tin nhắn mới", OwnerChatActivity.class, "");
+            }
+          }
+          if (oldMessage == null || (newMessage != null && !newMessage.equals(oldMessage))) {
+            state.edit().putString("chat", newMessage == null ? "" : newMessage).apply();
+          }
+        } catch (InterruptedException stopped) {
+          return;
+        } catch (Exception ignored) {
         }
+        if (!running) return;
+        try { Thread.sleep(15L * 60 * 1000); }
+        catch (InterruptedException stopped) { return; }
       }
     }
-    if (highest >= 0) save(context, uid, notices, highest);
   }
 
-  static void remember(Context context, String uid, JSONObject notices) {
-    long highest = -1;
-    for (java.util.Iterator<String> iterator = notices.keys(); iterator.hasNext();) {
-      JSONObject item = notices.optJSONObject(iterator.next());
-      if (item != null) highest = Math.max(highest, item.optLong("lastAt"));
-    }
-    if (highest >= 0) save(context, uid, notices, highest);
-  }
-
-  private static List<String> keys(String json) {
-    List<String> result = new ArrayList<>();
-    try {
-      JSONArray values = new JSONArray(json);
-      for (int index = 0; index < values.length(); index++) result.add(values.getString(index));
-    } catch (Exception ignored) {}
-    return result;
-  }
-
-  private static void save(Context context, String uid, JSONObject entries, long highest) {
-    SharedPreferences store = context.getSharedPreferences(STORE, Context.MODE_PRIVATE);
-    long old = store.getLong("latest:" + uid, -1);
-    if (old > highest) return;
-    JSONArray same = new JSONArray();
-    if (highest == old) {
-      for (String id : keys(store.getString("ids:" + uid, "[]"))) same.put(id);
-    }
-    for (java.util.Iterator<String> iterator = entries.keys(); iterator.hasNext();) {
-      String id = iterator.next();
-      JSONObject item = entries.optJSONObject(id);
-      if (item != null && item.optLong("lastAt") == highest && !keys(same.toString()).contains(id)) same.put(id);
-    }
-    store.edit().putLong("latest:" + uid, highest).putString("ids:" + uid, same.toString()).apply();
-  }
-
-  private static void show(Context context, String topic, String kind, String key) {
+  private static void notify(Context context, String key, String label,
+      Class<?> activity, String topic) {
     NotificationManager manager = context.getSystemService(NotificationManager.class);
     if (manager == null || !manager.areNotificationsEnabled()) return;
     manager.createNotificationChannel(new NotificationChannel(CHANNEL,
-        "Thông báo diễn đàn", NotificationManager.IMPORTANCE_DEFAULT));
-    Intent open = new Intent(context, ForumActivity.class).putExtra("forumTopic", topic)
-        .setData(Uri.parse("meridian://forum/" + topic))
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    PendingIntent pending = PendingIntent.getActivity(context, key.hashCode(), open,
+        "Thông báo Meridian", NotificationManager.IMPORTANCE_DEFAULT));
+    Intent intent = new Intent(context, activity).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    if (!topic.isEmpty()) intent.putExtra("forumTopic", topic);
+    intent.setData(Uri.parse("meridian://forum-alert/" + key));
+    PendingIntent pending = PendingIntent.getActivity(context, 0, intent,
         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-    String label = "mention".equals(kind) ? "Có người nhắc đến bạn trong diễn đàn" : "Có người trả lời trong diễn đàn";
-    Notification notice = new Notification.Builder(context, CHANNEL)
+    Notification notification = new Notification.Builder(context, CHANNEL)
         .setSmallIcon(android.R.drawable.ic_dialog_email)
-        .setContentTitle("Diễn đàn Meridian").setContentText(label)
-        .setContentIntent(pending).setVisibility(Notification.VISIBILITY_PRIVATE).setAutoCancel(true).build();
-    try { manager.notify("forum:" + key, key.hashCode(), notice); }
+        .setContentTitle(label)
+        .setContentIntent(pending)
+        .setCategory(Notification.CATEGORY_SOCIAL)
+        .setVisibility(Notification.VISIBILITY_PRIVATE)
+        .setAutoCancel(true).build();
+    try { manager.notify(key, key.hashCode(), notification); }
     catch (SecurityException ignored) {}
   }
 }
