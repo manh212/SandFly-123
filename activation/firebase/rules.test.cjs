@@ -656,10 +656,8 @@ test('legacy public names remain unreadable before owner completes migration', a
   await assertFails(db('bob').ref('forumTopics/' + topic).once('value'));
   await assertFails(db('bob').ref('forumTopics').orderByChild('lastAt').limitToLast(30).once('value'));
   await assertSucceeds(db('owner').ref('forumTopics/' + topic).once('value'));
-  await assertSucceeds(db('owner').ref().update({
-    ['forumTopics/' + topic + '/name']:null,
-    ['forumTopics/' + topic + '/lastAt']:1,
-    ['forumTopics/' + topic + '/rankAt']:1
+  await assertSucceeds(db('owner').ref('forumTopics/' + topic).update({
+    name:null, lastAt:1, rankAt:1
   }));
   await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
   const saved = (await db('bob').ref('forumTopics/' + topic).once('value')).val();
