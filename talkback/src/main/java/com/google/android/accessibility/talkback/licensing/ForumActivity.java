@@ -1,6 +1,7 @@
 package com.google.android.accessibility.talkback.licensing;
 
-import android.app.Activity;
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,7 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.json.JSONObject;
 
-public final class ForumActivity extends Activity {
+public final class ForumActivity extends ComponentActivity {
   private static final ExecutorService IO = Executors.newSingleThreadExecutor();
   private LinearLayout root;
   private TextView status;
@@ -39,6 +40,9 @@ public final class ForumActivity extends Activity {
 
   @Override public void onCreate(Bundle state) {
     super.onCreate(state);
+    getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override public void handleOnBackPressed() { handleBack(); }
+    });
     if (!ApkSignatureVerifier.isOfficial(this)) {
       page("Diễn đàn"); status.setText("Bản cài đặt Meridian chưa được xác thực."); return;
     }
@@ -47,10 +51,10 @@ public final class ForumActivity extends Activity {
     else home();
   }
 
-  @Override public void onBackPressed() {
+  private void handleBack() {
     if (screen == 2 || screen == 3) topics(category, null);
     else if (screen == 1 || screen == 4 || screen == 5) home();
-    else super.onBackPressed();
+    else finish();
   }
 
   private void ui(Runnable action) {

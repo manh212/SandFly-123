@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="forum_title">Diễn đàn cộng đồng</string>
+  <string name="forum_title" translatable="false">Diễn đàn cộng đồng</string>
 </resources>
