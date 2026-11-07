@@ -656,10 +656,18 @@ test('legacy public names remain unreadable before owner completes migration', a
   await assertFails(db('bob').ref('forumTopics/' + topic).once('value'));
   await assertFails(db('bob').ref('forumTopics').orderByChild('lastAt').limitToLast(30).once('value'));
   await assertSucceeds(db('owner').ref('forumTopics/' + topic).once('value'));
-  await assertSucceeds(db('owner').ref('forumTopics/' + topic).set({
-    uid:'alice',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
-    locked:false,createdAt:1,lastAt:1,rankAt:1
-  }));
+  try {
+    await assertSucceeds(db('owner').ref('forumTopics/' + topic).set({
+      uid:'alice',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
+      locked:false,createdAt:1,lastAt:1,rankAt:1
+    }));
+  } catch (failure) {
+    const coverage = await fetch('http://127.0.0.1:9000/.inspect/coverage?ns=demo-meridian-licensing-default-rtdb');
+    const dump = await coverage.text();
+    console.log('FORUM_MIGRATION_DIAGNOSTIC', coverage.status, dump.length,
+      dump.slice(Math.max(0, dump.indexOf('forumTopics') - 500), Math.max(0, dump.indexOf('forumTopics') - 500) + 40000));
+    throw failure;
+  }
   await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
   const saved = (await db('bob').ref('forumTopics/' + topic).once('value')).val();
   if ('name' in saved || !('lastAt' in saved)) throw new Error('Legacy name leaked');
