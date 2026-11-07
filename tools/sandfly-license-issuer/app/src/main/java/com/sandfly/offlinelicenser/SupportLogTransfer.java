@@ -42,6 +42,7 @@ final class SupportLogTransfer {
       Future<JSONObject> metadata = workers.submit(() -> reader.get("supportAttachments/" + ticket + "/" + message));
       tasks.add(metadata);
       JSONObject info = metadata.get(remaining(deadline, cancelled), TimeUnit.NANOSECONDS);
+      if (info.length() == 0) throw new IOException("Nhật ký đã được dọn khỏi Firebase.");
       SupportAttachment.validate(info);
       int size = info.getInt("bytes"), parts = info.getInt("parts");
       String hash = info.getString("sha256");

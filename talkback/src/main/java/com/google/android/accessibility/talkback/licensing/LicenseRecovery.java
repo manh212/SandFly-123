@@ -84,7 +84,7 @@ final class LicenseRecovery {
     lastAttempt = now;
     WORKER.execute(() -> {
       Result result = recover(app);
-      if (result == Result.RESTORED || result == Result.NOT_FOUND) checked(app);
+      if (result == Result.RESTORED) checked(app);
       MAIN.post(() -> {
         List<Callback> callbacks;
         synchronized (LicenseRecovery.class) {
@@ -127,7 +127,10 @@ final class LicenseRecovery {
       JSONObject record = new JSONObject(new String(bytes.toByteArray(), StandardCharsets.UTF_8));
       if (record.optInt("format") != 2 && record.optInt("format") != 3) return Result.INVALID;
       String license = record.optString("value", "");
-      DeviceLicenseManager.acceptRemote(context, license, connection.getDate());
+      long serverMillis = connection.getDate();
+      if (serverMillis <= 0 || !DeviceLicenseManager.acceptRemote(context, license, serverMillis)) {
+        return Result.INVALID;
+      }
       return Result.RESTORED;
     } catch (java.io.IOException e) {
       return Result.OFFLINE;

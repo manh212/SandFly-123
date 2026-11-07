@@ -45,22 +45,20 @@ server already accepted. Stable message IDs prevent duplicate messages after a
 lost response. A failed attempt keeps the local content and displays its error.
 
 Users see only their own conversations and may reply. While the Meridian
-accessibility service is active, an authenticated Firebase REST event stream
-receives changes to the current installation's inbox. New staff replies and
-actual status transitions create high-importance Android notifications; tapping
-one opens that conversation. Notification permission and network availability
-remain required; the support screen links to Android notification settings when
-the app or channel is blocked. The stream closes when the service stops and reconnects with
-backoff after disconnection or authentication expiry. It is independent of
-settings/support activity visibility and of the send queue.
+accessibility service is active, short-lived authenticated Firebase REST reads
+poll the 100 most recently active support requests approximately every fifteen
+minutes. New staff replies and actual status transitions create Android
+notifications; tapping one opens that conversation. Notification permission and
+network availability remain required. Android background restrictions and polling
+can delay notification delivery. The support screen links to Android notification
+settings when blocked. No continuous Firebase connection is held for support.
 
-The first snapshot establishes a baseline without announcing old history.
-Encrypted per-installation markers suppress duplicate delivery after reconnect
-or restart; a reconnect reports the newest unseen reply/status per conversation
-among the 100 most recently active requests. Multiple changes during a disconnect
-can be represented by their latest state rather than individual historical
-notifications. Full messages remain in the conversation. Opening a notification
-while composing asks before discarding the draft. Manual refresh remains available.
+The first successful snapshot establishes a baseline without announcing old
+history. Encrypted per-installation markers suppress duplicate notifications
+across polls and restarts. Multiple changes between polls can be represented by
+the latest state rather than individual historical notifications. Full messages
+remain available in the conversation. Opening a notification while composing
+asks before discarding the draft. Manual refresh remains available.
 
 The active inbox excludes completed requests. **Toàn bộ lịch sử phản hồi** retains
 all requests. Both lists sort by the latest reply, user message or status update,
@@ -172,11 +170,11 @@ Publish the updated rules before installing both updated APKs: clients now need
 validated staff writes to the public inbox projection, its `lastAt` index and
 staff-only aggregate reads of `supportStates`. The existing owner entry, messages
 and license data remain intact. No backend credentials are embedded or required
-for REST streaming. The APK publication workflow does not deploy production
+for authenticated REST polling. The APK publication workflow does not deploy production
 Firebase rules; the owner must publish `activation/firebase/database.rules.json`
 in the Firebase console.
 
-This uses Realtime Database text and authenticated event streaming, without Cloud
+This uses Realtime Database text and authenticated REST polling, without Cloud
 Functions, Firebase Storage or FCM. Firebase quotas, availability and anonymous-auth limits still apply.
 There is no trusted-server rate limiter or automatic abuse moderation. An app
 signature check and obfuscation do not make a public client unpatchable. Reports
@@ -200,9 +198,13 @@ TalkBack focus order and real-device messaging after publishing the database
 rules. Emulator/unit tests do not establish production Firebase configuration or
 device behavior.
 
-Additional CI coverage verifies streaming event framing, authentication expiry,
-notification deduplication/reconnection, direct notification navigation, status
+Additional CI coverage verifies authentication expiry, polling snapshot deduplication,
+direct notification navigation, status
 projection isolation, reply-marker validation, latest-activity ordering, filtering
 past completed pages and pagination across equal timestamps. On-device testing
 still needs both updated apps and the deployed rules, including screen-off
-connectivity, notification permission, offline reconnection and service stop.
+connectivity, notification permission, offline polling recovery and service stop.
+
+## Polling instead of continuous support streams
+
+Updated clients poll the 100 most recently active support conversations approximately every 15 minutes while the accessibility service is active. They no longer maintain a continuous Firebase REST event stream. Notifications can be delayed by polling and Android battery/network constraints. Manual refresh remains available. The data cleanup interface in Meridian Admin can remove attachments without removing the conversation, or remove entire old conversations. See [Firebase data cleanup](firebase-cleanup.md). Deleted attachments cannot be downloaded again.

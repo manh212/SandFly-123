@@ -11,11 +11,13 @@ import java.util.Base64;
 import org.junit.Test;
 
 public final class RecoveryProtocolTest {
-  @Test public void dailyChecksUseElapsedTimeAndRecheckAfterClockRollback() {
+  @Test public void sixHourChecksUseElapsedTimeAndRecheckAfterClockRollback() {
     long wall = 1_700_000_000_000L, elapsed = 100_000L;
     assertTrue(io.meridian.licensing.LicenseRefreshSchedule.due(wall, elapsed, 1, 0, 0, -1));
     assertFalse(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 1000, elapsed + 1000, 1, wall, elapsed, 1));
     assertFalse(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 172_800_000, elapsed + 1000, 1, wall, elapsed, 1));
+    assertFalse(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 21_599_999, elapsed + 21_599_999, 1, wall, elapsed, 1));
+    assertTrue(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 21_600_000, elapsed + 21_600_000, 1, wall, elapsed, 1));
     assertTrue(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 86_400_000, elapsed + 86_400_000, 1, wall, elapsed, 1));
     assertTrue(io.meridian.licensing.LicenseRefreshSchedule.due(wall - 1000, 500, 2, wall, elapsed, 1));
     assertFalse(io.meridian.licensing.LicenseRefreshSchedule.due(wall + 1000, 500, 2, wall, elapsed, 1));

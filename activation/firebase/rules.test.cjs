@@ -294,3 +294,44 @@ test('staff reply markers must refer to an actual staff reply in the same conver
     lastReplyAt: {'.sv': 'timestamp'}}));
   await assertFails(db('helper').ref('supportStates').once('value'));
 });
+
+test('owner cleanup may delete support content but never license data or administrator role', async () => {
+  const id = '1700000000000-' + 'e'.repeat(20);
+  await env.withSecurityRulesDisabled(async context => {
+    const root = context.database().ref();
+    await root.child('supportIndex/' + id).set({owner:'alice',subject:'Sửa lỗi',createdAt:1,lastAt:1});
+    await root.child('supportMessages/' + id + '/' + id).set({text:'Báo lỗi',kind:'user'});
+    await root.child('supportAttachments/' + id + '/' + id).set({uid:'alice',bytes:10,parts:1,createdAt:1,sha256:'a'.repeat(64)});
+    await root.child('supportLogChunks/' + id + '/' + id + '/chunk0').set({index:0,bytes:10,data:'AAAA'});
+    await root.child('devices/' + 'a'.repeat(64)).set({request,name:'x',description:'x',value:'signed'});
+  });
+  await assertFails(db('alice').ref('supportAttachments/' + id + '/' + id).remove());
+  await assertFails(db('helper').ref('supportLogChunks/' + id).remove());
+  await assertSucceeds(db('owner').ref('supportLogChunks/' + id + '/' + id).remove());
+  await assertSucceeds(db('owner').ref('supportAttachments/' + id + '/' + id).remove());
+  await assertSucceeds(db('owner').ref('supportMessages/' + id).remove());
+  await assertSucceeds(db('owner').ref('supportIndex/' + id).remove());
+  await assertFails(db('owner').ref('admins/owner').remove());
+  await assertFails(db('owner').ref('devices/' + 'a'.repeat(64)).remove());
+  await assertFails(db('owner').ref('licenseEvents/' + 'a'.repeat(64)).remove());
+});
+
+test('cleanup cannot remove requests that already have a decision', async () => {
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('requests/alice').set(body());
+    await context.database().ref('decisions/alice').set({request,state:'approved',policy:'SFLIC3.signed',decidedAt:1});
+    await context.database().ref('requests/bob').set(body());
+  });
+  await assertFails(db('owner').ref('requests/alice').remove());
+  await assertSucceeds(db('owner').ref('requests/bob').remove());
+  await assertFails(db('alice').ref('requests/alice').remove());
+});
+
+test('future forum cleanup is owner-only and public forum writes remain disabled', async () => {
+  await env.withSecurityRulesDisabled(async context => {
+    await context.database().ref('forumPosts/topic').set({post:'saved'});
+  });
+  await assertFails(db('alice').ref('forumPosts/topic').remove());
+  await assertFails(db('alice').ref('forumPosts/topic2').set({post:'new'}));
+  await assertSucceeds(db('owner').ref('forumPosts').remove());
+});

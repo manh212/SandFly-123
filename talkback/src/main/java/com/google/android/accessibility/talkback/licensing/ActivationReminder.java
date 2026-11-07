@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import androidx.core.os.UserManagerCompat;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
 import java.lang.ref.WeakReference;
 
 /**
@@ -61,6 +62,16 @@ public final class ActivationReminder {
             LicenseRecovery.start(service, false, null);
             if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
               stopCountdown();
+              schedule(Math.max(1_000L, Math.min(PERIOD_MS,
+                  DeviceLicenseManager.remainingUntilExpiryMillis(service))));
+              return;
+            }
+            if (DeviceLicenseManager.offlineLocked(service)) {
+              deadlineElapsed = 0L;
+              if (service instanceof TalkBackService) {
+                ((TalkBackService) service).interruptAllFeedback(true);
+              }
+              showOfflineNotification(service);
               schedule(PERIOD_MS);
               return;
             }
@@ -98,12 +109,19 @@ public final class ActivationReminder {
     }
     if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
       stopCountdown();
-      LicenseRecovery.start(service, false, null);
-      schedule(PERIOD_MS);
+      LicenseRecovery.start(service, true, null);
+      schedule(Math.max(1_000L, Math.min(PERIOD_MS,
+          DeviceLicenseManager.remainingUntilExpiryMillis(service))));
       return;
     }
     serviceRef = new WeakReference<>(service);
-    LicenseRecovery.start(service, false, null);
+    LicenseRecovery.start(service, true, null);
+    if (DeviceLicenseManager.offlineLocked(service)) {
+      deadlineElapsed = 0L;
+      showOfflineNotification(service);
+      schedule(1_000L);
+      return;
+    }
     deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
     lastDialogElapsed = -PERIOD_MS;
     showNotification(service, PERIOD_MS);
@@ -159,7 +177,8 @@ public final class ActivationReminder {
     if (context == null) return;
     if (DeviceLicenseManager.isLicensed(context)) {
       stopCountdown();
-      schedule(PERIOD_MS);
+      schedule(Math.max(1_000L, Math.min(PERIOD_MS,
+          DeviceLicenseManager.remainingUntilExpiryMillis(context))));
     } else if (service != null) {
       if (deadlineElapsed == 0L) deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
       MAIN.removeCallbacks(TICK);
@@ -196,6 +215,27 @@ public final class ActivationReminder {
     NotificationManager manager =
         (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     if (manager != null) manager.cancel(NOTIFICATION_ID);
+  }
+
+  private static void showOfflineNotification(AccessibilityService service) {
+    NotificationManager manager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+    if (manager == null) return;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        && service.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+            != android.content.pm.PackageManager.PERMISSION_GRANTED) return;
+    try {
+      manager.createNotificationChannel(new NotificationChannel(CHANNEL,
+          "Xác minh giấy phép Meridian", NotificationManager.IMPORTANCE_HIGH));
+      Intent intent = new Intent(service, ActivationActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      PendingIntent action = PendingIntent.getActivity(service, 0, intent,
+          PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+      Notification alert = new Notification.Builder(service, CHANNEL)
+          .setSmallIcon(android.R.drawable.ic_dialog_alert)
+          .setContentTitle("Cần xác minh giấy phép")
+          .setContentText("Đã quá 7 ngày ngoại tuyến. Kết nối mạng để tự động mở lại quyền sử dụng.")
+          .setContentIntent(action).setOngoing(true).build();
+      manager.notify(NOTIFICATION_ID, alert);
+    } catch (RuntimeException ignored) {}
   }
 
   private static void showNotification(AccessibilityService service, long remainingMs) {

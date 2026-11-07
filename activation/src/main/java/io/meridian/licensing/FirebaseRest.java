@@ -21,6 +21,7 @@ public final class FirebaseRest {
   public interface Transport {
     String request(String address, String method, String body, String contentType) throws Exception;
     default void cancel() {}
+    default long serverTimeMillis() { return 0; }
   }
   public interface Storage {
     String read() throws Exception;
@@ -76,6 +77,7 @@ public final class FirebaseRest {
   }
 
   public String uid() throws Exception { authenticate(); return identity.getString("uid"); }
+  public long serverTimeMillis() { return transport.serverTimeMillis(); }
 
   public void cancelRequests() { transport.cancel(); }
 
@@ -219,6 +221,18 @@ public final class FirebaseRest {
     database(path, "PUT", value.toString(), "&print=silent");
   }
 
+  public JSONObject shallowKeys(String path) throws Exception {
+    String raw = database(path, "GET", null, "&shallow=true");
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public void deleteCleanupData(String path) throws Exception {
+    if (!path.matches("(?:supportStaff|supportIndex|supportUsers|supportMessages|supportStates|supportContacts|supportAttachments|supportLogChunks|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators)(?:/[A-Za-z0-9_-]{1,128}){0,2}|requests/[A-Za-z0-9_-]{1,128}")) {
+      throw new IllegalArgumentException("Không được xóa dữ liệu giấy phép hoặc quyền quản trị.");
+    }
+    database(path, "DELETE", null, "&print=silent");
+  }
+
   private String database(String path, String method, String body) throws Exception {
     return database(path, method, body, "");
   }
@@ -242,7 +256,7 @@ public final class FirebaseRest {
   }
 
   private static void validatePath(String path) {
-    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
   }
@@ -252,6 +266,9 @@ public final class FirebaseRest {
   private static final class HttpTransport implements Transport {
     private final java.util.Set<HttpURLConnection> connections = new java.util.HashSet<>();
     private boolean cancelled;
+    private volatile long serverDate;
+
+    @Override public long serverTimeMillis() { return serverDate; }
 
     @Override public String request(String address, String method, String body, String contentType) throws Exception {
       HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
@@ -259,8 +276,11 @@ public final class FirebaseRest {
         if (cancelled) throw new java.io.InterruptedIOException("Đã hủy yêu cầu tải nhật ký.");
         connections.add(connection);
       }
-      try { return http(connection, address, method, body, contentType); }
-      finally {
+      try {
+        String response = http(connection, address, method, body, contentType);
+        serverDate = connection.getDate();
+        return response;
+      } finally {
         synchronized (connections) { connections.remove(connection); }
         connection.disconnect();
       }

@@ -46,13 +46,26 @@ public final class LicensePolicyTest {
     assertThrows(Exception.class, () -> LicensePolicy.verify(REQUEST, changed, issuer.getPublic()));
   }
 
-  @Test public void expiryIsExclusiveAndOfflineUseHasNoRenewalDeadline() {
+  @Test public void expiryIsExclusiveAndIndependentOfVerificationLease() {
     LicensePolicy trial = policy("active", 2000);
     assertTrue(trial.active(1999));
     assertFalse(trial.active(2000));
     assertFalse(trial.active(2001));
     assertTrue(policy("active", 0).active(10000000000L));
     assertFalse(trial.active(699));
+  }
+
+  @Test public void signedTwoDayLicenseExpiresAtItsOriginalAbsoluteDeadline() throws Exception {
+    long issued = 1_700_000_000L;
+    long expires = issued + 2 * 86_400L;
+    LicensePolicy initial = new LicensePolicy(REQUEST, 5, issued, expires,
+        "active", "trial", "basic", Collections.singleton("ocr"));
+    KeyPair issuer = key();
+    LicensePolicy received = LicensePolicy.verify(REQUEST, sign(initial, issuer), issuer.getPublic());
+    assertEquals(expires, received.expiresAt);
+    assertTrue(received.active(expires - 1));
+    assertFalse(received.active(expires));
+    assertFalse(received.allows("ocr", expires + 1000));
   }
 
   @Test public void suspendedAndRevokedPoliciesDenyAllFeaturesEvenBeforeExpiry() {

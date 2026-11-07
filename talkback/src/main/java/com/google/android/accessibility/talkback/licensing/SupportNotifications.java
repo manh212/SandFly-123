@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.core.os.UserManagerCompat;
-import io.meridian.licensing.FirebaseEvents;
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.SupportChanges;
 import io.meridian.licensing.SupportProtocol;
@@ -35,84 +34,70 @@ public final class SupportNotifications {
     LicenseNotifications.stop();
     if (current == null) return;
     current.running = false;
-    FirebaseEvents events = current.events;
-    if (events != null) events.close();
     current.thread.interrupt();
     current = null;
   }
 
   private static final class Monitor implements Runnable {
+    private static final long POLL_MS = 15 * 60 * 1000L;
     final Context context;
     final Thread thread;
     volatile boolean running = true;
-    volatile FirebaseEvents events;
-    volatile long retryDelay = 1_000;
 
     Monitor(Context context) {
       this.context = context;
-      thread = new Thread(this, "meridian-support-updates");
+      thread = new Thread(this, "meridian-support-poll");
       thread.setDaemon(true);
     }
 
     @Override public void run() {
       while (running) {
-        FirebaseRest service = null;
         try {
           if (!ApkSignatureVerifier.isOfficial(context)) return;
           if (!UserManagerCompat.isUserUnlocked(context)) {
-            Thread.sleep(5_000);
+            Thread.sleep(POLL_MS);
             continue;
           }
-          service = Enrollment.service(context);
-          FirebaseRest connected = service;
+          FirebaseRest service = Enrollment.service(context);
           SupportStore store = new SupportStore(context);
           String uid = service.uid();
           SupportChanges changes = new SupportChanges(store.notificationState(uid));
-          FirebaseEvents stream = new FirebaseEvents();
-          events = stream;
-          if (!running) { stream.close(); return; }
-          stream.read(service.eventsAddress("supportUsers/" + uid), (event, value) -> {
+          JSONObject latest = service.recent("supportUsers/" + uid, "lastAt", 100, null);
+          boolean[] delivered = {false};
+          changes.accept("put", new JSONObject().put("path", "/").put("data", latest), (ticket, item, reply) -> {
             if (!running) return;
-            boolean[] delivered = {false};
-            changes.accept(event, value, (ticket, item, reply) -> {
-              delivered[0] = true;
-              String text;
-              String identity;
-              if (reply) {
-                String messageId = item.getString("lastReplyId");
-                JSONObject message = connected.get("supportMessages/" + ticket + "/" + messageId);
-                if (!"staff".equals(message.optString("kind"))) return;
-                text = message.optString("text");
-                identity = messageId;
-              } else {
-                text = "Trạng thái mới: " + SupportProtocol.stateName(item.optString("status"));
-                identity = "status-" + item.optLong("statusAt");
-              }
-              String content = text;
-              String id = identity;
-              new Handler(Looper.getMainLooper()).post(() -> {
-                if (running) notifyUpdate(context, ticket, item.optString("subject"), content, id);
-              });
+            String message;
+            String identity;
+            if (reply) {
+              String id = item.getString("lastReplyId");
+              JSONObject content = service.get("supportMessages/" + ticket + "/" + id);
+              if (!"staff".equals(content.optString("kind"))) return;
+              message = content.optString("text");
+              identity = id;
+            } else {
+              message = "Trạng thái mới: " + SupportProtocol.stateName(item.optString("status"));
+              identity = "status-" + item.optLong("statusAt");
+            }
+            delivered[0] = true;
+            String text = message;
+            String marker = identity;
+            new Handler(Looper.getMainLooper()).post(() -> {
+              if (running) notifyUpdate(context, ticket, item.optString("subject"), text, marker);
             });
-            store.notificationState(uid, changes.saved());
-            retryDelay = 1_000;
-            if (running && delivered[0]) context.sendBroadcast(new Intent(UPDATED).setPackage(context.getPackageName()));
           });
-          stream.close();
+          store.notificationState(uid, changes.saved());
+          if (running && delivered[0]) {
+            context.sendBroadcast(new Intent(UPDATED).setPackage(context.getPackageName()));
+          }
+        } catch (InterruptedException stopped) {
+          return;
         } catch (Exception ignored) {
-          if (service != null && ignored instanceof FirebaseEvents.AuthenticationExpired) service.invalidateAuthentication();
-        } finally {
-          FirebaseEvents stream = events;
-          if (stream != null) stream.close();
-          events = null;
         }
         if (!running) return;
-        try { Thread.sleep(retryDelay); }
+        try { Thread.sleep(POLL_MS); }
         catch (InterruptedException stopped) { return; }
-        retryDelay = Math.min(60_000, retryDelay * 2);
       }
     }
-
   }
 
   static boolean enabled(Context context) {

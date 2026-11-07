@@ -8,6 +8,7 @@ import android.provider.Settings;
 import io.meridian.licensing.RecoveryProtocol;
 import io.meridian.licensing.LicensePolicy;
 import io.meridian.licensing.LicenseClock;
+import io.meridian.licensing.LicenseLease;
 import android.os.SystemClock;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
@@ -68,9 +69,83 @@ public final class DeviceLicenseManager {
     }
   }
 
+  private static SharedPreferences verification(Context context) {
+    return context.getSharedPreferences("meridian_license_verification", Context.MODE_PRIVATE);
+  }
+
+  private static boolean recentlyVerified(Context context) {
+    SharedPreferences check = verification(context);
+    long wall = System.currentTimeMillis();
+    boolean allowed = LicenseLease.valid(wall, SystemClock.elapsedRealtime(), boot(context),
+        check.getLong("server", 0), check.getLong("elapsed", -1),
+        check.getInt("boot", -2), check.getLong("highestWall", 0));
+    if (allowed && wall - check.getLong("highestWall", 0) >= 60_000L) {
+      check.edit().putLong("highestWall", wall).apply();
+    }
+    return allowed;
+  }
+
+  private static void recordVerification(Context context, long serverMillis) throws Exception {
+    if (serverMillis <= 0) return;
+    SharedPreferences check = verification(context);
+    long prior = check.getLong("server", 0);
+    if (!LicenseLease.newerVerification(serverMillis, prior)) return;
+    long wall = System.currentTimeMillis();
+    if (!check.edit().putLong("server", serverMillis).putLong("elapsed", SystemClock.elapsedRealtime())
+        .putInt("boot", boot(context)).putLong("highestWall", Math.max(wall, serverMillis))
+        .commit()) throw new IllegalStateException("Không lưu được thời điểm xác minh giấy phép.");
+  }
+
+  public static boolean offlineLocked(Context context) {
+    if (!configured() || recentlyVerified(context)) return false;
+    try {
+      String token = prefs(context).getString("policy", "");
+      if (!token.isEmpty()) {
+        LicensePolicy policy = policy(context);
+        return policy != null && policy.state.equals("active")
+            && (policy.expiresAt == 0 || policyTime(context, policy) < policy.expiresAt);
+      }
+      return !prefs(context).getString("license", "").isEmpty();
+    } catch (Exception e) { return false; }
+  }
+
+  private static volatile long lastRestrictionCheck = -1;
+  private static volatile boolean lastRestriction;
+
+  public static boolean restricted(Context context) {
+    if (!configured()) return false;
+    long now = SystemClock.elapsedRealtime();
+    if (lastRestrictionCheck >= 0 && now >= lastRestrictionCheck && now - lastRestrictionCheck < 1_000) {
+      return lastRestriction;
+    }
+    boolean blocked;
+    try {
+      String token = prefs(context).getString("policy", "");
+      if (!token.isEmpty()) {
+        LicensePolicy policy = policy(context);
+        blocked = policy == null || !policy.active(policyTime(context, policy)) || !recentlyVerified(context);
+      } else {
+        blocked = !prefs(context).getString("license", "").isEmpty() && !recentlyVerified(context);
+      }
+    } catch (Exception error) { blocked = true; }
+    lastRestriction = blocked;
+    lastRestrictionCheck = now;
+    return blocked;
+  }
+
+  public static long remainingUntilExpiryMillis(Context context) {
+    try {
+      LicensePolicy policy = policy(context);
+      if (policy == null || policy.expiresAt <= 0) return Long.MAX_VALUE;
+      long remainingSeconds = policy.expiresAt - policyTime(context, policy);
+      return remainingSeconds <= 0 ? 0 : Math.min(Long.MAX_VALUE / 1000, remainingSeconds) * 1000;
+    } catch (Exception error) { return 0; }
+  }
+
   public static boolean isLicensed(Context context) {
     if (!configured()) return false;
     try {
+      if (!recentlyVerified(context)) return false;
       String license = prefs(context).getString("license", "");
       if (!ApkSignatureVerifier.isOfficial(context)) return false;
       LicensePolicy policy = policy(context);
@@ -123,7 +198,7 @@ public final class DeviceLicenseManager {
       return false;
     }
   }
-  static synchronized void acceptRemote(Context context, String license, long serverMillis) throws Exception {
+  static synchronized boolean acceptRemote(Context context, String license, long serverMillis) throws Exception {
     if (!ApkSignatureVerifier.isOfficial(context)) throw new IllegalStateException("Bản cài đặt chưa được xác thực.");
     String request = recoveryRequest(context);
     String cached = prefs(context).getString("policy", "");
@@ -134,22 +209,26 @@ public final class DeviceLicenseManager {
           RecoveryProtocol.publicKey(BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY));
       if (old != null && (next.revision < old.revision
           || (next.revision == old.revision && !cached.equals(license)))) {
-        return;
+        return false;
       }
       SharedPreferences.Editor edit = prefs(context).edit().putString("policy", license);
       if (serverMillis > 0) {
         edit.putLong("trusted_time", serverMillis / 1000L)
-            .putLong("time_floor", serverMillis / 1000L)
+            .putLong("time_floor", Math.max(prefs(context).getLong("time_floor", 0), serverMillis / 1000L))
             .putLong("trusted_elapsed", SystemClock.elapsedRealtime() / 1000L)
             .putInt("trusted_boot", boot(context));
       }
       if (!edit.commit()) throw new IllegalStateException("Không lưu được trạng thái giấy phép.");
-    } else if (cached.isEmpty()) {
+    } else {
+      if (!cached.isEmpty()) return false;
       if (!verifiesRecovery(request, license, BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY)) {
         throw new IllegalArgumentException("Giấy phép không hợp lệ.");
       }
       save(context, license);
     }
+    recordVerification(context, serverMillis);
+    lastRestrictionCheck = -1;
+    return true;
   }
 
   private static LicensePolicy policy(Context context) throws Exception {
@@ -170,7 +249,6 @@ public final class DeviceLicenseManager {
 
   private static synchronized long policyTime(Context context, LicensePolicy policy) {
     long wall = System.currentTimeMillis() / 1000L;
-    if (policy.expiresAt == 0) return wall;
     SharedPreferences data = prefs(context);
     long floor = data.getLong("time_floor", 0);
     long trusted = data.getLong("trusted_time", 0);
@@ -186,6 +264,7 @@ public final class DeviceLicenseManager {
     if (!LicensePolicy.FEATURES.contains(feature)) return false;
     if (!configured()) return true;
     try {
+      if (!recentlyVerified(context)) return false;
       LicensePolicy policy = policy(context);
       return policy == null ? prefs(context).getString("policy", "").isEmpty()
           && (isLicensed(context) || prefs(context).getString("license", "").isEmpty())
@@ -196,6 +275,12 @@ public final class DeviceLicenseManager {
   public static String status(Context context) {
     try {
       LicensePolicy policy = policy(context);
+      if (policy != null && policy.state.equals("revoked")) return "Đã thu hồi giấy phép.";
+      if (policy != null && policy.state.equals("suspended")) return "Giấy phép đang bị tạm khóa.";
+      if (policy != null && policy.expiresAt > 0 && policyTime(context, policy) >= policy.expiresAt) {
+        return "Giấy phép đã hết hạn.";
+      }
+      if (!recentlyVerified(context)) return "Cần kết nối Internet để xác minh giấy phép (tối đa 7 ngày ngoại tuyến).";
       if (policy == null) return isLicensed(context)
           ? "Đã đăng ký · Đầy đủ tính năng · Không thời hạn" : "Chưa có giấy phép hợp lệ.";
       String state = policy.state.equals("revoked") ? "Đã thu hồi"

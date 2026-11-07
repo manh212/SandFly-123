@@ -100,6 +100,7 @@ public final class MainActivity extends ComponentActivity {
       if (issued != null) copy("Giấy phép", issued);
       else state.setText("Chưa có giấy phép để sao chép.");
     });
+    button(column, "Quản lý dữ liệu Firebase", view -> new DataCleanup(this).open());
     title(column, "Thiết bị đã cấp phép");
     deviceCount = label(column, "Đang đọc danh sách…");
     panel.attach(column);

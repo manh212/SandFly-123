@@ -1170,6 +1170,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
+    if (com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.restricted(this)) return;
     long receivedAt = SystemClock.uptimeMillis();
     boolean strict = backgroundEventGate != null && backgroundEventGate.isStrict();
     if (strict && !backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
@@ -1649,6 +1650,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   @Override
   protected final boolean onKeyEvent(KeyEvent keyEvent) {
+    if (com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.restricted(this)) return false;
     if (backgroundEventGate != null) {
       backgroundEventGate.onUserInput();
     }
@@ -2099,6 +2101,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private boolean handleOnGestureById(int displayId, int gestureId, long motionEnd) {
+    if (com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.restricted(this)) return false;
     LatencyExperiments.onInput();
     if (backgroundEventGate != null) {
       backgroundEventGate.onUserInput();

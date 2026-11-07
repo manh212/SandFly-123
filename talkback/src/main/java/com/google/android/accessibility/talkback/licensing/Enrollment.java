@@ -106,7 +106,7 @@ final class Enrollment {
         } else if (!request.equals(decision.optString("request"))) {
           throw new IllegalStateException("Phản hồi đăng ký không khớp thiết bị.");
         } else if (decision.optString("state").equals("approved")) {
-          DeviceLicenseManager.acceptRemote(app, decision.getString("policy"), 0);
+          DeviceLicenseManager.acceptRemote(app, decision.getString("policy"), service.serverTimeMillis());
           message = DeviceLicenseManager.status(app);
         } else {
           message = "Yêu cầu chưa được chấp thuận. Liên hệ quản trị viên để biết thêm.";

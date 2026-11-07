@@ -48,32 +48,32 @@ An outstanding change whose revision is older than GitHub cannot overwrite the n
 
 ## Compatibility and offline limits
 
-SFLIC1 and SFLIC2 licenses already stored on a device retain full rights and no expiry. Merely synchronizing the admin application does not migrate or restrict these licenses. SFLIC1 still depends on its original installation key. New policies use SFLIC3 and must not include a perpetual legacy fallback.
+Existing SFLIC1 and SFLIC2 licenses remain unexpired in their own token format,
+but updated clients require a successful online verification within seven days.
+Legacy SFLIC1 devices without a newer recoverable catalog record may need the
+owner to reissue an SFLIC3 license before updating the client. New policies use
+SFLIC3 and must not include a perpetual legacy fallback.
 
-While its accessibility service runs, Meridian receives signed changes through
-an authenticated Firebase REST event stream. New snapshots are verified against
-the pinned issuer, device identity and monotonic policy revision before they
-change local rights. Expiry and the existing unregistered countdown continue to
-be enforced locally. The stream reconnects with bounded backoff, renews expired
-authentication and uses the HTTPS response's server-time anchor for limited
-licenses. Reconnection receives the current stored policy, including a change
-made while the phone was offline.
+Meridian checks the signed catalog through short-lived HTTPS requests at service
+startup and approximately every six hours while the service runs. Each response
+must contain a valid signature, correct device identity, nondecreasing revision
+and server-time anchor before extending the offline verification window. An
+accepted SFLIC3 certificate carries the signed absolute issue and expiry times.
+A two-day grant expires after the signed two-day deadline even if offline.
 
-The catalog is checked once per 24 hours while the service or settings remain
-active, including startup when a check is due. Successful checks persist their
-wall time, elapsed time and boot identity; clock rollback after reboot makes a
-check due. Network or validation failures retry after fifteen minutes instead of
-every minute. Explicit recovery and initial manual activation still check the
-current remote state immediately. The activation form's existing pending-request
-checks remain available while that form is open.
+A missing, malformed, stale or unavailable remote record cannot renew the
+verification window or override a previously verified revoke. Network or
+validation failures retry after a fifteen-minute minimum interval. The client
+also checks whenever the activation form requests an explicit refresh. The
+Firebase enrollment response can anchor the first successful verification of
+an approved, signed policy.
 
-Offline use has no renewal deadline. The last verified active license works
-until its own expiry. Cached suspend and revoke states remain denied offline;
-missing, malformed, stale or unavailable remote data cannot restore an older
-grant. A signed record alone does not give a client permission to change policy
-or approve requests. The license stream is separate from support notifications;
-both consume Firebase connections and bandwidth. Spark's simultaneous connection
-allowance must cover both streams and administrator operations.
+The maximum offline verification window is seven days. When this window expires,
+license-dependent access is suspended while the accessibility service stays
+registered for eventual reconnection and automatic revalidation. The signed
+expiry may deny access sooner. A revoked policy remains denied even after
+reconnecting; only a newly signed grant with a later revision can restore it.
+No SSE connection is maintained for licensing or support notifications.
 
 ## Administrator responsiveness
 
@@ -97,3 +97,9 @@ their corresponding remote writes succeed.
 Limited licenses use HTTPS server time, elapsed realtime within a boot and a persisted time floor. A significant backward clock change across a reboot requires correcting device time or reconnecting for a trusted time anchor. These checks do not provide a tamper-proof offline clock on a rooted or patched device. Fully offline clients cannot receive a new revoke command. Older APKs do not implement the new policy checks and must be updated to honor them. R8 renames the activation implementation in both APKs and CI verifies the resulting mappings and DEX; it cannot make client code impossible to patch.
 
 Names and descriptions exist only in encrypted admin storage and access-controlled Firebase. Public GitHub catalog records contain the device hash and signed policy, including package label and feature rights. Service credentials for GitHub and the issuer's private key remain exclusively on the admin phone. Anonymous client authentication cannot grant itself administrator access, read other users' requests, edit a submitted request or issue an approval. Authentication sign-up and database quotas still apply; strong abuse prevention beyond provider quotas would require an additional trusted service or attestation design.
+
+## Offline verification lease
+
+Updated clients use short-lived HTTPS checks at startup and approximately every six hours while the accessibility service runs. A valid signed state and trustworthy server time refresh a verification lease of **seven days**. Missing data, signature failures and network errors do not refresh it. A client suspended after the lease expires automatically unlocks after it verifies an active, unexpired policy online; a revoked policy does not unlock. An explicitly signed `expiresAt` always takes precedence over the seven-day lease.
+
+See [Firebase data cleanup and bounded connections](firebase-cleanup.md) for the new notification and connection policy. Offline clocks across reboot, modified APKs and rooted devices cannot provide an absolute cryptographic guarantee without an external trusted time source.

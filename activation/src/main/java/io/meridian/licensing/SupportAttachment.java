@@ -93,7 +93,9 @@ public final class SupportAttachment {
 
   public static void download(FirebaseRest service, String ticket, String message,
       JSONObject entry, OutputStream destination) throws Exception {
-    JSONObject info = service.get("supportAttachments/" + ticket + "/" + message); validate(info);
+    JSONObject info = service.get("supportAttachments/" + ticket + "/" + message);
+    if (info.length() == 0) throw new IllegalStateException("Nhật ký đã được dọn khỏi Firebase.");
+    validate(info);
     if (entry.optInt("logBytes") != info.getInt("bytes")
         || !entry.optString("logSha256").equals(info.getString("sha256"))) {
       throw new IllegalStateException("Thông tin nhật ký không khớp tin nhắn.");
