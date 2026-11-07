@@ -688,3 +688,41 @@ test('registration entitlement survives an anonymous UID change only through a v
   await assertFails(db('bobFresh').ref('forumDailySlots/' + fingerprint + '/' + day + '/topics/0')
     .set({id:fid('8'),uid:'bobFresh',day,reservedAt:{'.sv':'timestamp'}}));
 });
+
+test('only the owner assigns the single forum developer without granting license administration', async () => {
+  const topic = await forumSetup();
+  await assertSucceeds(db('bob').ref('forumProfiles/bob').set({name:'Người dùng B'}));
+  await assertSucceeds(db('alice').ref('forumProfiles/alice').set({name:'Người dùng A'}));
+  await assertFails(db('bob').ref('forumDeveloperUid').set('bob'));
+  await assertFails(db('owner').ref('forumDeveloperUid').set('missingProfile'));
+  await assertSucceeds(db('owner').ref('forumDeveloperUid').set('bob'));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/bob').set({badge:'developer'}));
+  await assertSucceeds(db('bob').ref('forumPublicRoles/bob').once('value'));
+  await assertSucceeds(db('bob').ref('forumTopics').once('value'));
+  await assertSucceeds(db('bob').ref('forumBans/alice').set(true));
+  await assertFails(db('bob').ref('requests').once('value'));
+  await assertFails(db('bob').ref('devices').once('value'));
+  await assertFails(db('bob').ref('forumModerators/alice').set({enabled:true}));
+  await assertFails(db('alice').ref('forumDeveloperUid').remove());
+  await assertSucceeds(db('owner').ref('forumDeveloperUid').set('alice'));
+  await assertFails(db('bob').ref('forumBans/alice').remove());
+  await assertFails(db('bob').ref('forumPublicRoles/bob').once('value'));
+  await assertFails(db('owner').ref('forumPublicRoles/bob').set({badge:'developer'}));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/alice').set({badge:'developer'}));
+  await assertSucceeds(db('bob').ref('forumPublicRoles/alice').once('value'));
+  await assertSucceeds(db('alice').ref('forumTopics/' + topic).once('value'));
+});
+
+test('user reports can only target the actual article or comment author', async () => {
+  const topic = await forumSetup();
+  const good = fid('e'), bad = fid('f');
+  const entry = {uid:'bob',post:'',targetUid:'alice',createdAt:{'.sv':'timestamp'}};
+  await assertSucceeds(db('bob').ref('forumReports/' + topic + '/' + good).set(entry));
+  await assertFails(db('bob').ref('forumReports/' + topic + '/' + bad)
+    .set({...entry,targetUid:'owner'}));
+  await assertFails(db('bob').ref('forumReports/' + topic + '/' + bad)
+    .set({...entry,targetUid:'bob'}));
+  await assertFails(db('alice').ref('forumReports').once('value'));
+  await assertSucceeds(db('owner').ref('forumReports').once('value'));
+});
+

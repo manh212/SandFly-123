@@ -109,7 +109,7 @@ final class ForumAdministration {
 
   void open() {
     Screen screen = page("Quản lý diễn đàn");
-    EditText myName = input(screen.root, "Tên Nhà phát triển");
+    EditText myName = input(screen.root, "Tên quản lý diễn đàn");
     button(screen.root, "Lưu tên", () -> saveOwnerName(screen, myName.getText().toString()));
     run(screen, false, service -> {
       String current = service.get("forumProfiles/" + service.uid()).optString("name");
@@ -126,7 +126,6 @@ final class ForumAdministration {
     button(screen.root, "Dọn bản lưu", this::cleanup);
     button(screen.root, "Chuyển dữ liệu diễn đàn cũ", this::migrate);
     run(screen, true, service -> {
-      service.put("forumPublicRoles/" + service.uid(), new JSONObject().put("badge", "developer"));
       int deleted = purgeExpired(service);
       if (deleted > 0) update(screen, "Đã dọn " + deleted + " bản lưu.");
     });
@@ -149,71 +148,126 @@ final class ForumAdministration {
         updated.put("changeEvent", event);
       }
       service.put("forumProfiles/" + uid, updated);
-      service.put("forumPublicRoles/" + uid, new JSONObject().put("badge", "developer"));
       update(screen, "Đã lưu.");
     });
   }
 
   private void moderators() {
-    Screen screen = page("Người điều hành");
-    EditText query = input(screen.root, "Tên đăng ký");
-    LinearLayout results = column();
-    button(screen.root, "Tìm", () -> searchModerators(screen, results, query.getText().toString()));
-    button(screen.root, "Danh sách người điều hành", () -> currentModerators(screen, results));
-    EditText developer = input(screen.root, "UID Nhà phát triển");
-    button(screen.root, "Gắn thẻ Nhà phát triển", () -> setDeveloperBadge(screen, developer.getText().toString()));
-    screen.root.addView(results);
+    Screen screen = page("Phân quyền diễn đàn");
+    LinearLayout members = column();
+    button(screen.root, "Danh sách tất cả thành viên", () -> listMembers(screen, members));
+    button(screen.root, "Người điều hành hiện tại",
+        () -> currentModerators(screen, members));
+    button(screen.root, "Thu hồi quyền Nhà phát triển", () -> revokeDeveloper(screen, members));
+    screen.root.addView(members);
+    listMembers(screen, members);
   }
 
-  private void setDeveloperBadge(Screen screen, String requestedUid) {
-    String target = requestedUid.trim();
-    if (!ForumProtocol.validUid(target)) { update(screen, "UID không hợp lệ."); return; }
-    run(screen, true, service -> {
-      if (service.get("forumProfiles/" + target).length() == 0) {
-        throw new IllegalStateException("Không tìm thấy tên hiển thị.");
-      }
-      service.put("forumPublicRoles/" + target,
-          new JSONObject().put("badge", "developer"));
-      update(screen, "Đã gắn thẻ.");
-    });
-  }
-
-  private void searchModerators(Screen screen, LinearLayout results, String search) {
-    String keyword = search.trim().toLowerCase(Locale.ROOT);
-    if (keyword.isEmpty()) { update(screen, "Nhập tên đăng ký."); return; }
+  private void listMembers(Screen screen, LinearLayout results) {
     run(screen, false, service -> {
+      JSONObject profiles = service.get("forumProfiles");
       JSONObject requests = service.get("requests");
-      List<String> labels = new ArrayList<>(), uids = new ArrayList<>();
+      String developer;
+      try {
+        developer = service.string("forumDeveloperUid");
+      } catch (FirebaseRest.PermissionDenied missingRules) {
+        developer = "";
+      }
+      java.util.Map<String, String> people = new java.util.HashMap<>();
       for (java.util.Iterator<String> it = requests.keys(); it.hasNext();) {
         String uid = it.next();
-        JSONObject entry = requests.optJSONObject(uid);
-        if (entry == null || !entry.optString("name").toLowerCase(Locale.ROOT).contains(keyword)) continue;
-        JSONObject decision = service.get("decisions/" + uid);
-        if (!"approved".equals(decision.optString("state"))) continue;
-        String request = entry.optString("request");
-        String token = decision.optString("policy");
-        LicensePolicy license;
-        try {
-          license = LicensePolicy.verify(request, token,
-              RecoveryProtocol.publicKey(IssuerKeys.publicKey()));
-        } catch (Exception invalid) { continue; }
-        if (!license.active(service.serverTimeMillis() / 1000L)) continue;
-        String device = RecoveryProtocol.deviceId(request);
-        JSONObject current = service.get("devices/" + device);
-        if (!token.equals(current.optString("value"))) continue;
-        labels.add(entry.optString("name") + " · " + uid.substring(0, Math.min(8, uid.length()))
-            + " · " + device.substring(0, 12));
-        uids.add(uid);
+        JSONObject person = requests.optJSONObject(uid);
+        if (ForumProtocol.validUid(uid) && person != null) {
+          people.put(uid, person.optString("name", "Thành viên"));
+        }
       }
+      for (java.util.Iterator<String> it = profiles.keys(); it.hasNext();) {
+        String uid = it.next();
+        JSONObject person = profiles.optJSONObject(uid);
+        if (ForumProtocol.validUid(uid) && person != null) {
+          people.put(uid, person.optString("name", people.getOrDefault(uid, "Thành viên")));
+        }
+      }
+      List<String> uids = new ArrayList<>(people.keySet());
+      uids.sort((a, b) -> {
+        int byName = people.get(a).compareToIgnoreCase(people.get(b));
+        return byName != 0 ? byName : a.compareTo(b);
+      });
       ui(screen, () -> {
         results.removeAllViews();
-        for (int i = 0; i < uids.size(); i++) {
-          String uid = uids.get(i);
-          button(results, "Bổ nhiệm: " + labels.get(i), () -> appoint(screen, uid));
+        text(results, developer.isEmpty() ? "Chưa bổ nhiệm Nhà phát triển."
+            : "Nhà phát triển hiện tại: " + people.getOrDefault(developer, "Thành viên") + " · " + developer);
+        for (String uid : uids) {
+          String name = people.get(uid);
+          text(results, name + " · " + uid);
+          button(results, "Bổ nhiệm Quản trị viên: " + name, () -> appoint(screen, uid));
+          if (!uid.equals(developer)) {
+            button(results, "Bổ nhiệm Nhà phát triển: " + name,
+                () -> appointDeveloper(screen, uid, results));
+          }
         }
-        if (uids.isEmpty()) screen.status.setText("Không tìm thấy thiết bị phù hợp.");
+        if (uids.isEmpty()) screen.status.setText("Chưa có thành viên.");
       });
     });
+  }
+
+  private void appointDeveloper(Screen screen, String target, LinearLayout members) {
+    run(screen, true, service -> {
+      if (!ForumProtocol.validUid(target)
+          || service.get("forumProfiles/" + target).length() == 0) {
+        update(screen, "Thành viên chưa có hồ sơ diễn đàn.");
+        return;
+      }
+      service.putString("forumDeveloperUid", target);
+      JSONObject old = service.get("forumPublicRoles");
+      JSONObject changes = new JSONObject();
+      for (java.util.Iterator<String> it = old.keys(); it.hasNext();) {
+        String uid = it.next();
+        JSONObject role = old.optJSONObject(uid);
+        if (!target.equals(uid) && role != null
+            && "developer".equals(role.optString("badge"))) {
+          changes.put("forumPublicRoles/" + uid, JSONObject.NULL);
+        }
+      }
+      changes.put("forumPublicRoles/" + target,
+          new JSONObject().put("badge", "developer"));
+      service.update(changes);
+      update(screen, "Đã bổ nhiệm một Nhà phát triển.");
+      listMembers(screen, members);
+    });
+  }
+
+  private void revokeDeveloper(Screen screen, LinearLayout members) {
+    run(screen, true, service -> {
+      String selected;
+      try {
+        selected = service.string("forumDeveloperUid");
+      } catch (FirebaseRest.PermissionDenied missingRules) {
+        update(screen, "Hãy cập nhật Firebase Rules trước.");
+        return;
+      }
+      if (selected.isEmpty()) {
+        update(screen, "Chưa có Nhà phát triển.");
+        return;
+      }
+      JSONObject changes = new JSONObject()
+          .put("forumDeveloperUid", JSONObject.NULL);
+      JSONObject role = service.get("forumPublicRoles/" + selected);
+      if ("developer".equals(role.optString("badge"))) {
+        changes.put("forumPublicRoles/" + selected, JSONObject.NULL);
+      }
+      service.update(changes);
+      update(screen, "Đã thu hồi quyền Nhà phát triển.");
+      listMembers(screen, members);
+    });
+  }
+
+  private boolean selectedDeveloper(FirebaseRest service, String uid) throws Exception {
+    try {
+      return uid.equals(service.string("forumDeveloperUid"));
+    } catch (FirebaseRest.PermissionDenied missingRules) {
+      return false;
+    }
   }
 
   private void appoint(Screen screen, String uid) {
@@ -231,7 +285,9 @@ final class ForumAdministration {
           .put("policy", decision.getString("policy"))
           .put("expiresAt", license.expiresAt == 0 ? 0 : license.expiresAt * 1000L)
           .put("decisionAt", decision.getLong("decidedAt")));
-      service.put("forumPublicRoles/" + uid, new JSONObject().put("badge", "moderator"));
+      if (!selectedDeveloper(service, uid)) {
+        service.put("forumPublicRoles/" + uid, new JSONObject().put("badge", "moderator"));
+      }
       update(screen, "Đã bổ nhiệm.");
     });
   }
@@ -252,7 +308,9 @@ final class ForumAdministration {
           String uid = users.get(i);
           button(result, "Bãi nhiệm: " + names.get(i), () -> run(screen, true, service2 -> {
             service2.deleteForumReaction("forumModerators/" + uid);
-            service2.deleteCleanupData("forumPublicRoles/" + uid);
+            if (!selectedDeveloper(service2, uid)) {
+              service2.deleteCleanupData("forumPublicRoles/" + uid);
+            }
             update(screen, "Đã bãi nhiệm.");
             currentModerators(screen, result);
           }));

@@ -2,6 +2,7 @@ package com.google.android.accessibility.talkback.licensing;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
+import android.content.SharedPreferences;
 import androidx.core.view.ViewCompat;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -172,6 +173,83 @@ public final class ForumActivity extends ComponentActivity {
     return name;
   }
 
+
+  private SharedPreferences readState() {
+    return getSharedPreferences("meridian_forum_read_state", MODE_PRIVATE);
+  }
+
+  private int newCommentCount(FirebaseRest service, String topicId, String self,
+      long lastReadAt) throws Exception {
+    int count = 0;
+    String before = null;
+    for (;;) {
+      JSONObject batch = service.recent("forumPosts/" + topicId, "$key", 100, before);
+      List<String> posts = ForumProtocol.newest(batch);
+      if (posts.isEmpty()) break;
+      boolean finished = false;
+      for (String postId : posts) {
+        if (postId.equals(before)) continue;
+        JSONObject post = batch.optJSONObject(postId);
+        if (post == null) continue;
+        long postedAt = post.optLong("createdAt");
+        if (postedAt <= lastReadAt) {
+          finished = true;
+          break;
+        }
+        if (!self.equals(post.optString("uid"))) count++;
+      }
+      String oldest = posts.get(posts.size() - 1);
+      if (finished || posts.size() < 100 || oldest.equals(before)) break;
+      before = oldest;
+    }
+    return count;
+  }
+
+  private Map<String,Integer> newMentionCounts(FirebaseRest service, String self,
+      List<String> topicIds, SharedPreferences state) throws Exception {
+    Map<String,Integer> counts = new HashMap<>();
+    long earliest = Long.MAX_VALUE;
+    for (String id : topicIds) {
+      long lastRead = state.getLong("seen:" + id, 0);
+      if (lastRead > 0) earliest = Math.min(earliest, lastRead);
+    }
+    if (earliest == Long.MAX_VALUE) return counts;
+    Set<String> counted = new HashSet<>();
+    String before = null;
+    for (;;) {
+      JSONObject batch = service.recent("forumNotices/" + self, "$key", 100, before);
+      List<String> notices = new ArrayList<>();
+      for (java.util.Iterator<String> keys = batch.keys(); keys.hasNext();) {
+        notices.add(keys.next());
+      }
+      Collections.sort(notices, Collections.reverseOrder());
+      if (notices.isEmpty()) break;
+      boolean finished = false;
+      for (String key : notices) {
+        if (key.equals(before)) continue;
+        JSONObject notice = batch.optJSONObject(key);
+        if (notice == null) continue;
+        long createdAt = notice.optLong("createdAt");
+        if (createdAt <= earliest) {
+          finished = true;
+          break;
+        }
+        String topicId = notice.optString("topic");
+        if (!topicIds.contains(topicId)
+            || createdAt <= state.getLong("seen:" + topicId, 0)) continue;
+        String kind = notice.optString("kind");
+        if (!"mention".equals(kind) && !"reply".equals(kind)) continue;
+        if (counted.add(topicId + "/" + notice.optString("post"))) {
+          counts.put(topicId, counts.getOrDefault(topicId, 0) + 1);
+        }
+      }
+      String oldest = notices.get(notices.size() - 1);
+      if (finished || notices.size() < 100 || oldest.equals(before)) break;
+      before = oldest;
+    }
+    return counts;
+  }
+
   private void home() {
     screen = 0;
     page("Diễn đàn cộng đồng");
@@ -186,7 +264,7 @@ public final class ForumActivity extends ComponentActivity {
     int target = generation;
     work(() -> {
       ForumCommunityService service = new ForumCommunityService(this);
-      if (service.isModerator() || Enrollment.service(this).flag("admins/" + service.uid())) {
+      if (service.isModerator() || service.isOwner()) {
         ui(target, () -> button("Điều hành", this::moderation));
       }
     });
@@ -258,6 +336,10 @@ public final class ForumActivity extends ComponentActivity {
       });
       Map<String,String> names = new HashMap<>();
       String self = service.uid();
+      ForumCommunityService roles = new ForumCommunityService(this);
+      boolean owner = roles.isOwner();
+      boolean staff = owner || roles.isModerator();
+      JSONObject bans = owner ? service.get("forumBans") : new JSONObject();
       List<String> labels = new ArrayList<>(), visible = new ArrayList<>();
       List<Boolean> likedStates = new ArrayList<>();
       for (String id : ids) {
@@ -269,6 +351,23 @@ public final class ForumActivity extends ComponentActivity {
             + (record.optBoolean("locked") ? " · Đã khóa" : ""));
         visible.add(id);
         likedStates.add(service.get("forumTopicLikes/" + id + "/" + self).length() > 0);
+      }
+      SharedPreferences state = readState();
+      Map<String,Integer> mentionCounts = newMentionCounts(service, self, visible, state);
+      for (int i = 0; i < visible.size(); i++) {
+        String id = visible.get(i);
+        long seenAt = state.getLong("seen:" + id, 0);
+        if (seenAt == 0) continue;
+        JSONObject record = records.optJSONObject(id);
+        int unread = record != null && record.optLong("lastAt") > seenAt
+            ? newCommentCount(service, id, self, seenAt) : 0;
+        int mentions = mentionCounts.getOrDefault(id, 0);
+        if (unread > 0 || mentions > 0) {
+          StringBuilder summary = new StringBuilder(labels.get(i));
+          if (unread > 0) summary.append(" · ").append(unread).append(" bình luận mới");
+          if (mentions > 0) summary.append(" · ").append(mentions).append(" lượt nhắc đến");
+          labels.set(i, summary.toString());
+        }
       }
       ui(target, () -> {
         for (int i = 0; i < visible.size(); i++) {
@@ -283,6 +382,30 @@ public final class ForumActivity extends ComponentActivity {
           forumAction(item, liked ? "Bỏ thích bài viết" : "Thích bài viết",
               () -> toggleTopicLikeInList(id, selected, before));
           forumAction(item, "Báo cáo bài viết", () -> report(id, ""));
+          String authorUid = record.optString("uid");
+          if (!self.equals(authorUid)) {
+            forumAction(item, "Báo cáo người đăng",
+                () -> reportPerson(id, "", authorUid));
+          }
+          if (staff) {
+            boolean pinnedItem = pinned.has(id);
+            forumAction(item, pinnedItem ? "Bỏ ghim bài viết" : "Ghim bài viết",
+                () -> inlinePin(id, "", !pinnedItem, "list:" + id, selected, before));
+            if (!own) {
+              String neighbor = i + 1 < visible.size() ? visible.get(i + 1)
+                  : i > 0 ? visible.get(i - 1) : "";
+              forumAction(item, "Xóa bài viết",
+                  () -> removeAsModerator(id, "", neighbor.isEmpty() ? null : "list:" + neighbor,
+                      selected, before));
+              forumAction(item, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+                  () -> changeTopicLockInList(id, !locked, selected, before));
+            }
+          }
+          if (owner && !self.equals(authorUid)) {
+            boolean blocked = bans.has(authorUid);
+            forumAction(item, blocked ? "Bỏ chặn người đăng" : "Chặn người đăng",
+                () -> blockMember(authorUid, !blocked));
+          }
           if (own) {
             forumAction(item, "Sửa bài viết",
                 () -> edit(id, "", record.optString("title"), record.optString("body")));
@@ -343,6 +466,10 @@ public final class ForumActivity extends ComponentActivity {
     work(() -> {
       FirebaseRest service = Enrollment.service(this);
       String self = service.uid();
+      ForumCommunityService roles = new ForumCommunityService(this);
+      boolean owner = roles.isOwner();
+      boolean staff = owner || roles.isModerator();
+      JSONObject bans = owner ? service.get("forumBans") : new JSONObject();
       JSONObject data = service.get("forumTopics/" + id);
       if (data.length() == 0) throw new IllegalStateException("Không tìm thấy chủ đề.");
       if (data.has("pollOptions")) {
@@ -369,12 +496,29 @@ public final class ForumActivity extends ComponentActivity {
       Map<String,String> names = new HashMap<>();
       String author = displayName(service, data.optString("uid"), names);
       Map<String,Boolean> liked = new HashMap<>();
+      Map<String,String> replyContext = new HashMap<>();
       boolean topicLiked = service.get("forumTopicLikes/" + id + "/" + self).length() > 0;
       for (String post : ids) {
         JSONObject item = records.optJSONObject(post);
         if (item == null) continue;
         displayName(service, item.optString("uid"), names);
         liked.put(post, service.get("forumPostLikes/" + id + "/" + post + "/" + self).length() > 0);
+        String parent = item.optString("parent");
+        if (ForumProtocol.validId(parent)) {
+          JSONObject original = records.optJSONObject(parent);
+          if (original == null) original = service.get("forumPosts/" + id + "/" + parent);
+          if (original.length() > 0) {
+            String parentName = displayName(service, original.optString("uid"), names);
+            String parentText = original.optString("text");
+            if (parentText.length() > 180) parentText = parentText.substring(0, 180) + "…";
+            replyContext.put(post, " · Trả lời " + parentName + ": " + parentText);
+          } else {
+            replyContext.put(post, " · Trả lời bình luận không còn hiển thị");
+          }
+        } else if (ForumProtocol.validUid(item.optString("mention"))) {
+          String targetName = displayName(service, item.optString("mention"), names);
+          replyContext.put(post, " · Nhắc đến " + targetName);
+        }
       }
       String fingerprint = service.get("forumIdentity/" + self).optString("fingerprint");
       boolean hasVoted = service.get("forumPollVotes/" + id + "/" + self).length() > 0;
@@ -385,6 +529,14 @@ public final class ForumActivity extends ComponentActivity {
       boolean locked = data.optBoolean("locked");
       boolean own = self.equals(data.optString("uid"));
       boolean pinned = service.flag("forumPinnedTopics/" + id);
+      if (before == null) {
+        long seenAt = service.serverTimeMillis();
+        if (seenAt > 0) {
+          SharedPreferences state = readState();
+          long previous = state.getLong("seen:" + id, 0);
+          state.edit().putLong("seen:" + id, Math.max(previous, seenAt)).apply();
+        }
+      }
       ui(target, () -> {
         String articleLabel = ForumProtocol.categoryName(data.optString("category"))
             + " · " + data.optString("title") + (pinned ? " · Đã ghim" : "")
@@ -396,6 +548,31 @@ public final class ForumActivity extends ComponentActivity {
         forumAction(article, topicLiked ? "Bỏ thích bài viết" : "Thích bài viết",
             () -> toggleLike(id, ""));
         forumAction(article, "Báo cáo bài viết", () -> report(id, ""));
+        String topicAuthorUid = data.optString("uid");
+        if (!self.equals(topicAuthorUid)) {
+          forumAction(article, "Báo cáo người đăng",
+              () -> reportPerson(id, "", topicAuthorUid));
+        }
+        if (staff) {
+          forumAction(article, pinned ? "Bỏ ghim bài viết" : "Ghim bài viết",
+              () -> inlinePin(id, "", !pinned, "topic:" + id, "", null));
+          if (!own) {
+            forumAction(article, "Xóa bài viết",
+                () -> removeAsModerator(id, "", null, category, null));
+            forumAction(article, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+                () -> changeLocked(id, !locked));
+          }
+          for (int stars = 1; stars <= 5; stars++) {
+            int selected = stars;
+            forumAction(article, selected + " sao",
+                () -> inlineRate(id, selected));
+          }
+        }
+        if (owner && !self.equals(topicAuthorUid)) {
+          boolean blocked = bans.has(topicAuthorUid);
+          forumAction(article, blocked ? "Bỏ chặn người đăng" : "Chặn người đăng",
+              () -> blockMember(topicAuthorUid, !blocked));
+        }
         if (own) {
           forumAction(article, "Sửa bài viết",
               () -> edit(id, "", data.optString("title"), data.optString("body")));
@@ -415,7 +592,8 @@ public final class ForumActivity extends ComponentActivity {
           boolean commentPinned = pinnedPosts.has(postId);
           TextView comment = forumItem(
               (commentPinned ? "Đã ghim · " : "") + postAuthor + ": " + post.optString("text")
-                  + (post.has("editedAt") ? " · Đã chỉnh sửa" : ""),
+                  + (post.has("editedAt") ? " · Đã chỉnh sửa" : "")
+                  + replyContext.getOrDefault(postId, ""),
               locked ? null : () -> composePost(id, postId, ""));
           String parent = post.optString("parent");
           if (!parent.isEmpty()) {
@@ -425,12 +603,33 @@ public final class ForumActivity extends ComponentActivity {
               Boolean.TRUE.equals(liked.get(postId)) ? "Bỏ thích bình luận" : "Thích bình luận",
               () -> toggleLike(id, postId));
           forumAction(comment, "Báo cáo bình luận", () -> report(id, postId));
-          if (!locked) {
-            forumAction(comment, "Trả lời bình luận", () -> composePost(id, postId, ""));
-            forumAction(comment, "Nhắc đến " + postAuthor,
-                () -> composePost(id, "", post.optString("uid")));
+          String commentAuthorUid = post.optString("uid");
+          if (!self.equals(commentAuthorUid)) {
+            forumAction(comment, "Báo cáo người bình luận",
+                () -> reportPerson(id, postId, commentAuthorUid));
           }
-          if (self.equals(post.optString("uid"))) {
+          if (!locked) {
+            forumAction(comment, "Trả lời " + postAuthor,
+                () -> composePost(id, postId, commentAuthorUid));
+          }
+          if (staff) {
+            forumAction(comment, commentPinned ? "Bỏ ghim bình luận" : "Ghim bình luận",
+                () -> inlinePin(id, postId, !commentPinned, "post:" + postId, "", null));
+            if (!self.equals(commentAuthorUid)) {
+              int index = ids.indexOf(postId);
+              String neighbor = index + 1 < ids.size() ? ids.get(index + 1)
+                  : index > 0 ? ids.get(index - 1) : "";
+              forumAction(comment, "Xóa bình luận",
+                  () -> removeAsModerator(id, postId,
+                      neighbor.isEmpty() ? "topic:" + id : "post:" + neighbor, "", null));
+            }
+          }
+          if (owner && !self.equals(commentAuthorUid)) {
+            boolean blocked = bans.has(commentAuthorUid);
+            forumAction(comment, blocked ? "Bỏ chặn người bình luận" : "Chặn người bình luận",
+                () -> blockMember(commentAuthorUid, !blocked));
+          }
+          if (self.equals(commentAuthorUid)) {
             forumAction(comment, "Sửa bình luận",
                 () -> edit(id, postId, "", post.optString("text")));
             int index = ids.indexOf(postId);
@@ -689,6 +888,81 @@ public final class ForumActivity extends ComponentActivity {
     });
   }
 
+  private void reportPerson(String topic, String post, String memberUid) {
+    String key = "user:" + topic + "/" + post + "/" + memberUid;
+    if (submittedReports.contains(key)) {
+      status.setText("Đã báo cáo người dùng.");
+      return;
+    }
+    if (!pendingReports.add(key)) return;
+    int expected = generation;
+    status.setText("Đang báo cáo người dùng…");
+    IO.execute(() -> {
+      boolean success;
+      try {
+        new ForumCommunityService(this).reportUser(topic, post, memberUid);
+        success = true;
+      } catch (Exception error) {
+        success = false;
+      }
+      boolean sent = success;
+      runOnUiThread(() -> {
+        pendingReports.remove(key);
+        if (sent) submittedReports.add(key);
+        if (generation == expected && !isFinishing() && !isDestroyed()) {
+          status.setText(sent ? "Đã báo cáo người dùng."
+              : "Không gửi được báo cáo người dùng.");
+        }
+      });
+    });
+  }
+
+  private void blockMember(String memberUid, boolean blocked) {
+    int expected = generation;
+    work(() -> {
+      new ForumCommunityService(this).blockUser(memberUid, blocked);
+      ui(expected, () -> status.setText(blocked ? "Đã chặn thành viên."
+          : "Đã bỏ chặn thành viên."));
+    });
+  }
+
+  private void inlinePin(String id, String post, boolean pinned, String focus,
+      String selected, Long before) {
+    int expected = generation;
+    work(() -> {
+      new ForumCommunityService(this).setPinned(id, post, pinned);
+      ui(expected, () -> {
+        focusAfterRefresh = focus;
+        if (focus.startsWith("list:")) topics(selected, before);
+        else thread(id, null);
+      });
+    });
+  }
+
+  private void inlineRate(String id, int stars) {
+    int expected = generation;
+    work(() -> {
+      new ForumCommunityService(this).rateTopic(id, stars);
+      ui(expected, () -> {
+        focusAfterRefresh = "topic:" + id;
+        thread(id, null);
+      });
+    });
+  }
+
+  private void removeAsModerator(String id, String post, String focus,
+      String selected, Long before) {
+    int expected = generation;
+    work(() -> {
+      new ForumCommunityService(this).hide(id, post);
+      ui(expected, () -> {
+        focusAfterRefresh = focus;
+        if (post.isEmpty()) topics(selected, before);
+        else thread(id, null);
+      });
+    });
+  }
+
   private void report(String id, String post) {
     String key = id + "/" + post;
     if (submittedReports.contains(key)) {
@@ -762,12 +1036,14 @@ public final class ForumActivity extends ComponentActivity {
     work(() -> {
       FirebaseRest service = Enrollment.service(this);
       ForumCommunityService client = new ForumCommunityService(this);
-      if (!client.isModerator() && !service.flag("admins/" + client.uid())) {
+      if (!client.isModerator() && !client.isOwner()) {
         ui(expected, () -> status.setText("Không thực hiện được."));
         return;
       }
       JSONObject topics = service.get("forumReports");
-      List<String> items = new ArrayList<>(), posts = new ArrayList<>(), labels = new ArrayList<>();
+      boolean owner = client.isOwner();
+      List<String> items = new ArrayList<>(), posts = new ArrayList<>(),
+          labels = new ArrayList<>(), reportedUsers = new ArrayList<>();
       for (java.util.Iterator<String> keys = topics.keys(); keys.hasNext();) {
         String thread = keys.next();
         JSONObject reports = topics.optJSONObject(thread);
@@ -776,11 +1052,14 @@ public final class ForumActivity extends ComponentActivity {
           JSONObject report = reports.optJSONObject(rk.next());
           if (report == null) continue;
           String post = report.optString("post");
-          String key = thread + "/" + post;
+          String key = thread + "/" + post + "/" + report.optString("targetUid");
           if (items.contains(key)) continue;
           items.add(key);
           posts.add(post);
-          labels.add(post.isEmpty() ? "Báo cáo chủ đề" : "Báo cáo bình luận");
+          String reported = report.optString("targetUid");
+          reportedUsers.add(reported);
+          labels.add(ForumProtocol.validUid(reported) ? "Báo cáo người dùng"
+              : post.isEmpty() ? "Báo cáo chủ đề" : "Báo cáo bình luận");
         }
       }
       ui(expected, () -> {
@@ -788,9 +1067,13 @@ public final class ForumActivity extends ComponentActivity {
         for (int i = 0; i < items.size(); i++) {
           String[] parts = items.get(i).split("/", -1);
           String id = parts[0], post = posts.get(i);
+          String reportedUid = reportedUsers.get(i);
           text(labels.get(i));
           button("Xem chủ đề", () -> thread(id, null));
           button(post.isEmpty() ? "Ẩn chủ đề" : "Ẩn bình luận", () -> hide(id, post));
+          if (ForumProtocol.validUid(reportedUid) && owner) {
+            button("Chặn người dùng", () -> blockMember(reportedUid, true));
+          }
         }
       });
     });

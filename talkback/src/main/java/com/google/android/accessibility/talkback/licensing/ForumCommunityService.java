@@ -21,7 +21,12 @@ final class ForumCommunityService {
   String uid() { return uid; }
 
   boolean isOwner() throws Exception {
-    return firebase.flag("admins/" + uid);
+    if (firebase.flag("admins/" + uid)) return true;
+    try {
+      return uid.equals(firebase.string("forumDeveloperUid"));
+    } catch (FirebaseRest.PermissionDenied ignored) {
+      return false;
+    }
   }
 
   String authorLabel(String author) throws Exception {
@@ -254,6 +259,37 @@ final class ForumCommunityService {
     if (isModerator()) hide(topic, post);
   }
 
+  void reportUser(String topic, String post, String target) throws Exception {
+    if (!ForumProtocol.validId(topic) || (!post.isEmpty() && !ForumProtocol.validId(post))
+        || !ForumProtocol.validUid(target) || uid.equals(target)) {
+      throw new IllegalArgumentException("Tài khoản không hợp lệ.");
+    }
+    bindInstallation();
+    JSONObject entry = firebase.get(post.isEmpty() ? "forumTopics/" + topic
+        : "forumPosts/" + topic + "/" + post);
+    if (!target.equals(entry.optString("uid"))) {
+      throw new IllegalArgumentException("Không tìm thấy tài khoản.");
+    }
+    firebase.put("forumReports/" + topic + "/" + ForumProtocol.id(),
+        new JSONObject().put("uid", uid).put("post", post)
+            .put("targetUid", target).put("createdAt", FirebaseRest.timestamp()));
+  }
+
+  void blockUser(String target, boolean blocked) throws Exception {
+    if (!isOwner() || !ForumProtocol.validUid(target) || uid.equals(target)) {
+      throw new SecurityException("Không thực hiện được.");
+    }
+    String fingerprint = firebase.get("forumIdentity/" + target).optString("fingerprint");
+    String own = firebase.get("forumIdentity/" + uid).optString("fingerprint");
+    if (!fingerprint.matches("[0-9a-f]{64}") || fingerprint.equals(own)) {
+      throw new IllegalStateException("Không tìm thấy thiết bị người dùng.");
+    }
+    JSONObject changes = new JSONObject()
+        .put("forumBans/" + target, blocked ? true : JSONObject.NULL)
+        .put("forumDeviceBans/" + fingerprint, blocked ? true : JSONObject.NULL);
+    firebase.update(changes);
+  }
+
   void updateOwnTopic(String topic, String newTitle, String newBody) throws Exception {
     if (!ForumProtocol.validId(topic)) throw new IllegalArgumentException("Chủ đề không hợp lệ.");
     ensureCanWrite();
@@ -319,15 +355,21 @@ final class ForumCommunityService {
   private void notifyReplies(String topic, String post, String parent, String mention) {
     try {
       JSONObject entry = firebase.get("forumTopics/" + topic);
+      String parentAuthor = "";
       if (!parent.isEmpty()) {
-        String to = firebase.get("forumPosts/" + topic + "/" + parent).optString("uid");
-        if (!to.isEmpty() && !to.equals(uid)) deliverNotice(to, topic, post, "reply");
+        parentAuthor = firebase.get("forumPosts/" + topic + "/" + parent).optString("uid");
+        if (!parentAuthor.isEmpty() && !parentAuthor.equals(uid)) {
+          deliverNotice(parentAuthor, topic, post,
+              parentAuthor.equals(mention) ? "mention" : "reply");
+        }
       }
       String origin = entry.optString("uid");
       if (!origin.isEmpty() && !origin.equals(uid) && parent.isEmpty()) {
         deliverNotice(origin, topic, post, "reply");
       }
-      if (!mention.isEmpty() && !mention.equals(uid)) deliverNotice(mention, topic, post, "mention");
+      if (!mention.isEmpty() && !mention.equals(uid) && !mention.equals(parentAuthor)) {
+        deliverNotice(mention, topic, post, "mention");
+      }
     } catch (Exception ignored) {}
   }
 

@@ -155,6 +155,17 @@ public final class FirebaseRest {
     return database(path, "GET", null).trim().equals("true");
   }
 
+  public String string(String path) throws Exception {
+    String value = database(path, "GET", null).trim();
+    if ("null".equals(value)) return "";
+    Object parsed = new org.json.JSONTokener(value).nextValue();
+    return parsed instanceof String ? (String) parsed : "";
+  }
+
+  public void putString(String path, String value) throws Exception {
+    database(path, "PUT", JSONObject.quote(value), "&print=silent");
+  }
+
   public JSONObject recent(String path, String order, int limit, String before) throws Exception {
     if (!order.matches("\\$key|lastAt|request") || limit < 1 || limit > 100) {
       throw new IllegalArgumentException("Bộ lọc dữ liệu không hợp lệ.");
@@ -284,6 +295,7 @@ public final class FirebaseRest {
   }
 
   private static void validatePath(String path) {
+    if ("forumDeveloperUid".equals(path)) return;
     if (path.startsWith("supportUsers/")) {
       String[] segments = path.split("/");
       if (segments.length > 4 || (segments.length == 4
