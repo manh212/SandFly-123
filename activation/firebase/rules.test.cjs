@@ -664,8 +664,28 @@ test('legacy public names remain unreadable before owner completes migration', a
   } catch (failure) {
     const coverage = await fetch('http://127.0.0.1:9000/.inspect/coverage.json?ns=demo-meridian-licensing-default-rtdb');
     const dump = await coverage.text();
-    console.log('FORUM_MIGRATION_DIAGNOSTIC', coverage.status, dump.length,
-      dump.slice(0, 18000), 'COVERAGE_TAIL', dump.slice(-12000));
+    const raw = JSON.parse(dump);
+    const report = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    console.log('FORUM_COVERAGE_META', Object.keys(report),
+      Object.entries(report).map(([key, value]) => [key,
+        Array.isArray(value) ? value.length : typeof value]));
+    const evaluated = [];
+    function collect(value) {
+      if (Array.isArray(value)) return value.forEach(collect);
+      if (value === null || typeof value !== 'object') return;
+      if (typeof value['location-start'] === 'string' && Array.isArray(value.values)
+          && value.values.length > 0) {
+        const line = Number(value['location-start'].split(':')[0]);
+        if (line >= 351 && line <= 455) evaluated.push({
+          line: value['location-start'], text: String(value.text || '').slice(0, 140),
+          values: value.values.slice(-4)
+        });
+      }
+      Object.values(value).forEach(collect);
+    }
+    collect(report);
+    console.log('FORUM_COVERAGE_EVAL', JSON.stringify(evaluated
+      .sort((a, b) => b.text.length - a.text.length).slice(0, 110)).slice(0, 30000));
     throw failure;
   }
   await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
