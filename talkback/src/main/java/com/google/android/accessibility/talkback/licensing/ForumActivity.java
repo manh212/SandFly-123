@@ -210,7 +210,7 @@ public final class ForumActivity extends ComponentActivity {
     Map<String,Integer> counts = new HashMap<>();
     long earliest = Long.MAX_VALUE;
     for (String id : topicIds) {
-      long lastRead = state.getLong("seen:" + id, 0);
+      long lastRead = state.getLong("seen:" + self + ":" + id, 0);
       if (lastRead > 0) earliest = Math.min(earliest, lastRead);
     }
     if (earliest == Long.MAX_VALUE) return counts;
@@ -236,7 +236,7 @@ public final class ForumActivity extends ComponentActivity {
         }
         String topicId = notice.optString("topic");
         if (!topicIds.contains(topicId)
-            || createdAt <= state.getLong("seen:" + topicId, 0)) continue;
+            || createdAt <= state.getLong("seen:" + self + ":" + topicId, 0)) continue;
         String kind = notice.optString("kind");
         if (!"mention".equals(kind) && !"reply".equals(kind)) continue;
         if (counted.add(topicId + "/" + notice.optString("post"))) {
@@ -356,7 +356,7 @@ public final class ForumActivity extends ComponentActivity {
       Map<String,Integer> mentionCounts = newMentionCounts(service, self, visible, state);
       for (int i = 0; i < visible.size(); i++) {
         String id = visible.get(i);
-        long seenAt = state.getLong("seen:" + id, 0);
+        long seenAt = state.getLong("seen:" + self + ":" + id, 0);
         if (seenAt == 0) continue;
         JSONObject record = records.optJSONObject(id);
         int unread = record != null && record.optLong("lastAt") > seenAt
@@ -533,8 +533,8 @@ public final class ForumActivity extends ComponentActivity {
         long seenAt = service.serverTimeMillis();
         if (seenAt > 0) {
           SharedPreferences state = readState();
-          long previous = state.getLong("seen:" + id, 0);
-          state.edit().putLong("seen:" + id, Math.max(previous, seenAt)).apply();
+          long previous = state.getLong("seen:" + self + ":" + id, 0);
+          state.edit().putLong("seen:" + self + ":" + id, Math.max(previous, seenAt)).apply();
         }
       }
       ui(target, () -> {
