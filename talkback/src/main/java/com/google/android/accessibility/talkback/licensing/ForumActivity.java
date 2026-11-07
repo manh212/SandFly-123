@@ -404,9 +404,9 @@ public final class ForumActivity extends ComponentActivity {
               forumAction(item, "Xóa bài viết",
                   () -> removeAsModerator(id, "", neighbor.isEmpty() ? null : "list:" + neighbor,
                       selected, before));
-              forumAction(item, locked ? "Mở khóa bài viết" : "Khóa bài viết",
-                  () -> changeTopicLockInList(id, !locked, selected, before));
             }
+            forumAction(item, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+                () -> changeTopicLockInList(id, !locked, selected, before));
           }
           if (owner && !self.equals(authorUid)) {
             boolean blocked = bans.has(authorUid);
@@ -420,7 +420,7 @@ public final class ForumActivity extends ComponentActivity {
                 : i > 0 ? visible.get(i - 1) : "";
             forumAction(item, "Xóa bài viết",
                 () -> deleteNow(id, "", nextItem.isEmpty() ? null : "list:" + nextItem));
-            if (!record.optBoolean("moderationLocked")) {
+            if (!staff && !record.optBoolean("moderationLocked")) {
               forumAction(item, locked ? "Mở khóa bài viết" : "Khóa bài viết",
                   () -> changeTopicLockInList(id, !locked, selected, before));
             }
@@ -566,9 +566,9 @@ public final class ForumActivity extends ComponentActivity {
           if (!own) {
             forumAction(article, "Xóa bài viết",
                 () -> removeAsModerator(id, "", null, category, null));
-            forumAction(article, locked ? "Mở khóa bài viết" : "Khóa bài viết",
-                () -> changeLocked(id, !locked));
           }
+          forumAction(article, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+              () -> changeLocked(id, !locked));
           for (int stars = 1; stars <= 5; stars++) {
             int selected = stars;
             forumAction(article, selected + " sao",
@@ -584,13 +584,13 @@ public final class ForumActivity extends ComponentActivity {
           forumAction(article, "Sửa bài viết",
               () -> edit(id, "", data.optString("title"), data.optString("body")));
           forumAction(article, "Xóa bài viết", () -> deleteNow(id, ""));
-          if (!data.optBoolean("moderationLocked")) {
+          if (!staff && !data.optBoolean("moderationLocked")) {
             forumAction(article, locked ? "Mở khóa bài viết" : "Khóa bài viết",
                 () -> changeLocked(id, !locked));
           }
         }
         if (!locked) forumAction(article, "Bình luận", () -> composePost(id, "", ""));
-        showPoll(id, data, own, voted, article);
+        showPoll(id, data, own || staff, voted, article);
         restoreForumFocus(article, "topic:" + id);
         for (String postId : ids) {
           JSONObject post = records.optJSONObject(postId);
