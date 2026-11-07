@@ -669,6 +669,12 @@ test('legacy public names remain unreadable before owner completes migration', a
     console.log('FORUM_COVERAGE_META', Object.keys(report),
       Object.entries(report).map(([key, value]) => [key,
         Array.isArray(value) ? value.length : typeof value]));
+    console.log('FORUM_COVERAGE_REPORT_KEYS',
+      Object.keys(report.report || {}).slice(0, 60));
+    console.log('FORUM_COVERAGE_REPORT_EXCERPT',
+      JSON.stringify(Object.entries(report.report || {})
+        .filter(([key]) => key.includes('forumTopics') || key.includes('forumMigration'))
+        .slice(0, 20)).slice(0, 22000));
     const evaluated = [];
     function collect(value) {
       if (Array.isArray(value)) return value.forEach(collect);
