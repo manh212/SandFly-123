@@ -2,10 +2,12 @@ package com.google.android.accessibility.talkback.licensing;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.ViewCompat;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ public final class ForumActivity extends ComponentActivity {
   private TextView status;
   private int generation, screen;
   private String category = "", topic = "";
+  private String focusAfterRefresh;
   private final Set<String> pendingReports = new HashSet<>();
   private final Set<String> submittedReports = new HashSet<>();
   private interface Task { void run() throws Exception; }
@@ -113,6 +116,30 @@ public final class ForumActivity extends ComponentActivity {
     view.setOnClickListener(v -> action.run());
     root.addView(view);
     return view;
+  }
+
+  private TextView forumItem(String label, Runnable primaryAction) {
+    TextView view = text(label);
+    view.setFocusable(true);
+    if (primaryAction != null) view.setOnClickListener(v -> primaryAction.run());
+    return view;
+  }
+
+  private void forumAction(View view, String label, Runnable action) {
+    ViewCompat.addAccessibilityAction(view, label, (target, arguments) -> {
+      action.run();
+      return true;
+    });
+  }
+
+  private void restoreForumFocus(View view, String key) {
+    if (!key.equals(focusAfterRefresh)) return;
+    focusAfterRefresh = null;
+    view.post(() -> {
+      if (!isFinishing() && !isDestroyed()) {
+        view.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null);
+      }
+    });
   }
 
   private EditText input(String label, int max, boolean multiline) {
@@ -230,7 +257,9 @@ public final class ForumActivity extends ComponentActivity {
         return time != 0 ? time : right.compareTo(left);
       });
       Map<String,String> names = new HashMap<>();
+      String self = service.uid();
       List<String> labels = new ArrayList<>(), visible = new ArrayList<>();
+      List<Boolean> likedStates = new ArrayList<>();
       for (String id : ids) {
         JSONObject record = records.optJSONObject(id);
         if (record == null || (!selected.isEmpty() && !selected.equals(record.optString("category")))) continue;
@@ -239,11 +268,34 @@ public final class ForumActivity extends ComponentActivity {
             + " · " + author + " · " + ForumProtocol.categoryName(record.optString("category"))
             + (record.optBoolean("locked") ? " · Đã khóa" : ""));
         visible.add(id);
+        likedStates.add(service.get("forumTopicLikes/" + id + "/" + self).length() > 0);
       }
       ui(target, () -> {
         for (int i = 0; i < visible.size(); i++) {
           String id = visible.get(i), label = labels.get(i);
-          button(label, () -> thread(id, null));
+          JSONObject record = records.optJSONObject(id);
+          if (record == null) continue;
+          boolean own = self.equals(record.optString("uid"));
+          boolean locked = record.optBoolean("locked");
+          boolean liked = likedStates.get(i);
+          Button item = button(label, () -> thread(id, null));
+          if (!locked) forumAction(item, "Bình luận", () -> composePost(id, "", ""));
+          forumAction(item, liked ? "Bỏ thích bài viết" : "Thích bài viết",
+              () -> toggleTopicLikeInList(id, selected, before));
+          forumAction(item, "Báo cáo bài viết", () -> report(id, ""));
+          if (own) {
+            forumAction(item, "Sửa bài viết",
+                () -> edit(id, "", record.optString("title"), record.optString("body")));
+            String nextItem = i + 1 < visible.size() ? visible.get(i + 1)
+                : i > 0 ? visible.get(i - 1) : "";
+            forumAction(item, "Xóa bài viết",
+                () -> deleteNow(id, "", nextItem.isEmpty() ? null : "list:" + nextItem));
+            if (!record.optBoolean("moderationLocked")) {
+              forumAction(item, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+                  () -> changeTopicLockInList(id, !locked, selected, before));
+            }
+          }
+          restoreForumFocus(item, "list:" + id);
         }
         if (pageSize == 30 && next > 0) button("Chủ đề cũ hơn", () -> topics(selected, next - 1));
         status.setText(visible.isEmpty() ? "Không có chủ đề." : "");
@@ -333,68 +385,95 @@ public final class ForumActivity extends ComponentActivity {
       boolean locked = data.optBoolean("locked");
       boolean own = self.equals(data.optString("uid"));
       boolean pinned = service.flag("forumPinnedTopics/" + id);
-      ForumCommunityService client = new ForumCommunityService(this);
-      boolean mod = client.isModerator() || service.flag("admins/" + self);
       ui(target, () -> {
-        text(ForumProtocol.categoryName(data.optString("category")));
-        text(data.optString("title") + (pinned ? " · Đã ghim" : "")
-            + (locked ? " · Đã khóa" : ""));
-        text(author + " · " + date(data.optLong("createdAt")));
-        text(data.optString("body") + (data.has("editedAt") ? " · Đã chỉnh sửa" : ""));
-        button(topicLiked ? "Bỏ thích chủ đề" : "Thích chủ đề", () -> toggleLike(id, ""));
-        button("Báo cáo chủ đề", () -> report(id, ""));
+        String articleLabel = ForumProtocol.categoryName(data.optString("category"))
+            + " · " + data.optString("title") + (pinned ? " · Đã ghim" : "")
+            + (locked ? " · Đã khóa" : "") + " · " + author
+            + " · " + date(data.optLong("createdAt")) + " · " + data.optString("body")
+            + (data.has("editedAt") ? " · Đã chỉnh sửa" : "");
+        TextView article = forumItem(articleLabel,
+            locked ? null : () -> composePost(id, "", ""));
+        forumAction(article, topicLiked ? "Bỏ thích bài viết" : "Thích bài viết",
+            () -> toggleLike(id, ""));
+        forumAction(article, "Báo cáo bài viết", () -> report(id, ""));
         if (own) {
-          button("Sửa chủ đề", () -> edit(id, "", data.optString("title"), data.optString("body")));
-          button("Xóa chủ đề", () -> deleteNow(id, ""));
+          forumAction(article, "Sửa bài viết",
+              () -> edit(id, "", data.optString("title"), data.optString("body")));
+          forumAction(article, "Xóa bài viết", () -> deleteNow(id, ""));
+          if (!data.optBoolean("moderationLocked")) {
+            forumAction(article, locked ? "Mở khóa bài viết" : "Khóa bài viết",
+                () -> changeLocked(id, !locked));
+          }
         }
-        if (own && !data.optBoolean("moderationLocked")) {
-          button(locked ? "Mở khóa chủ đề" : "Khóa chủ đề", () -> changeLocked(id, !locked));
-        }
-        if (!locked) button("Bình luận", () -> composePost(id, "", ""));
-        showPoll(id, data, own, mod, voted);
+        if (!locked) forumAction(article, "Bình luận", () -> composePost(id, "", ""));
+        showPoll(id, data, own, voted, article);
+        restoreForumFocus(article, "topic:" + id);
         for (String postId : ids) {
           JSONObject post = records.optJSONObject(postId);
           if (post == null) continue;
           String postAuthor = names.get(post.optString("uid"));
           boolean commentPinned = pinnedPosts.has(postId);
-          text((commentPinned ? "Đã ghim · " : "") + postAuthor + ": " + post.optString("text")
-              + (post.has("editedAt") ? " · Đã chỉnh sửa" : ""));
+          TextView comment = forumItem(
+              (commentPinned ? "Đã ghim · " : "") + postAuthor + ": " + post.optString("text")
+                  + (post.has("editedAt") ? " · Đã chỉnh sửa" : ""),
+              locked ? null : () -> composePost(id, postId, ""));
           String parent = post.optString("parent");
-          if (!parent.isEmpty()) button("Xem bình luận gốc", () -> showParent(id, parent));
-          button(Boolean.TRUE.equals(liked.get(postId)) ? "Bỏ thích bình luận" : "Thích bình luận",
+          if (!parent.isEmpty()) {
+            forumAction(comment, "Xem bình luận gốc", () -> showParent(id, parent));
+          }
+          forumAction(comment,
+              Boolean.TRUE.equals(liked.get(postId)) ? "Bỏ thích bình luận" : "Thích bình luận",
               () -> toggleLike(id, postId));
-          button("Báo cáo bình luận", () -> report(id, postId));
+          forumAction(comment, "Báo cáo bình luận", () -> report(id, postId));
           if (!locked) {
-            button("Trả lời bình luận", () -> composePost(id, postId, ""));
-            button("Nhắc đến " + postAuthor, () -> composePost(id, "", post.optString("uid")));
+            forumAction(comment, "Trả lời bình luận", () -> composePost(id, postId, ""));
+            forumAction(comment, "Nhắc đến " + postAuthor,
+                () -> composePost(id, "", post.optString("uid")));
           }
           if (self.equals(post.optString("uid"))) {
-            button("Sửa bình luận", () -> edit(id, postId, "", post.optString("text")));
-            button("Xóa bình luận", () -> deleteNow(id, postId));
+            forumAction(comment, "Sửa bình luận",
+                () -> edit(id, postId, "", post.optString("text")));
+            int index = ids.indexOf(postId);
+            String neighbor = index + 1 < ids.size() ? ids.get(index + 1)
+                : index > 0 ? ids.get(index - 1) : "";
+            forumAction(comment, "Xóa bình luận",
+                () -> deleteNow(id, postId,
+                    neighbor.isEmpty() ? "topic:" + id : "post:" + neighbor));
           }
+          restoreForumFocus(comment, "post:" + postId);
         }
         if (loaded.size() == 20 && oldest != null) button("Bình luận cũ hơn", () -> thread(id, oldest));
       });
     });
   }
 
-  private void showPoll(String id, JSONObject topicData, boolean own, boolean mod, boolean voted) {
+  private void showPoll(String id, JSONObject topicData, boolean own, boolean voted,
+      TextView article) {
     JSONArray options = topicData.optJSONArray("pollOptions");
     if (options == null) return;
-    text("Bình chọn" + (topicData.optBoolean("pollClosed") ? " · Đã kết thúc" : ""));
-    if (!topicData.optBoolean("pollClosed") && !voted) {
+    boolean closed = topicData.optBoolean("pollClosed");
+    StringBuilder pollLabel = new StringBuilder("\nBình chọn");
+    if (closed) pollLabel.append(" · Đã kết thúc");
+    for (int i = 0; i < options.length(); i++) {
+      pollLabel.append("\n").append(options.optString(i));
+    }
+    article.append(pollLabel.toString());
+    if (!closed && !voted) {
       for (int i = 0; i < options.length(); i++) {
         int selected = i;
-        button("Bỏ phiếu: " + options.optString(i), () -> {
+        forumAction(article, "Bỏ phiếu: " + options.optString(i), () -> {
           int expected = generation;
           work(() -> {
             new ForumCommunityService(this).castVote(id, selected);
-            ui(expected, () -> thread(id, null));
+            ui(expected, () -> {
+              focusAfterRefresh = "topic:" + id;
+              thread(id, null);
+            });
           });
         });
       }
     }
-    button("Xem kết quả", () -> {
+    forumAction(article, "Xem kết quả bình chọn", () -> {
       int expected = generation;
       work(() -> {
         JSONObject votes = Enrollment.service(this).get("forumPollVotes/" + id);
@@ -408,15 +487,18 @@ public final class ForumActivity extends ComponentActivity {
         for (int i = 0; i < totals.length; i++) {
           result.append(options.optString(i)).append(": ").append(totals[i]).append(" phiếu\n");
         }
-        ui(expected, () -> text(result.toString()));
+        ui(expected, () -> status.setText(result.toString()));
       });
     });
-    if (own && !topicData.optBoolean("pollClosed")) {
-      button("Kết thúc bình chọn", () -> {
+    if (own && !closed) {
+      forumAction(article, "Kết thúc bình chọn", () -> {
         int expected = generation;
         work(() -> {
           new ForumCommunityService(this).closePoll(id);
-          ui(expected, () -> thread(id, null));
+          ui(expected, () -> {
+            focusAfterRefresh = "topic:" + id;
+            thread(id, null);
+          });
         });
       });
     }
@@ -522,7 +604,36 @@ public final class ForumActivity extends ComponentActivity {
     int expected = generation;
     work(() -> {
       new ForumCommunityService(this).changeLock(id, locked);
-      ui(expected, () -> { if (previousScreen == 7) manageContent(id, ""); else thread(id, null); });
+      ui(expected, () -> {
+        if (previousScreen == 7) manageContent(id, "");
+        else {
+          focusAfterRefresh = "topic:" + id;
+          thread(id, null);
+        }
+      });
+    });
+  }
+
+  private void changeTopicLockInList(String id, boolean locked, String selected, Long before) {
+    int expected = generation;
+    work(() -> {
+      new ForumCommunityService(this).changeLock(id, locked);
+      ui(expected, () -> {
+        focusAfterRefresh = "list:" + id;
+        topics(selected, before);
+      });
+    });
+  }
+
+  private void toggleTopicLikeInList(String id, String selected, Long before) {
+    int expected = generation;
+    work(() -> {
+      ForumCommunityService client = new ForumCommunityService(this);
+      client.setLiked(id, "", !client.didLike(id, ""));
+      ui(expected, () -> {
+        focusAfterRefresh = "list:" + id;
+        topics(selected, before);
+      });
     });
   }
 
@@ -547,7 +658,10 @@ public final class ForumActivity extends ComponentActivity {
     work(() -> {
       ForumCommunityService client = new ForumCommunityService(this);
       client.setLiked(id, post, !client.didLike(id, post));
-      ui(expected, () -> thread(id, null));
+      ui(expected, () -> {
+        focusAfterRefresh = post.isEmpty() ? "topic:" + id : "post:" + post;
+        thread(id, null);
+      });
     });
   }
 
@@ -624,10 +738,18 @@ public final class ForumActivity extends ComponentActivity {
   }
 
   private void deleteNow(String topic, String post) {
+    deleteNow(topic, post, post.isEmpty() ? null : "topic:" + topic);
+  }
+
+  private void deleteNow(String topic, String post, String nextFocus) {
     int expected = generation;
     work(() -> {
       new ForumCommunityService(this).softDelete(topic, post);
-      ui(expected, () -> { if (post.isEmpty()) topics(category, null); else thread(topic, null); });
+      ui(expected, () -> {
+        focusAfterRefresh = nextFocus;
+        if (post.isEmpty()) topics(category, null);
+        else thread(topic, null);
+      });
     });
   }
 
