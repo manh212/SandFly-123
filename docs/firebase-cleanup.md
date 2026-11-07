@@ -51,3 +51,7 @@ Security limitations: an unmodified Android app cannot provide tamperproof elaps
 - Client behavior on device: no SSE sockets remain, bounded polling and data consumption, notifications still work after reconnect, offline suspension blocks licensed access without permanently disabling the service, legitimate revalidation restores it.
 - Admin: can list small and large log metadata sets without downloading chunks; delete one log, a time range, one conversation and all eligible groups; confirm partial deletes and safe retries; check accessibility labels, order and focus.
 - Live Firebase Rules must be published separately by the owner only after review. GitHub Actions selects and runs applicable tests when the approved code is eventually pushed; do not execute local builds or tests contrary to repository policy.
+
+## Forum cleanup
+
+Forum cleanup now includes `forumNotices` and `forumBans` as well as the previously reserved forum groups. The administrator may delete individual topic content through **Quản trị diễn đàn** or all forum data through **Quản lý dữ liệu Firebase**. These operations must never delete `admins`, `devices`, `decisions`, `licenseEvents`, or requests with an existing decision. See [Community forum](forum.md) for recipient-only notification rules and account-identity limitations.

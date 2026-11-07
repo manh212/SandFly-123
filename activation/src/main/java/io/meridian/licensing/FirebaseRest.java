@@ -221,13 +221,17 @@ public final class FirebaseRest {
     database(path, "PUT", value.toString(), "&print=silent");
   }
 
+  public void putBoolean(String path, boolean value) throws Exception {
+    database(path, "PUT", Boolean.toString(value), "&print=silent");
+  }
+
   public JSONObject shallowKeys(String path) throws Exception {
     String raw = database(path, "GET", null, "&shallow=true");
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
   }
 
   public void deleteCleanupData(String path) throws Exception {
-    if (!path.matches("(?:supportStaff|supportIndex|supportUsers|supportMessages|supportStates|supportContacts|supportAttachments|supportLogChunks|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators)(?:/[A-Za-z0-9_-]{1,128}){0,2}|requests/[A-Za-z0-9_-]{1,128}")) {
+    if (!path.matches("(?:supportStaff|supportIndex|supportUsers|supportMessages|supportStates|supportContacts|supportAttachments|supportLogChunks|forumCategories|forumTopics|forumPosts|forumProfiles|forumNotices|forumBans|forumModerators)(?:/[A-Za-z0-9_-]{1,128}){0,3}|requests/[A-Za-z0-9_-]{1,128}")) {
       throw new IllegalArgumentException("Không được xóa dữ liệu giấy phép hoặc quyền quản trị.");
     }
     database(path, "DELETE", null, "&print=silent");
@@ -256,7 +260,7 @@ public final class FirebaseRest {
   }
 
   private static void validatePath(String path) {
-    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumModerators)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments|forumCategories|forumTopics|forumPosts|forumProfiles|forumNotices|forumBans|forumModerators)(?:/[a-zA-Z0-9_-]{1,128}){0,3}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){0,3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
   }

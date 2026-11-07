@@ -327,11 +327,97 @@ test('cleanup cannot remove requests that already have a decision', async () => 
   await assertFails(db('alice').ref('requests/alice').remove());
 });
 
-test('future forum cleanup is owner-only and public forum writes remain disabled', async () => {
-  await env.withSecurityRulesDisabled(async context => {
-    await context.database().ref('forumPosts/topic').set({post:'saved'});
-  });
-  await assertFails(db('alice').ref('forumPosts/topic').remove());
-  await assertFails(db('alice').ref('forumPosts/topic2').set({post:'new'}));
+
+const forumTopic = '1700000000000-' + 'a'.repeat(20);
+const forumPost = '1700000000001-' + 'b'.repeat(20);
+const forumPost2 = '1700000000002-' + 'c'.repeat(20);
+const forumThread = uid => ({uid, name:uid === 'alice' ? 'Alice' : 'Bob',
+  category:'general', title:'Thảo luận ứng dụng', body:'Cùng chia sẻ các ý kiến', locked:false,
+  createdAt:{'.sv':'timestamp'}});
+const forumComment = (uid, parent = '', mention = '') => ({uid,
+  name:uid === 'alice' ? 'Alice' : 'Bob', text:'Một bình luận hữu ích', parent, mention,
+  createdAt:{'.sv':'timestamp'}});
+
+async function forumMembers() {
+  await assertSucceeds(db('alice').ref('forumProfiles/alice').set({name:'Alice'}));
+  await assertSucceeds(db('bob').ref('forumProfiles/bob').set({name:'Bob'}));
+  await assertSucceeds(db('alice').ref('forumTopics/' + forumTopic).set(forumThread('alice')));
+}
+
+test('forum reading is authenticated and topic lists require bounded queries', async () => {
+  await forumMembers();
+  await assertFails(env.unauthenticatedContext().database().ref('forumTopics/' + forumTopic).once('value'));
+  await assertSucceeds(db('bob').ref('forumTopics/' + forumTopic).once('value'));
+  await assertFails(db('bob').ref('forumTopics').once('value'));
+  await assertSucceeds(db('bob').ref('forumTopics').orderByKey().limitToLast(20).once('value'));
+  await assertSucceeds(db('bob').ref('forumProfiles/alice').once('value'));
+  await assertFails(db('bob').ref('forumProfiles').once('value'));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic).once('value'));
+  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic).orderByKey().limitToLast(20).once('value'));
+  await assertFails(db('bob').ref('supportIndex').once('value'));
+  await assertFails(db('bob').ref('requests/alice').once('value'));
+  await assertFails(db('bob').ref('devices').once('value'));
+});
+
+test('forum prevents impersonation, invalid posts, overwrites and ordinary member deletes', async () => {
+  await forumMembers();
+  await assertFails(db('bob').ref('forumTopics/' + forumTopic).set(forumThread('bob')));
+  await assertFails(db('bob').ref('forumTopics/' + forumTopic).remove());
+  await assertFails(db('bob').ref('forumTopics/' + forumTopic + '/locked').set(true));
+  await assertFails(db('alice').ref('forumTopics/' + forumTopic + '/title').set('Đổi tên'));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set({...forumComment('bob'),name:'Alice'}));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set({...forumComment('bob'),parent:'missing'}));
+  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).remove());
+  await assertFails(db('bob').ref('forumProfiles/alice').set({name:'Giả mạo'}));
+});
+
+test('owner may lock topics and deny writes from banned members', async () => {
+  await forumMembers();
+  await assertSucceeds(db('owner').ref('forumTopics/' + forumTopic + '/locked').set(true));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
+  await assertSucceeds(db('owner').ref('forumTopics/' + forumTopic + '/locked').set(false));
+  await assertSucceeds(db('owner').ref('forumBans/bob').set(true));
+  await assertFails(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
+  await assertFails(db('bob').ref('forumTopics/' + forumPost).set(forumThread('bob')));
+  await assertFails(db('alice').ref('forumBans/bob').remove());
+  await assertFails(db('bob').ref('forumBans').once('value'));
+  await assertSucceeds(db('owner').ref('forumBans/bob').remove());
+  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost).set(forumComment('bob')));
+  await assertSucceeds(db('owner').ref('forumPosts/' + forumTopic + '/' + forumPost).remove());
+});
+
+test('reply and mention notifications are validated and remain private to the recipient', async () => {
+  await forumMembers();
+  await assertSucceeds(db('bob').ref('forumPosts/' + forumTopic + '/' + forumPost)
+    .set(forumComment('bob', '', 'alice')));
+  const key = forumTopic + '_' + forumPost;
+  const notice = {topic:forumTopic, post:forumPost, from:'bob', kind:'mention', lastAt:{'.sv':'timestamp'}};
+  await assertSucceeds(db('bob').ref('forumNotices/alice/' + key).set(notice));
+  await assertFails(db('bob').ref('forumNotices/alice/' + key).once('value'));
+  await assertSucceeds(db('alice').ref('forumNotices/alice').orderByChild('lastAt').limitToLast(20).once('value'));
+  await assertFails(db('bob').ref('forumNotices/alice/' + key).set(notice));
+  await assertFails(db('alice').ref('forumNotices/bob/' + key).set({...notice,from:'alice'}));
+  await assertFails(db('alice').ref('forumNotices/bob').once('value'));
+  await assertFails(db('bob').ref('forumNotices/bob').once('value'));
+  await assertSucceeds(db('alice').ref('forumPosts/' + forumTopic + '/' + forumPost2)
+    .set(forumComment('alice', forumPost)));
+  await assertSucceeds(db('alice').ref('forumNotices/bob/' + forumTopic + '_' + forumPost2)
+    .set({topic:forumTopic,post:forumPost2,from:'alice',kind:'reply',lastAt:{'.sv':'timestamp'}}));
+  await assertFails(db('bob').ref('forumNotices/bob/' + key).set(notice));
+});
+
+test('owner cleanup removes forum content without touching protected licensing or admin entries', async () => {
+  await forumMembers();
+  await assertFails(db('alice').ref('forumTopics').remove());
+  await assertFails(db('bob').ref('forumProfiles').remove());
   await assertSucceeds(db('owner').ref('forumPosts').remove());
+  await assertSucceeds(db('owner').ref('forumTopics').remove());
+  await assertSucceeds(db('owner').ref('forumProfiles').remove());
+  await assertSucceeds(db('owner').ref('forumNotices').remove());
+  await assertSucceeds(db('owner').ref('forumBans').remove());
+  await assertFails(db('owner').ref('admins/owner').remove());
+  await assertFails(db('owner').ref('devices').remove());
+  await assertFails(db('owner').ref('licenseEvents').remove());
 });

@@ -64,5 +64,8 @@
       android:fragment="com.google.android.accessibility.talkback.preference.base.LogAndReportsFragment"
       android:key="support_screen"
       android:title="@string/support_title" />
+  <com.google.android.accessibility.talkback.licensing.ForumEntryPreference
+      android:key="forum_open"
+      android:title="@string/forum_title" />
 </PreferenceScreen>
 

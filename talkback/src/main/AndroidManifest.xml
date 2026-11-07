@@ -131,6 +131,10 @@
         android:fullBackupContent="@xml/meridian_backup_rules"
         android:dataExtractionRules="@xml/meridian_data_extraction_rules">
         <activity
+            android:name="com.google.android.accessibility.talkback.licensing.ForumActivity"
+            android:exported="false"
+            android:label="@string/forum_title" />
+        <activity
             android:name="com.google.android.accessibility.talkback.licensing.SupportActivity"
             android:exported="false"
             android:label="@string/support_title" />

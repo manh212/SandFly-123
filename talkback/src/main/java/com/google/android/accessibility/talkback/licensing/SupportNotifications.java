@@ -94,6 +94,9 @@ public final class SupportNotifications {
         } catch (Exception ignored) {
         }
         if (!running) return;
+        try { if (UserManagerCompat.isUserUnlocked(context)) ForumNotifications.poll(context); }
+        catch (Exception ignored) {}
+        if (!running) return;
         try { Thread.sleep(POLL_MS); }
         catch (InterruptedException stopped) { return; }
       }
