@@ -662,10 +662,10 @@ test('legacy public names remain unreadable before owner completes migration', a
       locked:false,createdAt:1,lastAt:1,rankAt:1
     }));
   } catch (failure) {
-    const coverage = await fetch('http://127.0.0.1:9000/.inspect/coverage?ns=demo-meridian-licensing-default-rtdb');
+    const coverage = await fetch('http://127.0.0.1:9000/.inspect/coverage.json?ns=demo-meridian-licensing-default-rtdb');
     const dump = await coverage.text();
     console.log('FORUM_MIGRATION_DIAGNOSTIC', coverage.status, dump.length,
-      dump.slice(Math.max(0, dump.indexOf('forumTopics') - 500), Math.max(0, dump.indexOf('forumTopics') - 500) + 40000));
+      dump.slice(0, 18000), 'COVERAGE_TAIL', dump.slice(-12000));
     throw failure;
   }
   await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
