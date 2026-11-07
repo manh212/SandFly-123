@@ -656,84 +656,10 @@ test('legacy public names remain unreadable before owner completes migration', a
   await assertFails(db('bob').ref('forumTopics/' + topic).once('value'));
   await assertFails(db('bob').ref('forumTopics').orderByChild('lastAt').limitToLast(30).once('value'));
   await assertSucceeds(db('owner').ref('forumTopics/' + topic).once('value'));
-  try {
-    await assertSucceeds(db('owner').ref('forumTopics/' + topic).set({
-      uid:'alice',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
-      locked:false,createdAt:1,lastAt:1,rankAt:1
-    }));
-  } catch (failure) {
-    const coverage = await fetch('http://127.0.0.1:9000/.inspect/coverage.json?ns=demo-meridian-licensing-default-rtdb');
-    const dump = await coverage.text();
-    const raw = JSON.parse(dump);
-    const report = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    console.log('FORUM_COVERAGE_META', Object.keys(report),
-      Object.entries(report).map(([key, value]) => [key,
-        Array.isArray(value) ? value.length : typeof value]));
-    console.log('FORUM_COVERAGE_REPORT_KEYS',
-      Object.keys(report.report || {}).slice(0, 60));
-    console.log('FORUM_COVERAGE_REPORT_EXCERPT',
-      JSON.stringify(Object.entries(report.report || {})
-        .filter(([key]) => key.includes('forumTopics') || key.includes('forumMigration'))
-        .slice(0, 20)).slice(0, 22000));
-    const evaluated = [];
-    function collect(value) {
-      if (Array.isArray(value)) return value.forEach(collect);
-      if (value === null || typeof value !== 'object') return;
-      if (typeof value['location-start'] === 'string' && Array.isArray(value.values)
-          && value.values.length > 0) {
-        const line = Number(value['location-start'].split(':')[0]);
-        if (line >= 351 && line <= 455) evaluated.push({
-          line: value['location-start'], text: String(value.text || '').slice(0, 140),
-          values: value.values.slice(-4)
-        });
-      }
-      Object.values(value).forEach(collect);
-    }
-    collect(report);
-    console.log('FORUM_COVERAGE_EVAL', JSON.stringify(evaluated
-      .sort((a, b) => b.text.length - a.text.length).slice(0, 110)).slice(0, 30000));
-    const base = JSON.parse(readFileSync('database.rules.json', 'utf8'));
-    for (const mode of ['write', 'parentValidate', 'childValidate', 'everything', 'uid', 'category', 'title', 'body', 'createdAt', 'lastAt', 'locked', 'rankAt', '$other']) {
-      const candidate = JSON.parse(JSON.stringify(base));
-      const rule = candidate.rules.forumTopics['$topic'];
-      if (mode === 'write' || mode === 'everything') {
-        rule['.write'] = "auth != null && root.child('admins').child(auth.uid).val() === true";
-      }
-      if (mode === 'parentValidate' || mode === 'everything') rule['.validate'] = true;
-      if (mode in rule && mode !== 'write' && mode !== 'everything' && mode !== 'childValidate' && mode !== 'parentValidate') {
-        if (typeof rule[mode] === 'object') rule[mode]['.validate'] = true;
-      }
-      if (mode === 'childValidate' || mode === 'everything') {
-        for (const child of Object.values(rule)) {
-          if (child && typeof child === 'object' && '.validate' in child) child['.validate'] = true;
-        }
-      }
-      let isolated;
-      try {
-        isolated = await initializeTestEnvironment({
-          projectId: 'demo-meridian-debug-' + mode.toLowerCase(),
-          database: {host:'127.0.0.1', port:9000, rules:JSON.stringify(candidate)}
-        });
-        await isolated.withSecurityRulesDisabled(async context => {
-          await context.database().ref('admins/owner').set(true);
-          await context.database().ref('forumTopics/' + topic).set({
-            uid:'alice',name:'Tên cũ',category:'general',title:'Chủ đề cũ',
-            body:'Nội dung cũ',locked:false,createdAt:1
-          });
-        });
-        await isolated.authenticatedContext('owner').database().ref('forumTopics/' + topic).set({
-          uid:'alice',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
-          locked:false,createdAt:1,lastAt:1,rankAt:1
-        });
-        console.log('FORUM_ISOLATION', mode, 'SUCCESS');
-      } catch (diagnosticError) {
-        console.log('FORUM_ISOLATION', mode, 'FAILED', String(diagnosticError).slice(0,200));
-      } finally {
-        if (isolated) await isolated.cleanup();
-      }
-    }
-    throw failure;
-  }
+  await assertSucceeds(db('owner').ref('forumTopics/' + topic).set({
+    uid:'alice',category:'general',title:'Chủ đề cũ',body:'Nội dung cũ',
+    locked:false,createdAt:1,lastAt:1,rankAt:1
+  }));
   await assertSucceeds(db('owner').ref('forumMigration/ready').set(true));
   const saved = (await db('bob').ref('forumTopics/' + topic).once('value')).val();
   if ('name' in saved || !('lastAt' in saved)) throw new Error('Legacy name leaked');
