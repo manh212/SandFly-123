@@ -59,7 +59,7 @@ public final class ForumNotifications {
             JSONObject entry = notices.optJSONObject(id);
             if (entry == null || !ForumProtocol.validId(entry.optString("topic"))) continue;
             String label = "mention".equals(entry.optString("kind")) ? "Nhắc đến bạn" : "Trả lời bạn";
-            notify(context, "forum:" + id, label, ForumActivity.class, entry.optString("topic"));
+            ForumNotifications.notify(context, "forum:" + id, label, ForumActivity.class, entry.optString("topic"));
           }
           if (newest == null || (high != null && !high.equals(newest))) {
             state.edit().putString("notice", high == null ? "" : high).apply();
@@ -74,7 +74,7 @@ public final class ForumNotifications {
             long timestamp = item == null ? 0 : item.optLong("createdAt");
             if (timestamp > maxAnnouncement) maxAnnouncement = timestamp;
             if (oldAnnouncement >= 0 && timestamp > oldAnnouncement && ForumProtocol.validId(topic)) {
-              notify(context, "announcement:" + topic, "Thông báo quan trọng", ForumActivity.class, topic);
+              ForumNotifications.notify(context, "announcement:" + topic, "Thông báo quan trọng", ForumActivity.class, topic);
             }
           }
           if (oldAnnouncement < 0 || maxAnnouncement != oldAnnouncement) {
@@ -90,7 +90,7 @@ public final class ForumNotifications {
             if (oldMessage == null || id.compareTo(oldMessage) <= 0) continue;
             JSONObject item = messages.optJSONObject(id);
             if (item != null && !uid.equals(item.optString("from"))) {
-              notify(context, "chat:" + id, "Tin nhắn mới", OwnerChatActivity.class, "");
+              ForumNotifications.notify(context, "chat:" + id, "Tin nhắn mới", OwnerChatActivity.class, "");
             }
           }
           if (oldMessage == null || (newMessage != null && !newMessage.equals(oldMessage))) {

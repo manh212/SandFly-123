@@ -374,7 +374,7 @@
           ".validate": "newData.isString() && newData.val().length >= 5 && newData.val().length <= 5000"
         },
         "createdAt": {
-          ".validate": "newData.isNumber() && newData.val() === now || ((auth != null && root.child('admins').child(auth.uid).val() === true) && root.child('forumModerationArchive').child($topic).child('topic').child('content').child(\"createdAt\").val() === newData.val())"
+          ".validate": "newData.isNumber() && newData.val() === now || ((auth != null && root.child('admins').child(auth.uid).val() === true) && root.child('forumModerationArchive').child($topic).child('topic').child('content').child(\"createdAt\").val() === newData.val()) || ((auth != null && root.child('admins').child(auth.uid).val() === true) && data.exists() && newData.isNumber() && newData.val() === data.val())"
         },
         "lastAt": {
           ".write": "((auth != null && !root.child('forumBans').child(auth.uid).exists() && root.child('forumIdentity').child(auth.uid).exists() && !root.child('forumDeviceBans').child(root.child('forumIdentity').child(auth.uid).child('fingerprint').val()).exists()) && data.parent().exists() && data.parent().child('locked').val() === false && newData.parent().child('lastPost').val() !== data.parent().child('lastPost').val() && root.child('forumPosts').child($topic).child(newData.parent().child('lastPost').val()).child('uid').val() === auth.uid && root.child('forumPosts').child($topic).child(newData.parent().child('lastPost').val()).child('createdAt').val() === newData.val() && newData.val() >= data.val()) || ((auth != null && root.child('admins').child(auth.uid).val() === true) && data.parent().exists() && !data.exists() && newData.val() === data.parent().child('createdAt').val())",
