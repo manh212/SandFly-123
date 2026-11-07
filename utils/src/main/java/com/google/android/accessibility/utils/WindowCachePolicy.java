@@ -6,6 +6,11 @@ import android.view.accessibility.AccessibilityEvent;
 public final class WindowCachePolicy {
   private WindowCachePolicy() {}
 
+  public static boolean isForeignContentChange(AccessibilityEvent event, int cachedWindowId) {
+    return event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        && cachedWindowId >= 0 && event.getWindowId() >= 0 && event.getWindowId() != cachedWindowId;
+  }
+
   public static boolean affectsOrder(AccessibilityEvent event, int cachedWindowId) {
     int windowId = event.getWindowId();
     if (windowId < 0 || cachedWindowId < 0) return true;

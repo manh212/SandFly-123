@@ -130,8 +130,12 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
      * backlog. The rest of the queue is handled in a later message, after the ones already waiting.
      */
     private void processAllEvents(ProcessorEventQueue parent) {
-      long sliceEnd = SystemClock.uptimeMillis()
-          + (LatencyExperiments.Feature.INPUT_PRIORITY.enabled() ? 2 : EventQueue.processingSliceMs());
+      long sliceMs = LatencyExperiments.Feature.INPUT_PRIORITY.enabled()
+          ? 2 : EventQueue.processingSliceMs();
+      if (EventQueue.focusPriorityEnabled && LatencyExperiments.inputIsActive(150)) {
+        sliceMs = Math.min(sliceMs, 4);
+      }
+      long sliceEnd = SystemClock.uptimeMillis() + sliceMs;
       while (true) {
         final AccessibilityEvent event;
 

@@ -49,6 +49,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Performance.EventIdAnd;
 import com.google.android.accessibility.utils.Role;
@@ -248,7 +249,9 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
       testingListener.onAccessibilityEvent(event);
     }
 
-    if ((dumpEventMask & event.getEventType()) != 0) {
+    if ((dumpEventMask & event.getEventType()) != 0
+        && !(event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+            && LatencyExperiments.inputIsActive(250))) {
       LogUtils.v(TAG, "event=%s package=%s window=%d time=%d changes=%x",
           AccessibilityEvent.eventTypeToString(event.getEventType()), event.getPackageName(),
           event.getWindowId(), event.getEventTime(), event.getContentChangeTypes());

@@ -1384,6 +1384,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   public void markRootDirtyForEvent(AccessibilityEvent event) {
+    if (rootNode != null && WindowCachePolicy.isForeignContentChange(event, rootNode.getWindowId())) {
+      return;
+    }
     if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() || rootNode == null
         || WindowCachePolicy.affectsRoot(event, rootNode.getWindowId())) {
       setRootDirty(true);
@@ -3862,6 +3865,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         prefs.getString("pref_event_processing_level", "medium"));
     if (backgroundEventGate != null) {
       backgroundEventGate.setProcessingLevel(ProcessorEventQueue.getProcessingLevel());
+      backgroundEventGate.setInteractionPriorityEnabled(pinnedLatencyEnabled);
     }
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);

@@ -86,8 +86,14 @@ public class ReorderedChildrenIterator implements Iterator<AccessibilityNodeInfo
     this.boundsCalculator =
         (boundsCalculator == null) ? new NodeCachedBoundsCalculator() : boundsCalculator;
 
-    nodes = new ArrayList<>(this.parent.getChildCount());
-    init(this.parent);
+    List<AccessibilityNodeInfoCompat> cachedOrder = this.boundsCalculator.getChildOrder(parent);
+    if (cachedOrder != null) {
+      nodes = cachedOrder;
+    } else {
+      nodes = new ArrayList<>(this.parent.getChildCount());
+      init(this.parent);
+      this.boundsCalculator.putChildOrder(parent, nodes);
+    }
     currentIndex = this.isAscending ? 0 : nodes.size() - 1;
   }
 
@@ -123,6 +129,7 @@ public class ReorderedChildrenIterator implements Iterator<AccessibilityNodeInfo
 
     int currentIndex = size - 2;
     while (currentIndex >= 0) {
+      TraversalBudget.check();
       AccessibilityNodeInfoCompat currentNode = nodeArray[currentIndex];
       if (boundsCalculator.usesChildrenBounds(currentNode)) {
         moveNodeIfNecessary(nodeArray, currentIndex);

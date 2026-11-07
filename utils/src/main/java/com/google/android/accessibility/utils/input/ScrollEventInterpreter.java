@@ -486,7 +486,7 @@ public class ScrollEventInterpreter implements AccessibilityEventListener {
     return (positionInfo != null) && positionInfo.equals(new PositionInfo(event));
   }
 
-  private static boolean hasValidIndex(AccessibilityEvent event) {
+  public static boolean hasValidIndex(AccessibilityEvent event) {
     return hasValidAdapterViewIndex(event)
         || hasValidScrollViewIndex(event)
         || AccessibilityEventUtils.hasValidScrollDelta(event);

@@ -214,6 +214,35 @@ class BackgroundEventGateTest {
   }
 
   @Test
+  fun mediumPriorityCoalescesActiveSubtreeChangesDuringTouchButKeepsScrollAndInput() {
+    gate.setProcessingLevel("medium")
+    gate.setInteractionPriorityEnabled(true)
+    advance(1000)
+    repeat(4) { assertTrue(gate.onAccessibilityEvent(structural())) }
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START, "foreground", 1)))
+    repeat(5) { assertFalse(gate.onAccessibilityEvent(structural())) }
+
+    val scrollContent = structural().also {
+      it.fromIndex = 3
+      it.toIndex = 6
+      it.itemCount = 20
+    }
+    assertTrue(gate.onAccessibilityEvent(scrollContent))
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)))
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED, "foreground", 1)))
+    advance(200)
+    assertTrue(delivered.isEmpty())
+    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_END, "foreground", 1))
+    advance(149)
+    assertTrue(delivered.isEmpty())
+    advance(1)
+    assertEquals(listOf("foreground"), delivered)
+  }
+
+  @Test
   fun activeFloodLeavesFocusAndClicksImmediate() {
     repeat(4) { gate.onAccessibilityEvent(structural()) }
     assertTrue(gate.onAccessibilityEvent(

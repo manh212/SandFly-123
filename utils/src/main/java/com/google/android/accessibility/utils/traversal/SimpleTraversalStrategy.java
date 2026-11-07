@@ -18,10 +18,17 @@ package com.google.android.accessibility.utils.traversal;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoRef;
+import java.util.HashMap;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class SimpleTraversalStrategy implements TraversalStrategy {
+  private final NodeCachedBoundsCalculator bounds = new NodeCachedBoundsCalculator(true);
+  private final Map<AccessibilityNodeInfoCompat, Boolean> speakingNodes = new HashMap<>();
+
+  public SimpleTraversalStrategy() {
+    bounds.setSpeakingNodesCache(speakingNodes);
+  }
 
   @Override
   public @Nullable AccessibilityNodeInfoCompat findFocus(
@@ -30,7 +37,7 @@ public class SimpleTraversalStrategy implements TraversalStrategy {
       return null;
     }
 
-    AccessibilityNodeInfoRef ref = AccessibilityNodeInfoRef.obtain(startNode);
+    AccessibilityNodeInfoRef ref = AccessibilityNodeInfoRef.obtain(startNode, bounds);
     boolean focusFound =
         direction == TraversalStrategy.SEARCH_FOCUS_FORWARD
             ? ref.nextInOrder()
@@ -52,7 +59,7 @@ public class SimpleTraversalStrategy implements TraversalStrategy {
     if (direction == SEARCH_FOCUS_FORWARD) {
       return root;
     } else if (direction == SEARCH_FOCUS_BACKWARD) {
-      AccessibilityNodeInfoRef ref = AccessibilityNodeInfoRef.obtain(root);
+      AccessibilityNodeInfoRef ref = AccessibilityNodeInfoRef.obtain(root, bounds);
       if (ref.lastDescendant()) {
         return ref.get();
       } else {
@@ -65,6 +72,6 @@ public class SimpleTraversalStrategy implements TraversalStrategy {
 
   @Override
   public Map<AccessibilityNodeInfoCompat, Boolean> getSpeakingNodesCache() {
-    return null;
+    return speakingNodes;
   }
 }

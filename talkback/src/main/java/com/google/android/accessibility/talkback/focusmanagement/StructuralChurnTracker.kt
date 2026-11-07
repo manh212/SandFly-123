@@ -34,8 +34,13 @@ internal class StructuralChurnTracker {
    * service thread. After one demonstrably slow build, use the local next/previous search
    * for a short period even if the app's refresh events were already coalesced.
    */
-  @Synchronized fun noteSlowBuild(windowId: Int, nowMs: Long, durationMs: Long) {
-    if (windowId < 0 || durationMs < 250L) return
+  @Synchronized fun noteSlowBuild(
+    windowId: Int,
+    nowMs: Long,
+    durationMs: Long,
+    budgetExceeded: Boolean = false,
+  ) {
+    if (windowId < 0 || (!budgetExceeded && durationMs < 250L)) return
     record(windowId, nowMs)
     val state = windows[windowId] ?: return
     state.liveUntilMs = maxOf(state.liveUntilMs, nowMs + 8_000L)

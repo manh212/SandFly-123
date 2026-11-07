@@ -18,6 +18,7 @@ package com.google.android.accessibility.utils;
 
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.utils.traversal.NodeCachedBoundsCalculator;
 import com.google.android.accessibility.utils.traversal.ReorderedChildrenIterator;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import java.util.Set;
  */
 public class AccessibilityNodeInfoRef {
   private AccessibilityNodeInfoCompat mNode;
+  private final @Nullable NodeCachedBoundsCalculator boundsCalculator;
 
   /** Returns the current node. */
   public AccessibilityNodeInfoCompat get() {
@@ -64,6 +66,11 @@ public class AccessibilityNodeInfoRef {
   /** Creates a new instance of this class. */
   public static AccessibilityNodeInfoRef obtain(AccessibilityNodeInfoCompat node) {
     return new AccessibilityNodeInfoRef(node);
+  }
+
+  public static AccessibilityNodeInfoRef obtain(
+      AccessibilityNodeInfoCompat node, NodeCachedBoundsCalculator boundsCalculator) {
+    return new AccessibilityNodeInfoRef(node, boundsCalculator);
   }
 
   /** Creates a new instance of this class without assuming ownership of {@code node}. */
@@ -96,10 +103,19 @@ public class AccessibilityNodeInfoRef {
     return this;
   }
 
-  public AccessibilityNodeInfoRef() {}
+  public AccessibilityNodeInfoRef() {
+    this(null, null);
+  }
 
   private AccessibilityNodeInfoRef(AccessibilityNodeInfoCompat node) {
+    this(node, null);
+  }
+
+  private AccessibilityNodeInfoRef(
+      @Nullable AccessibilityNodeInfoCompat node,
+      @Nullable NodeCachedBoundsCalculator boundsCalculator) {
     mNode = node;
+    this.boundsCalculator = boundsCalculator;
   }
 
   public static boolean isNull(AccessibilityNodeInfoRef ref) {
@@ -122,7 +138,8 @@ public class AccessibilityNodeInfoRef {
       return false;
     }
 
-    ReorderedChildrenIterator iterator = ReorderedChildrenIterator.createDescendingIterator(mNode);
+    ReorderedChildrenIterator iterator =
+        ReorderedChildrenIterator.createDescendingIterator(mNode, boundsCalculator);
     while (iterator.hasNext()) {
       AccessibilityNodeInfoCompat newNode = iterator.next();
       if (newNode == null) {
@@ -149,7 +166,8 @@ public class AccessibilityNodeInfoRef {
     if (parent == null) {
       return false;
     }
-    ReorderedChildrenIterator iterator = ReorderedChildrenIterator.createDescendingIterator(parent);
+    ReorderedChildrenIterator iterator =
+        ReorderedChildrenIterator.createDescendingIterator(parent, boundsCalculator);
     if (!moveIteratorAfterNode(iterator, mNode)) {
       return false;
     }
@@ -173,7 +191,8 @@ public class AccessibilityNodeInfoRef {
       return false;
     }
 
-    ReorderedChildrenIterator iterator = ReorderedChildrenIterator.createAscendingIterator(mNode);
+    ReorderedChildrenIterator iterator =
+        ReorderedChildrenIterator.createAscendingIterator(mNode, boundsCalculator);
     while (iterator.hasNext()) {
       AccessibilityNodeInfoCompat newNode = iterator.next();
       if (newNode == null) {
@@ -199,7 +218,8 @@ public class AccessibilityNodeInfoRef {
     if (parent == null) {
       return false;
     }
-    ReorderedChildrenIterator iterator = ReorderedChildrenIterator.createAscendingIterator(parent);
+    ReorderedChildrenIterator iterator =
+        ReorderedChildrenIterator.createAscendingIterator(parent, boundsCalculator);
     if (!moveIteratorAfterNode(iterator, mNode)) {
       return false;
     }

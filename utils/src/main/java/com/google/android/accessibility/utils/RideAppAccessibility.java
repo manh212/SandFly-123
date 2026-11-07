@@ -2,6 +2,9 @@ package com.google.android.accessibility.utils;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.os.SystemClock;
+import com.google.android.accessibility.utils.traversal.TraversalBudget;
+import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -23,7 +26,7 @@ public final class RideAppAccessibility {
     return node != null && isSupported(node.getPackageName()) && node.isEnabled()
         && node.isVisibleToUser()
         && AccessibilityNodeInfoUtils.supportsAction(node, AccessibilityNodeInfoCompat.ACTION_CLICK)
-        && !hasActionableDescendant(node, new HashSet<>(), 0);
+        && !new DescendantSearch(GRAB.contentEquals(node.getPackageName())).hasActionable(node, 0);
   }
 
   private static final String GRAB = "com.grabtaxi.passenger";
@@ -82,16 +85,24 @@ public final class RideAppAccessibility {
         || !GRAB.contentEquals(root.getPackageName() == null ? "" : root.getPackageName())) {
       return null;
     }
-    java.util.ArrayDeque<AccessibilityNodeInfoCompat> queue = new java.util.ArrayDeque<>();
+    for (AccessibilityNodeInfoCompat candidate : root.findAccessibilityNodeInfosByViewId(BOOK_BUTTON)) {
+      if (grabBookingButtonLabel(candidate) != null) {
+        return candidate;
+      }
+    }
+    ArrayDeque<AccessibilityNodeInfoCompat> queue = new ArrayDeque<>();
     queue.add(root);
-    int visited = 0;
-    while (!queue.isEmpty() && visited++ < 1200) {
+    long deadline = SystemClock.uptimeMillis() + 24;
+    int queries = 0;
+    while (!queue.isEmpty() && SystemClock.uptimeMillis() < deadline) {
       AccessibilityNodeInfoCompat node = queue.removeFirst();
       if (BOOK_BUTTON.equals(node.getViewIdResourceName())
           && grabBookingButtonLabel(node) != null) {
         return node;
       }
-      for (int index = 0; index < node.getChildCount(); index++) {
+      for (int index = 0;
+          index < node.getChildCount() && queries < 64 && SystemClock.uptimeMillis() < deadline;
+          index++, queries++) {
         AccessibilityNodeInfoCompat child = node.getChild(index);
         if (child != null && child.isVisibleToUser()) {
           queue.addLast(child);
@@ -101,15 +112,35 @@ public final class RideAppAccessibility {
     return null;
   }
 
-  private static boolean hasActionableDescendant(
-      AccessibilityNodeInfoCompat node, Set<AccessibilityNodeInfoCompat> visited, int depth) {
-    if (!visited.add(node) || depth >= 12) return true;
-    for (int index = 0; index < node.getChildCount(); index++) {
-      AccessibilityNodeInfoCompat child = node.getChild(index);
-      if (child == null || !child.isVisibleToUser()) continue;
-      if (AccessibilityNodeInfoUtils.supportsAction(child, AccessibilityNodeInfoCompat.ACTION_CLICK)
-          || hasActionableDescendant(child, visited, depth + 1)) return true;
+  private static final class DescendantSearch {
+    private final Set<AccessibilityNodeInfoCompat> visited = new HashSet<>();
+    private final long deadline;
+    private int queriesRemaining;
+
+    DescendantSearch(boolean bounded) {
+      deadline = bounded ? SystemClock.uptimeMillis() + 16 : Long.MAX_VALUE;
+      queriesRemaining = bounded ? 32 : Integer.MAX_VALUE;
     }
-    return false;
+
+    boolean hasActionable(AccessibilityNodeInfoCompat node, int depth) {
+      if (!visited.add(node) || depth >= 12 || SystemClock.uptimeMillis() >= deadline) {
+        return true;
+      }
+      int count = node.getChildCount();
+      for (int index = 0; index < count; index++) {
+        TraversalBudget.check();
+        if (queriesRemaining-- <= 0 || SystemClock.uptimeMillis() >= deadline) {
+          return true;
+        }
+        AccessibilityNodeInfoCompat child = node.getChild(index);
+        if (child != null && child.isVisibleToUser()
+            && (AccessibilityNodeInfoUtils.supportsAction(
+                    child, AccessibilityNodeInfoCompat.ACTION_CLICK)
+                || hasActionable(child, depth + 1))) {
+          return true;
+        }
+      }
+      return SystemClock.uptimeMillis() >= deadline;
+    }
   }
 }

@@ -43,8 +43,10 @@ internal class MainThreadStallLogger private constructor(private val watchdog: H
       watchdog.postDelayed(logStack, thresholdMs)
     } else if (message.startsWith("<<<<<")) {
       watchdog.removeCallbacks(logStack)
-      val blockedMs = SystemClock.uptimeMillis() - dispatchStartMs
-      if (blockedMs >= thresholdMs) {
+      val startedAt = dispatchStartMs
+      dispatchStartMs = 0L
+      val blockedMs = SystemClock.uptimeMillis() - startedAt
+      if (startedAt != 0L && blockedMs >= thresholdMs) {
         Performance.getInstance().onMainThreadStall(blockedMs, message)
         Log.w(TAG, "Main thread was blocked for $blockedMs ms by $message")
       }
@@ -52,11 +54,13 @@ internal class MainThreadStallLogger private constructor(private val watchdog: H
   }
 
   private fun logMainThreadStack() {
+    val startedAt = dispatchStartMs
+    if (startedAt == 0L) return
     val stack = mainThread.stackTrace.joinToString(separator = "") { "\n  at $it" }
-    val blockedMs = SystemClock.uptimeMillis() - dispatchStartMs
+    if (dispatchStartMs != startedAt) return
+    val blockedMs = SystemClock.uptimeMillis() - startedAt
     Performance.getInstance().onMainThreadStall(blockedMs, stack)
     LogUtils.w(TAG, "Main thread blocked for %d ms so far:%s", blockedMs, stack)
-    watchdog.postDelayed(logStack, thresholdMs)
   }
 
   companion object {

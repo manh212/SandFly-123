@@ -156,8 +156,8 @@ object TraversalTreeCache {
     structuralChurn.isChurning(windowId, SystemClock.uptimeMillis())
 
   @JvmStatic
-  fun noteSlowBuild(windowId: Int, durationMs: Long) {
-    structuralChurn.noteSlowBuild(windowId, SystemClock.uptimeMillis(), durationMs)
+  fun noteSlowBuild(windowId: Int, durationMs: Long, budgetExceeded: Boolean) {
+    structuralChurn.noteSlowBuild(windowId, SystemClock.uptimeMillis(), durationMs, budgetExceeded)
   }
 
   @JvmStatic
@@ -457,6 +457,7 @@ object TraversalTreeCache {
     if (event.eventType and IGNORED_EVENT_TYPES != 0) return
     val trackedWindow = if (buildingWindowId != NO_WINDOW_ID) buildingWindowId
       else root?.windowId ?: NO_WINDOW_ID
+    if (WindowCachePolicy.isForeignContentChange(event, trackedWindow)) return
     if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() ||
       WindowCachePolicy.affectsOrder(event, trackedWindow)) revisionCounter.incrementAndGet()
   }
@@ -493,6 +494,7 @@ object TraversalTreeCache {
     advanceRevision(event)
     val savedRoot = root ?: return false
     val windowId = event.windowId
+    if (WindowCachePolicy.isForeignContentChange(event, savedRoot.windowId)) return false
     if (LatencyExperiments.Feature.SCOPED_CACHE.enabled() &&
       !WindowCachePolicy.affectsOrder(event, savedRoot.windowId)) return false
     if (
@@ -511,7 +513,11 @@ object TraversalTreeCache {
           changes and nonStructuralChanges.inv() == 0
       ) {
         if (regionGraceEnabled) {
-          noteGracedChange(windowId, sourceBounds(event))
+          if (!gracedChangeUnknown) {
+            val bounds = if (gracedChangeRegions.size < MAX_GRACED_CHANGE_REGIONS)
+              sourceBounds(event) else null
+            noteGracedChange(windowId, bounds)
+          }
         } else if (firstIgnoredChangeTime == 0L) {
           firstIgnoredChangeTime = SystemClock.uptimeMillis()
         }

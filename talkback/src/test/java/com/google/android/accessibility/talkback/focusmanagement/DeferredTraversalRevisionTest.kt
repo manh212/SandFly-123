@@ -54,6 +54,16 @@ class DeferredTraversalRevisionTest {
   }
 
   @Test
+  fun knownForeignContentPreservesRevisionWithScopedExperimentOff() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, false)
+    val before = TraversalTreeCache.revision()
+    val event = textChange(8)
+    TraversalTreeCache.onAccessibilityEvent(event)
+    assertEquals(before, TraversalTreeCache.revision())
+    event.recycle()
+  }
+
+  @Test
   fun admittedContentAlsoInvalidatesAnInFlightBuildBeforeTheTreeExists() {
     val before = TraversalTreeCache.revision()
     val event = textChange(7)

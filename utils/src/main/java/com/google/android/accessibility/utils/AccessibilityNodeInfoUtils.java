@@ -61,6 +61,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionIn
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionItemInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.RangeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
+import com.google.android.accessibility.utils.traversal.TraversalBudget;
 import com.google.android.accessibility.utils.DiagnosticOverlayUtils.DiagnosticType;
 import com.google.android.accessibility.utils.Role.RoleName;
 import com.google.android.accessibility.utils.SpannableUtils.SpannableWithOffset;
@@ -957,6 +958,10 @@ public class AccessibilityNodeInfoUtils {
       }
     }
 
+    boolean normallyFocusable = isFocusableOrClickable(node);
+    if (!checkChildren && normallyFocusable) {
+      return true;
+    }
     if (RideAppAccessibility.isActionControl(node)) {
       return true;
     }
@@ -965,7 +970,7 @@ public class AccessibilityNodeInfoUtils {
     // This checks if a node is clickable, focusable, screen reader focusable, or a direct
     // spekaing child of a scrollable container.
     boolean accessibilityFocusable =
-        isFocusableOrClickable(node)
+        normallyFocusable
             || (isTopLevelScrollItem(node) && isSpeakingNode(node, null, visitedNodes));
 
     if (!checkChildren) {
@@ -1016,7 +1021,7 @@ public class AccessibilityNodeInfoUtils {
           }
         };
 
-    if (!hasMatchingAncestor(node, filter) && (hasText(node) || hasStateDescription(node))) {
+    if ((hasText(node) || hasStateDescription(node)) && !hasMatchingAncestor(node, filter)) {
       logShouldFocusNode(checkChildren, NONE, "Focus, has text and no focusable ancestors: ", node);
       return true;
     }
@@ -1147,6 +1152,7 @@ public class AccessibilityNodeInfoUtils {
     AccessibilityNodeInfoCompat child;
 
     for (int i = 0; i < childCount; i++) {
+      TraversalBudget.check();
       child = node.getChild(i);
 
       if (child == null) {
@@ -1679,6 +1685,7 @@ public class AccessibilityNodeInfoUtils {
     final HashSet<AccessibilityNodeInfoCompat> ancestors = new HashSet<>();
 
     ancestors.add(node);
+    TraversalBudget.check();
     node = node.getParent();
 
     while (node != null) {
@@ -1696,6 +1703,7 @@ public class AccessibilityNodeInfoUtils {
         return node;
       }
 
+      TraversalBudget.check();
       node = node.getParent();
     }
 

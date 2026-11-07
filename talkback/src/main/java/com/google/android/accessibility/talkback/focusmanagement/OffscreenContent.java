@@ -17,14 +17,13 @@
 package com.google.android.accessibility.talkback.focusmanagement;
 
 import android.graphics.Rect;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.Role;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 /**
  * Finds content that is in the node tree but off screen, so a swipe can scroll just far enough to
@@ -34,9 +33,8 @@ import java.util.List;
  * so the search right after would still find it off screen.
  */
 final class OffscreenContent {
-  // Large scroll views are rare, and walking a huge tree on every edge swipe would cost more than
-  // the page scroll it saves.
-  private static final int MAX_NODES = 1500;
+  private static final int MAX_NODE_QUERIES = 48;
+  private static final long SEARCH_BUDGET_MS = 24;
 
   private OffscreenContent() {}
 
@@ -52,100 +50,100 @@ final class OffscreenContent {
         && (role == Role.ROLE_SCROLL_VIEW || role == Role.ROLE_HORIZONTAL_SCROLL_VIEW);
   }
 
-  /**
-   * The off-screen content to show next: the first item after the pivot, and an item about a screen
-   * further on.
-   */
-  record Ahead(AccessibilityNodeInfoCompat next, AccessibilityNodeInfoCompat pageEnd) {}
-
-  /**
-   * Finds the first node after {@code pivot} in {@code scrollable}, in tree order, that is off
-   * screen or cut off at the edge and has something to say or do, and the node about a screen further on, judged by how many such
-   * nodes are on screen now. Showing the screen's worth at once keeps the next swipes on screen.
-   *
-   * <p>Nodes that are hidden rather than scrolled away are skipped: collapsed nodes with no size,
-   * everything inside a collapsed container, and everything inside a nested list, grid, pager or
-   * other scrolling container, whose off-screen content is off to the side or not laid out.
-   */
-  static @Nullable Ahead findAhead(
+  static @Nullable AccessibilityNodeInfoCompat findNext(
       AccessibilityNodeInfoCompat scrollable, AccessibilityNodeInfoCompat pivot, boolean forward) {
-    List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
-    List<Integer> subtreeEnds = new ArrayList<>();
-    List<Boolean> hidden = new ArrayList<>();
-    if (!collect(scrollable, nodes, subtreeEnds, hidden)) {
+    Search search = new Search(forward);
+    Deque<AccessibilityNodeInfoCompat> path = new ArrayDeque<>();
+    AccessibilityNodeInfoCompat node = pivot;
+    while (node != null && !node.equals(scrollable) && search.canQuery()) {
+      path.push(node);
+      node = node.getParent();
+    }
+    if (!scrollable.equals(node) || path.isEmpty()) {
       return null;
     }
-    int pivotIndex = nodes.indexOf(pivot);
-    if (pivotIndex < 0) {
-      return null;
+
+    AccessibilityNodeInfoCompat parent = scrollable;
+    Deque<ParentPosition> positions = new ArrayDeque<>();
+    while (!path.isEmpty()) {
+      AccessibilityNodeInfoCompat child = path.pop();
+      int index = search.indexOf(parent, child);
+      if (index < 0) {
+        return null;
+      }
+      positions.push(new ParentPosition(parent, index));
+      if (!path.isEmpty() && hidesChildren(child)) {
+        break;
+      }
+      parent = child;
     }
-    int onScreen = 0;
-    for (int i = 0; i < nodes.size(); i++) {
-      if (!hidden.get(i) && nodes.get(i).isVisibleToUser() && saysOrDoes(nodes.get(i))) {
-        onScreen++;
+
+    while (!positions.isEmpty() && search.hasTime() && search.queriesRemaining >= 0) {
+      ParentPosition position = positions.pop();
+      AccessibilityNodeInfoCompat next = search.findInChildren(
+          position.parent(), position.index() + search.step);
+      if (next != null) {
+        return search.hasTime() ? next : null;
       }
     }
-    List<AccessibilityNodeInfoCompat> ahead = new ArrayList<>();
-    int wanted = Math.max(1, onScreen);
-    if (forward) {
-      // Skip the pivot's own descendants, which the pivot already speaks.
-      for (int i = subtreeEnds.get(pivotIndex); i < nodes.size() && ahead.size() < wanted; i++) {
-        if (!hidden.get(i) && isCandidate(nodes.get(i))) {
-          ahead.add(nodes.get(i));
-        }
-      }
-    } else {
-      for (int i = pivotIndex - 1; i >= 0 && ahead.size() < wanted; i--) {
-        // Ancestors of the pivot come before it in tree order, but they are on screen around it.
-        if (subtreeEnds.get(i) > pivotIndex) {
-          continue;
-        }
-        if (!hidden.get(i) && isCandidate(nodes.get(i))) {
-          ahead.add(nodes.get(i));
-        }
-      }
-    }
-    return ahead.isEmpty() ? null : new Ahead(ahead.get(0), ahead.get(ahead.size() - 1));
+    return null;
   }
 
-  /**
-   * Lists the subtree in pre-order, with the index just past each node's subtree, and whether each
-   * node is hidden inside a collapsed or nested scrolling container. Returns {@code false} if the
-   * subtree is too large.
-   */
-  private static boolean collect(
-      AccessibilityNodeInfoCompat root,
-      List<AccessibilityNodeInfoCompat> nodes,
-      List<Integer> subtreeEnds,
-      List<Boolean> hidden) {
-    // Each entry is a node to visit, or the index of a visited node whose subtree ends here.
-    Deque<Object> stack = new ArrayDeque<>();
-    stack.push(new Visit(root, /* hidden= */ false));
-    while (!stack.isEmpty()) {
-      Object top = stack.pop();
-      if (top instanceof Integer start) {
-        subtreeEnds.set(start, nodes.size());
-        continue;
-      }
-      Visit visit = (Visit) top;
-      AccessibilityNodeInfoCompat node = visit.node;
-      if (nodes.size() >= MAX_NODES) {
-        return false;
-      }
-      int index = nodes.size();
-      nodes.add(node);
-      subtreeEnds.add(index + 1);
-      hidden.add(visit.hidden);
-      stack.push(index);
-      boolean childrenHidden = visit.hidden || (node != root && hidesChildren(node));
-      for (int i = node.getChildCount() - 1; i >= 0; i--) {
-        AccessibilityNodeInfoCompat child = node.getChild(i);
-        if (child != null) {
-          stack.push(new Visit(child, childrenHidden));
+  private record ParentPosition(AccessibilityNodeInfoCompat parent, int index) {}
+
+  private static final class Search {
+    private final long deadline = SystemClock.uptimeMillis() + SEARCH_BUDGET_MS;
+    private final int step;
+    private int queriesRemaining = MAX_NODE_QUERIES;
+
+    Search(boolean forward) {
+      step = forward ? 1 : -1;
+    }
+
+    boolean hasTime() {
+      return SystemClock.uptimeMillis() < deadline;
+    }
+
+    boolean canQuery() {
+      return queriesRemaining-- > 0 && hasTime();
+    }
+
+    int indexOf(AccessibilityNodeInfoCompat parent, AccessibilityNodeInfoCompat child) {
+      int count = parent.getChildCount();
+      for (int index = step > 0 ? 0 : count - 1;
+          index >= 0 && index < count && canQuery();
+          index += step) {
+        if (child.equals(parent.getChild(index))) {
+          return index;
         }
       }
+      return -1;
     }
-    return true;
+
+    @Nullable AccessibilityNodeInfoCompat findInChildren(
+        AccessibilityNodeInfoCompat parent, int start) {
+      int count = parent.getChildCount();
+      for (int index = start; index >= 0 && index < count && canQuery(); index += step) {
+        AccessibilityNodeInfoCompat child = parent.getChild(index);
+        if (child == null || !hasTime()) {
+          continue;
+        }
+        if (step > 0 && isCandidate(child)) {
+          return child;
+        }
+        if (!hidesChildren(child)) {
+          AccessibilityNodeInfoCompat nested =
+              findInChildren(child, step > 0 ? 0 : child.getChildCount() - 1);
+          if (nested != null) {
+            return nested;
+          }
+        }
+        if (step < 0 && queriesRemaining >= 0 && hasTime() && isCandidate(child)) {
+          return child;
+        }
+      }
+      return null;
+    }
   }
 
   /**

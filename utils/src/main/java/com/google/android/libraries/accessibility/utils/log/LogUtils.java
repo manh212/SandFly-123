@@ -258,10 +258,11 @@ public class LogUtils {
     if (!debugLogEnabled) {
       return;
     }
-    if (priority <= Log.DEBUG && LatencyExperiments.Feature.LIGHT_LOGGING.enabled()
-        && LatencyExperiments.inputIsActive(250)
-        && !tag.equals("GestureController") && !tag.equals("Performance")
-        && !tag.equals("LatencyTrace") && !tag.equals("BacktalkStall")) {
+    if (priority <= Log.DEBUG && LatencyExperiments.inputIsActive(250)
+        && (tag.equals("AccessibilityNodeInfoUtils") || tag.equals("AutoScrollInterpreter")
+            || (LatencyExperiments.Feature.LIGHT_LOGGING.enabled()
+                && !tag.equals("GestureController") && !tag.equals("Performance")
+                && !tag.equals("LatencyTrace") && !tag.equals("BacktalkStall")))) {
       return;
     }
 

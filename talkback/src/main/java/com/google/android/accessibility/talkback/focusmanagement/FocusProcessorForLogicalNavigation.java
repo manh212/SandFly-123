@@ -120,6 +120,7 @@ import com.google.android.accessibility.utils.traversal.GridTraversalManager;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategyConfig;
 import com.google.android.accessibility.utils.traversal.SimpleTraversalStrategy;
+import com.google.android.accessibility.utils.traversal.TraversalBudget;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
@@ -134,6 +135,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -187,6 +189,8 @@ public class FocusProcessorForLogicalNavigation {
 
   /** Callback to handle scroll success or failure. */
   private @Nullable AutoScrollCallback scrollCallback;
+
+  private static final long ORDER_BUILD_BUDGET_MS = 60;
 
   /** Set while searching again after showing an off-screen item, so it is tried only once. */
   private boolean revealingOffscreen;
@@ -651,7 +655,10 @@ public class FocusProcessorForLogicalNavigation {
               == TraversalStrategy.SEARCH_FOCUS_FORWARD
           && com.google.android.accessibility.utils.RideAppAccessibility
               .precedesGrabBookingButton(pivot)) {
-        AccessibilityNodeInfoCompat root = AccessibilityNodeInfoUtils.getRoot(pivot);
+        AccessibilityNodeInfoCompat root = TraversalTreeCache.rootFor(pivot);
+        if (root == null) {
+          root = AccessibilityNodeInfoUtils.getRoot(pivot);
+        }
         AccessibilityNodeInfoCompat bookingButton =
             com.google.android.accessibility.utils.RideAppAccessibility
                 .findGrabBookingButton(root);
@@ -1514,10 +1521,9 @@ public class FocusProcessorForLogicalNavigation {
     // Asking the window for its root waits for the app on every swipe, so take the root of the
     // saved reading order when that holds the pivot.
     long[] rootWork = Performance.getInstance().beginNavigationWork();
-    AccessibilityNodeInfoCompat rootNode = TraversalTreeCache.rootFor(pivot);
-    if (rootNode == null) {
-      rootNode = AccessibilityNodeInfoUtils.getRoot(pivot);
-    }
+    AccessibilityNodeInfoCompat cachedRoot = TraversalTreeCache.rootFor(pivot);
+    AccessibilityNodeInfoCompat rootNode =
+        cachedRoot != null ? cachedRoot : AccessibilityNodeInfoUtils.getRoot(pivot);
     Performance.getInstance().endNavigationWork(eventId, "root", rootWork);
     if (rootNode == null) {
       LogUtils.w(TAG, "Cannot perform navigation action: unable to find root node.");
@@ -1536,10 +1542,11 @@ public class FocusProcessorForLogicalNavigation {
     // In a frequently changing feed, rebuilding a complete traversal order on the UI
     // thread after every swipe blocks touch exploration as well. Prefer local traversal
     // for ordinary next/previous gestures until the feed becomes quiet.
-    if (traversalStrategy == null
-        && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
-        && isMoveToNextOrPreviousItem(navigationAction)
-        && !NodeOverrides.hasSource()
+    boolean canUseLiveOrder =
+        navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+            && isMoveToNextOrPreviousItem(navigationAction)
+            && !NodeOverrides.hasSource();
+    if (traversalStrategy == null && canUseLiveOrder
         && TraversalTreeCache.shouldUseLiveTraversal(rootNode.getWindowId())) {
       traversalStrategy = new SimpleTraversalStrategy();
       TraversalTreeCache.noteLiveAnswer();
@@ -1586,15 +1593,32 @@ public class FocusProcessorForLogicalNavigation {
           Trace.beginSection("BuildTraversalStrategy");
         }
         long[] orderWork = Performance.getInstance().beginNavigationWork();
-        WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
-        traversalStrategy =
-            TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
-        Performance.getInstance().endNavigationWork(eventId, "order_sync", orderWork);
-        long buildDuration = SystemClock.uptimeMillis() - buildStart;
-        TraversalTreeCache.noteSlowBuild(rootNode.getWindowId(), buildDuration);
-        if (trace) {
-          Trace.endSection();
-          TraversalTreeCache.noteBuild(buildDuration);
+        boolean budgetExceeded = false;
+        try {
+          if (canUseLiveOrder && TraversalTreeCache.getBurstLiveAnswerEnabled()) {
+            traversalStrategy = TraversalBudget.run(buildStart + ORDER_BUILD_BUDGET_MS,
+                () -> TraversalStrategyUtils.getTraversalStrategy(
+                    rootNode, focusFinder, searchDirection));
+          } else {
+            WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
+            traversalStrategy =
+                TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
+          }
+        } catch (CancellationException exhausted) {
+          budgetExceeded = true;
+          traversalStrategy = new SimpleTraversalStrategy();
+          TraversalTreeCache.noteLiveAnswer();
+          Performance.getInstance().onNavigationDetail(eventId, "order_sync_budget_exhausted", 1);
+        } finally {
+          Performance.getInstance().endNavigationWork(eventId, "order_sync", orderWork);
+          long buildDuration = SystemClock.uptimeMillis() - buildStart;
+          TraversalTreeCache.noteSlowBuild(rootNode.getWindowId(), buildDuration, budgetExceeded);
+          if (trace) {
+            Trace.endSection();
+            if (!budgetExceeded) {
+              TraversalTreeCache.noteBuild(buildDuration);
+            }
+          }
         }
         if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
           TraversalTreeCache.put(rootNode, orderedStrategy);
@@ -1603,22 +1627,16 @@ public class FocusProcessorForLogicalNavigation {
     }
 
     Performance.getInstance().onNavigationStage(eventId, "ORDER_READY");
-    // In a scroll view the next item is already in the tree, just off screen. Show the next screen
-    // at once and search again, rather than scrolling a page and waiting for the scroll event.
     if (!revealingOffscreen) {
       @RevealResult
-      int reveal =
-          revealNextOffscreenItem(
-              pivot,
-              ignoreDescendantsOfPivot,
-              navigationAction,
-              logicalDirection,
-              reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
-              eventId);
-      if (reveal == REVEAL_SHOWN) {
-        // The saved order was read before the scroll, so it still has the next item off screen,
-        // and the search would stop at the edge.
-        TraversalTreeCache.clear("revealed next item");
+      int scroll = scrollAtEdge(
+          pivot,
+          ignoreDescendantsOfPivot,
+          navigationAction,
+          logicalDirection,
+          reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
+          eventId);
+      if (scroll == REVEAL_SHOWN) {
         revealingOffscreen = true;
         try {
           return navigateToDefaultOrMacroGranularityTarget(
@@ -1627,23 +1645,9 @@ public class FocusProcessorForLogicalNavigation {
           revealingOffscreen = false;
         }
       }
-      if (reveal == REVEAL_MOVED) {
-        // The view moved, but the item is still not on screen. A page scroll now would pass what
-        // the move brought on screen, so stop here, and let the next swipe carry on.
+      if (scroll == REVEAL_MOVED) {
         return true;
       }
-    }
-
-    // Perform auto-scroll action if necessary. Not after showing the next item, which has already
-    // scrolled the view: a page scroll on top would pass content that never came on screen.
-    if (!revealingOffscreen
-        && autoScrollAtEdge(
-            pivot,
-            ignoreDescendantsOfPivot,
-            navigationAction,
-            reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
-            eventId)) {
-      return true;
     }
 
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
@@ -2916,8 +2920,7 @@ public class FocusProcessorForLogicalNavigation {
     // Reuse the local strategy during churn. Otherwise a scroll-edge probe would
     // construct a full ordered tree, undoing the fast path above.
     return strategy instanceof OrderedTraversalStrategy
-        || (strategy instanceof SimpleTraversalStrategy
-            && TraversalTreeCache.shouldUseLiveTraversal(root.getWindowId()))
+        || strategy instanceof SimpleTraversalStrategy
         || LatencyExperiments.Feature.LIVE_EDGE_REUSE.enabled() ? strategy : null;
   }
 
@@ -2935,83 +2938,40 @@ public class FocusProcessorForLogicalNavigation {
   /** The view scrolled, but the next item is still not on screen. */
   private static final int REVEAL_MOVED = 2;
 
-  /**
-   * Shows the next screen of a scroll view when the pivot is the last item on screen. Scroll views
-   * keep all of their content in the tree, and they scroll for ACTION_SHOW_ON_SCREEN before the
-   * action returns, so the caller can search again at once. It shows an item about a screen on,
-   * and then the next item, if that went past the edge, so the next item starts the screen.
-   * Showing only the next item would leave every later swipe at the edge, and a page scroll can
-   * pass an item that was partly on screen, as it moves a whole screen and animates.
-   *
-   * <p>The framework's node cache keeps the scroll view as it was until the scroll events reach
-   * this thread, after this call, so the search would still find the pivot at the edge and scroll
-   * a page too. Clearing the scroll view from the cache, which needs Android 14, makes the search
-   * read where everything is now. On older versions, this leaves it to the page scroll.
-   */
   private @RevealResult int revealNextOffscreenItem(
+      @NonNull AccessibilityNodeInfoCompat scrollable,
       @NonNull AccessibilityNodeInfoCompat pivot,
-      boolean ignoreDescendantsOfPivot,
-      NavigationAction navigationAction,
       @SearchDirection int logicalDirection,
-      @Nullable TraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!BuildVersionUtils.isAtLeastU()
-        || !navigationAction.shouldScroll
-        || navigationAction.actionType != NavigationAction.DIRECTIONAL_NAVIGATION
-        || (logicalDirection != SEARCH_FOCUS_FORWARD && logicalDirection != SEARCH_FOCUS_BACKWARD)
-        || WebInterfaceUtils.supportsWebActions(pivot)) {
+        || scrollable.equals(pivot)
+        || !OffscreenContent.keepsAllContent(scrollable)
+        || (logicalDirection != SEARCH_FOCUS_FORWARD && logicalDirection != SEARCH_FOCUS_BACKWARD)) {
       return REVEAL_NONE;
     }
-    ScrollableNodeInfo scrollableNodeInfo =
-        ScrollableNodeInfo.findScrollableNodeForDirection(
-            navigationAction.searchDirection,
-            pivot,
-            /* includeSelf= */ false,
-            WindowUtils.isScreenLayoutRTL(service));
-    if (scrollableNodeInfo == null
-        || !OffscreenContent.keepsAllContent(scrollableNodeInfo.getNode())
-        || !TraversalStrategyUtils.isAutoScrollEdgeListItem(
-            pivot,
-            scrollableNodeInfo,
-            ignoreDescendantsOfPivot,
-            navigationAction.searchDirection,
-            focusFinder,
-            windowOrderedStrategy)) {
+    long[] work = Performance.getInstance().beginNavigationWork();
+    AccessibilityNodeInfoCompat next =
+        OffscreenContent.findNext(scrollable, pivot, logicalDirection == SEARCH_FOCUS_FORWARD);
+    Performance.getInstance().endNavigationWork(eventId, "offscreen_search", work);
+    if (next == null) {
       return REVEAL_NONE;
     }
-    AccessibilityNodeInfoCompat scrollable = scrollableNodeInfo.getNode();
-    OffscreenContent.Ahead ahead =
-        OffscreenContent.findAhead(scrollable, pivot, logicalDirection == SEARCH_FOCUS_FORWARD);
-    if (ahead == null) {
-      return REVEAL_NONE;
-    }
-    AccessibilityNodeInfoCompat next = ahead.next();
     Rect pivotBefore = new Rect();
     pivot.getBoundsInScreen(pivotBefore);
-    if (!showOnScreen(ahead.pageEnd(), eventId)) {
+    if (!showOnScreen(next, eventId)) {
       return REVEAL_NONE;
     }
     service.clearCachedSubtree(scrollable.unwrap());
-    if (!ahead.pageEnd().equals(next)
-        && !(next.refresh() && next.isVisibleToUser())
-        && showOnScreen(next, eventId)) {
-      // The screen held fewer items than guessed, so the next item went past the edge. Showing it
-      // brings it back to the edge the swipe heads away from.
-      service.clearCachedSubtree(scrollable.unwrap());
-    }
+    TraversalTreeCache.clear("revealed next item");
     if (!pivot.refresh()) {
-      LogUtils.d(TAG, "revealNextOffscreenItem: pivot is gone");
       return REVEAL_MOVED;
     }
     Rect pivotAfter = new Rect();
     pivot.getBoundsInScreen(pivotAfter);
     if (pivotAfter.equals(pivotBefore)) {
-      LogUtils.d(TAG, "revealNextOffscreenItem: nothing moved, next=%s", next);
       return REVEAL_NONE;
     }
-    boolean shown = next.refresh() && next.isVisibleToUser();
-    LogUtils.d(TAG, "revealNextOffscreenItem shown=%s next=%s", shown, next);
-    return shown ? REVEAL_SHOWN : REVEAL_MOVED;
+    return next.refresh() && next.isVisibleToUser() ? REVEAL_SHOWN : REVEAL_MOVED;
   }
 
   private boolean showOnScreen(AccessibilityNodeInfoCompat node, EventId eventId) {
@@ -3024,21 +2984,22 @@ public class FocusProcessorForLogicalNavigation {
    * Tries to perform scroll if the pivot is at the edge of a scrollable container and suitable
    * autoscroll.
    */
-  private boolean autoScrollAtEdge(
+  private @RevealResult int scrollAtEdge(
       @NonNull AccessibilityNodeInfoCompat pivot,
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
+      @SearchDirection int logicalDirection,
       @Nullable TraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!navigationAction.shouldScroll) {
       LogUtils.v(TAG, "autoScrollAtEdge returns due to shouldScroll is false");
-      return false;
+      return REVEAL_NONE;
     }
     if (WebInterfaceUtils.supportsWebActions(pivot)) {
       // Do not autoScrollAtEdge on web node because autoScrollAtEdge relies on TraversalStrategy
       // but web nodes aren't in the traversal tree.
       LogUtils.v(TAG, "autoScrollAtEdge returns due to pivot is web node");
-      return false;
+      return REVEAL_NONE;
     }
 
     // Allow the pivot node itself being the scrollable container. This may happen when the
@@ -3051,13 +3012,13 @@ public class FocusProcessorForLogicalNavigation {
             /* includeSelf= */ true,
             WindowUtils.isScreenLayoutRTL(service));
     if (scrollableNodeInfo == null) {
-      return false;
+      return REVEAL_NONE;
     }
     AccessibilityNodeInfoCompat scrollableNode = scrollableNodeInfo.getNode();
 
     // Don't try to scroll the pivot when ignoring all descendants from the pivot.
     if (scrollableNode.equals(pivot) && ignoreDescendantsOfPivot) {
-      return false;
+      return REVEAL_NONE;
     }
 
     // No need to scroll if the pivot is not at the edge of the scrollable container.
@@ -3068,10 +3029,18 @@ public class FocusProcessorForLogicalNavigation {
         navigationAction.searchDirection,
         focusFinder,
         windowOrderedStrategy)) {
-      return false;
+      return REVEAL_NONE;
     }
 
-    return autoScroll(scrollableNodeInfo, pivot, navigationAction, eventId);
+    if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION) {
+      @RevealResult
+      int reveal = revealNextOffscreenItem(scrollableNode, pivot, logicalDirection, eventId);
+      if (reveal != REVEAL_NONE) {
+        return reveal;
+      }
+    }
+    return autoScroll(scrollableNodeInfo, pivot, navigationAction, eventId)
+        ? REVEAL_MOVED : REVEAL_NONE;
   }
 
   /**

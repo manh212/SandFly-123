@@ -8,6 +8,8 @@ import android.view.accessibility.AccessibilityEvent;
 import java.util.function.Predicate;
 import java.util.function.Consumer;
 import com.google.android.accessibility.utils.LatencyExperiments;
+import com.google.android.accessibility.utils.NodeOverrides;
+import com.google.android.accessibility.utils.input.ScrollEventInterpreter;
 import com.google.android.accessibility.utils.WindowCachePolicy;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
 
@@ -30,6 +32,7 @@ public final class BackgroundEventGate {
   private final Runnable releasePending = this::releasePending;
   private final Runnable releaseActive = this::releaseActive;
   private boolean enabled;
+  private boolean interactionPriorityEnabled;
   private boolean touching;
   private boolean releaseScheduled;
   private long lastInput;
@@ -73,6 +76,10 @@ public final class BackgroundEventGate {
       enabled = nextEnabled;
       lastDispatch = SystemClock.uptimeMillis();
     }
+  }
+
+  public void setInteractionPriorityEnabled(boolean enabled) {
+    interactionPriorityEnabled = enabled;
   }
 
   public void onUserInput() {
@@ -121,7 +128,13 @@ public final class BackgroundEventGate {
     // many times a second. Once detected, keep just the latest update and deliver it
     // between user interactions. Focus, clicks, text edits and expected scroll callbacks
     // always take the original immediate path.
-    if (enabled && isChurningActiveUpdate(event)) {
+    boolean prioritizeInteraction = interactionPriorityEnabled
+        && !NodeOverrides.hasSource()
+        && type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        && event.getContentChangeTypes() == AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE
+        && (pendingActive != null || touching
+            || SystemClock.uptimeMillis() - lastInput < INPUT_GRACE_MS);
+    if ((enabled || prioritizeInteraction) && isChurningActiveUpdate(event)) {
       // Invalidate the cached root and traversal immediately, not when the deferred
       // event is replayed: a gesture between updates must never navigate a stale tree.
       deferredInvalidation.accept(event);
@@ -203,7 +216,8 @@ public final class BackgroundEventGate {
         || !TraversalTreeCache.shouldUseLiveTraversal(interactionWindowId)) return false;
     if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
       // Text/state/content-description changes may be meaningful feedback.
-      return !WindowCachePolicy.isNonStructuralContent(event);
+      return !WindowCachePolicy.isNonStructuralContent(event)
+          && !ScrollEventInterpreter.hasValidIndex(event);
     }
     // Never postpone a scroll response while the user is touching/swiping, nor
     // any delayed callback for a programmatic scroll that TalkBack is expecting.

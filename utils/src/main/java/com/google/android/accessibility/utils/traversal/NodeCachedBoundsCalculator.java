@@ -22,6 +22,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -40,6 +41,27 @@ public class NodeCachedBoundsCalculator {
   private final Map<AccessibilityNodeInfoCompat, Rect> boundsMap = new HashMap<>();
   private final Set<AccessibilityNodeInfoCompat> calculatingNodes = new HashSet<>();
   private final Rect tempRect = new Rect();
+  private final @Nullable Map<AccessibilityNodeInfoCompat, List<AccessibilityNodeInfoCompat>>
+      childOrders;
+
+  public NodeCachedBoundsCalculator() {
+    this(false);
+  }
+
+  NodeCachedBoundsCalculator(boolean reuseChildOrders) {
+    childOrders = reuseChildOrders ? new HashMap<>() : null;
+  }
+
+  @Nullable List<AccessibilityNodeInfoCompat> getChildOrder(AccessibilityNodeInfoCompat parent) {
+    return childOrders == null ? null : childOrders.get(parent);
+  }
+
+  void putChildOrder(AccessibilityNodeInfoCompat parent, List<AccessibilityNodeInfoCompat> order) {
+    if (childOrders != null) {
+      childOrders.put(parent, order);
+    }
+  }
+
   private Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache;
 
   public void setSpeakingNodesCache(Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
@@ -57,6 +79,7 @@ public class NodeCachedBoundsCalculator {
   }
 
   private Rect getBoundsInternal(AccessibilityNodeInfoCompat node) {
+    TraversalBudget.check();
     if (node == null) {
       return EMPTY_RECT;
     }
@@ -69,9 +92,12 @@ public class NodeCachedBoundsCalculator {
     Rect bounds = boundsMap.get(node);
     if (bounds == null) {
       calculatingNodes.add(node);
-      bounds = fetchBound(node);
-      boundsMap.put(node, bounds);
-      calculatingNodes.remove(node);
+      try {
+        bounds = fetchBound(node);
+        boundsMap.put(node, bounds);
+      } finally {
+        calculatingNodes.remove(node);
+      }
     }
 
     return bounds;
@@ -93,31 +119,16 @@ public class NodeCachedBoundsCalculator {
     int minLeft = Integer.MAX_VALUE;
     int maxBottom = Integer.MIN_VALUE;
     int maxRight = Integer.MIN_VALUE;
-    AccessibilityNodeInfoCompat child = null;
     boolean hasChildBounds = false;
     for (int i = 0; i < childCount; i++) {
-      try {
-        child = node.getChild(i);
-        Rect bounds = getBoundsInternal(child);
-        if (!bounds.equals(EMPTY_RECT)) {
-          hasChildBounds = true;
-          if (bounds.top < minTop) {
-            minTop = bounds.top;
-          }
-
-          if (bounds.left < minLeft) {
-            minLeft = bounds.left;
-          }
-
-          if (bounds.right > maxRight) {
-            maxRight = bounds.right;
-          }
-
-          if (bounds.bottom > maxBottom) {
-            maxBottom = bounds.bottom;
-          }
-        }
-      } finally {
+      TraversalBudget.check();
+      Rect bounds = getBoundsInternal(node.getChild(i));
+      if (!bounds.equals(EMPTY_RECT)) {
+        hasChildBounds = true;
+        minTop = Math.min(minTop, bounds.top);
+        minLeft = Math.min(minLeft, bounds.left);
+        maxRight = Math.max(maxRight, bounds.right);
+        maxBottom = Math.max(maxBottom, bounds.bottom);
       }
     }
 
