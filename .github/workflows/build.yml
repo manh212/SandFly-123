@@ -232,6 +232,8 @@ jobs:
               --entrypoint com.google.android.accessibility.talkback.licensing.ActivationActivity \
               --entrypoint com.google.android.accessibility.talkback.licensing.SupportActivity \
               --entrypoint com.google.android.accessibility.talkback.licensing.SupportJobService \
+              --entrypoint com.google.android.accessibility.talkback.licensing.ForumActivity \
+              --entrypoint com.google.android.accessibility.talkback.licensing.ForumEntryPreference \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#status' \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#request' \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#refresh' \
