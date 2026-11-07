@@ -62,13 +62,18 @@ Turning async order off cancels outstanding work. No gesture is silently skipped
 by treating a failed or partial build as a complete order.
 
 The input-priority slice yields between events. It cannot interrupt a listener
-already blocked in an Android IPC. Structural, focus, editing, direct input and
-expected scroll-response events retain their existing processing paths. The
-very-low processing-level gate still has its existing single deferred slot and
-500 ms release rate; the priority experiment extends deferral to active-window
-text/state-only updates during interaction. Dropped background updates are
-coalesced, so background announcements can arrive later or omit intermediate
-states while experimenting.
+already blocked in an Android IPC. At levels other than very low, the experiment
+can defer background updates and active-window text/state-only updates during
+interaction, keeping the latest update in its deferred slot.
+
+Very low requests a restricted event mask from Android. Notifications,
+window transitions, focus, typing and touch events still reach the usual
+handlers. Scroll feedback is admitted during recent interaction in the same
+window or when it matches a pending scroll action. Passive content and geometry
+changes only invalidate the affected caches, with no source-node lookup or
+replay into the feedback queue. Unsolicited announcements and selection feedback
+are skipped. The diagnostic report counts this cache-only path separately from
+events admitted to feedback.
 
 ## Repeatable device measurements
 

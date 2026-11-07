@@ -56,7 +56,9 @@ class BackgroundEventGateTest {
   private fun advance(ms: Long) = shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(ms))
 
   @Test
-  fun mixedBackgroundSourcesAndTypes_shareOneSlotAndOneRateLimit() {
+  fun inputPriorityExperimentSharesOneBackgroundSlotAndRateLimit() {
+    gate.setProcessingLevel("medium")
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.INPUT_PRIORITY, true)
     repeat(30) {
       assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)))
       assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SELECTED, "background", 3)))
@@ -73,7 +75,9 @@ class BackgroundEventGateTest {
   }
 
   @Test
-  fun touchingDefersBackgroundUntilInputGraceHasElapsed() {
+  fun inputPriorityExperimentWaitsUntilInputGraceHasElapsed() {
+    gate.setProcessingLevel("medium")
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.INPUT_PRIORITY, true)
     gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
     assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START)))
     advance(2000)
@@ -86,27 +90,27 @@ class BackgroundEventGateTest {
   }
 
   @Test
-  fun activeContentAndInputResponses_areNeverThrottled() {
+  fun focusInputAndAutomaticNotificationsAreAdmittedImmediately() {
     for (type in listOf(
-      AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
-      AccessibilityEvent.TYPE_VIEW_SCROLLED,
       AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
       AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
       AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED,
       AccessibilityEvent.TYPE_VIEW_CLICKED,
       AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
-      AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED,
-      AccessibilityEvent.TYPE_ANNOUNCEMENT)) {
+      AccessibilityEvent.TYPE_SPEECH_STATE_CHANGE,
+      AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED)) {
       assertTrue(gate.onAccessibilityEvent(event(type, "foreground", 1)))
     }
     assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED)))
   }
 
   @Test
-  fun switchingToSystemUi_keepsItsInteractiveUpdates() {
+  fun switchingToSystemUiKeepsItsInteractiveUpdates() {
     gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED))
-    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)))
+    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START))
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SCROLLED)))
     assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SELECTED)))
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_ANNOUNCEMENT)))
   }
 
   @Test
@@ -129,7 +133,7 @@ class BackgroundEventGateTest {
   }
 
   @Test
-  fun windowTransitionsArePreservedWhileBackgroundGeometryIsCoalesced() {
+  fun windowTransitionsAreAdmittedAndGeometryOnlyInvalidatesCaches() {
     for (changes in listOf(AccessibilityEvent.WINDOWS_CHANGE_ADDED,
       AccessibilityEvent.WINDOWS_CHANGE_REMOVED, AccessibilityEvent.WINDOWS_CHANGE_ACTIVE,
       AccessibilityEvent.WINDOWS_CHANGE_FOCUSED,
@@ -143,29 +147,36 @@ class BackgroundEventGateTest {
     ReflectionHelpers.callInstanceMethod<Any>(changed, "setWindowChanges",
       ClassParameter.from(Int::class.javaPrimitiveType, AccessibilityEvent.WINDOWS_CHANGE_BOUNDS))
     assertFalse(gate.onAccessibilityEvent(changed))
+    advance(1000)
+    assertTrue(delivered.isEmpty())
   }
 
   @Test
-  fun modeChangeAndShutdown_cancelPendingCopies() {
-    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
+  fun enteringStrictModeCancelsPendingCopiesAndLeavingRestoresSubscriptions() {
+    assertTrue(gate.isStrict)
+    val mask = gate.subscribedEventTypes()
+    assertTrue(mask and AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED != 0)
+    assertTrue(mask and AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED != 0)
+    assertEquals(0, mask and AccessibilityEvent.TYPE_ASSIST_READING_CONTEXT)
     gate.setProcessingLevel("medium")
-    advance(1000)
-    assertTrue(delivered.isEmpty())
-    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)))
+    assertFalse(gate.isStrict)
+    assertEquals(AccessibilityEvent.TYPES_ALL_MASK, gate.subscribedEventTypes())
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.INPUT_PRIORITY, true)
+    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)))
     gate.setProcessingLevel("very_low")
-    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
-    gate.clear()
     advance(1000)
     assertTrue(delivered.isEmpty())
   }
 
   @Test
-  fun pendingUpdateBecomingForeground_isDiscardedInsteadOfReplayed() {
-    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
-    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED))
-    advance(500)
-    assertTrue(delivered.isEmpty())
-    assertTrue(EventProcessingStats.snapshot().contains("coalesced dropped admitted"))
+  fun idleSelectionAndAnnouncementsAreDroppedWithoutCacheInvalidation() {
+    var invalidated = 0
+    gate.clear()
+    gate = BackgroundEventGate({ _, _ -> }, { false }, { invalidated++ })
+    gate.setProcessingLevel("very_low")
+    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SELECTED)))
+    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_ANNOUNCEMENT)))
+    assertEquals(0, invalidated)
   }
   @Test
   fun priorityModeDefersActiveTextWithImmediateInvalidationAndKeepsFocus() {
@@ -195,7 +206,7 @@ class BackgroundEventGateTest {
     }
 
   @Test
-  fun repeatedActiveStructuralUpdates_keepOnlyLatestAfterChurnDetected() {
+  fun repeatedSubtreeUpdatesOnlyInvalidateCachesFromTheFirstEvent() {
     var invalidated = 0
     gate.clear()
     gate = BackgroundEventGate(
@@ -205,12 +216,11 @@ class BackgroundEventGateTest {
     )
     gate.setProcessingLevel("very_low")
     gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1))
-    repeat(3) { assertTrue(gate.onAccessibilityEvent(structural())) }
-    repeat(20) { assertFalse(gate.onAccessibilityEvent(structural())) }
-    assertEquals(20, invalidated)
+    repeat(100) { assertFalse(gate.onAccessibilityEvent(structural())) }
+    assertEquals(100, invalidated)
+    advance(1500)
     assertTrue(delivered.isEmpty())
-    advance(200)
-    assertEquals(listOf("foreground"), delivered)
+    assertTrue(EventProcessingStats.snapshot().contains("dropped cache_only admitted"))
   }
 
   @Test
@@ -259,17 +269,17 @@ class BackgroundEventGateTest {
   }
 
   @Test
-  fun activeTextChangesNeverJoinStructuralThrottle() {
+  fun passiveTextUpdatesOnlyInvalidateCachesAndTypingIsAdmitted() {
     repeat(4) { gate.onAccessibilityEvent(structural()) }
     val text = event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "foreground", 1)
     text.contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT
-    assertTrue(gate.onAccessibilityEvent(text))
+    assertFalse(gate.onAccessibilityEvent(text))
     assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
       "foreground", 1)))
   }
 
   @Test
-  fun unsolicitedActiveScrollIsDeferredButExpectedScrollIsImmediate() {
+  fun unsolicitedScrollOnlyInvalidatesCachesButExpectedScrollIsImmediate() {
     gate.clear()
     gate = BackgroundEventGate(
       { event, _ -> delivered += event.packageName.toString() },
@@ -287,22 +297,30 @@ class BackgroundEventGateTest {
     val expected = event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)
     expected.contentDescription = "expected"
     assertTrue(gate.onAccessibilityEvent(expected))
+    advance(1000)
+    assertTrue(delivered.isEmpty())
   }
 
   @Test
-  fun touchInteractionDefersStructuralRefreshButNotInputEvents() {
+  fun touchInteractionKeepsHoverAndScrollPositionButSkipsPlainSubtreeUpdates() {
     repeat(4) { gate.onAccessibilityEvent(structural()) }
     assertTrue(gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START, "foreground", 1)))
     assertFalse(gate.onAccessibilityEvent(structural()))
+    val position = structural().also {
+      it.fromIndex = 3
+      it.toIndex = 6
+      it.itemCount = 20
+    }
+    assertTrue(gate.onAccessibilityEvent(position))
     assertTrue(gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER, "foreground", 1)))
     advance(1000)
     assertTrue(delivered.isEmpty())
     assertTrue(gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_END, "foreground", 1)))
-    advance(150)
-    assertEquals(listOf("foreground"), delivered)
+    advance(500)
+    assertTrue(delivered.isEmpty())
   }
 
   private fun idleTicker(from: Int = 7, to: Int = 10): AccessibilityEvent =
@@ -320,28 +338,24 @@ class BackgroundEventGateTest {
     advance(600)
     val oldScroll = event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)
     oldScroll.itemCount = Int.MAX_VALUE
-    // The ticker filter must not call getScrollDeltaX/Y on API 26.
-    assertTrue(gate.onAccessibilityEvent(oldScroll))
+    assertFalse(gate.onAccessibilityEvent(oldScroll))
+    gate.onUserInput()
+    assertFalse(gate.onAccessibilityEvent(structural()))
   }
 
   @Test
-  fun passiveInfiniteCarouselRepeatedIndicesDoNotEnterFeedbackPipeline() {
+  fun passiveCarouselDoesNotEnterFeedbackPipelineEvenWhenIndicesChange() {
     advance(600)
-    assertTrue(gate.onAccessibilityEvent(idleTicker()))
-    assertFalse(gate.onAccessibilityEvent(idleTicker()))
-    assertFalse(gate.onAccessibilityEvent(idleTicker()))
-    assertTrue(delivered.isEmpty())
-    // Index changes must not be discarded. The active-window flood gate may defer
-    // the meaningful update after four observations, then deliver its latest copy.
+    repeat(10) { assertFalse(gate.onAccessibilityEvent(idleTicker())) }
     assertFalse(gate.onAccessibilityEvent(idleTicker(8, 11)))
-    advance(200)
-    assertEquals(listOf("foreground"), delivered)
+    advance(1000)
+    assertTrue(delivered.isEmpty())
   }
 
   @Test
   fun passiveTickerIsNeverDroppedDuringTouchExploration() {
     advance(600)
-    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+    assertFalse(gate.onAccessibilityEvent(idleTicker()))
     assertTrue(gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START, "foreground", 1)))
     assertTrue(gate.onAccessibilityEvent(idleTicker()))
@@ -359,7 +373,7 @@ class BackgroundEventGateTest {
     gate.onAccessibilityEvent(
       event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1))
     advance(600)
-    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+    assertFalse(gate.onAccessibilityEvent(idleTicker()))
     val expected = idleTicker()
     expected.contentDescription = "expected"
     assertTrue(gate.onAccessibilityEvent(expected))
@@ -369,7 +383,8 @@ class BackgroundEventGateTest {
   fun scopedModeDoesNotLetHelperWindowStateReplaceTheInteractionWindow() {
     LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, true)
     assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED, "miui.helper", 8)))
-    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "foreground", 1)))
-    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "miui.helper", 8)))
+    gate.onUserInput()
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)))
+    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "miui.helper", 8)))
   }
 }

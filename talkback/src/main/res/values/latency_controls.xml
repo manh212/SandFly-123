@@ -21,10 +21,9 @@
   <string name="title_pref_split_control_speech" translatable="false">Tách lời đọc điều khiển và nội dung</string>
   <string name="title_pref_event_processing_level" translatable="false">Mức xử lý sự kiện</string>
   <string name="summary_pref_event_processing_level" translatable="false">
-    Rất thấp chỉ xử lý một cập nhật nền mới nhất mỗi 500 ms, dùng chung cho mọi nguồn và loại,
-    đồng thời nhường khi đang thao tác và 150 ms sau đó. Phản hồi thao tác, nhập liệu, chuyển cửa
-    sổ cần thiết và thông báo mới vẫn được giữ. Các mức khác giữ lần lượt một, hai, bốn hoặc tám
-    cập nhật chờ cho mỗi loại có thể gộp.
+    Rất thấp nhận ít loại sự kiện hơn. Cập nhật nền chỉ làm mới dữ liệu giao diện khi cần.
+    Vẫn đọc thông báo mới và phản hồi chạm, tiêu điểm, nhập liệu và cuộn. Các mức khác giữ
+    lần lượt một, hai, bốn hoặc tám cập nhật chờ cho mỗi loại có thể gộp.
   </string>
   <string-array name="pref_event_processing_level_entries">
     <item>Rất thấp</item>

@@ -453,12 +453,12 @@ object TraversalTreeCache {
   @JvmStatic
   fun changesNodes(actionId: Int): Boolean = actionId !in FOCUS_ACTIONS && actionId != SHOW_ON_SCREEN
 
-  private fun advanceRevision(event: AccessibilityEvent) {
+  private fun advanceRevision(event: AccessibilityEvent, cacheOnly: Boolean = false) {
     if (event.eventType and IGNORED_EVENT_TYPES != 0) return
     val trackedWindow = if (buildingWindowId != NO_WINDOW_ID) buildingWindowId
       else root?.windowId ?: NO_WINDOW_ID
     if (WindowCachePolicy.isForeignContentChange(event, trackedWindow)) return
-    if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() ||
+    if ((!cacheOnly && !LatencyExperiments.Feature.SCOPED_CACHE.enabled()) ||
       WindowCachePolicy.affectsOrder(event, trackedWindow)) revisionCounter.incrementAndGet()
   }
 
@@ -488,14 +488,21 @@ object TraversalTreeCache {
   }
 
   @JvmStatic
-  fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
+  fun onAccessibilityEvent(event: AccessibilityEvent): Boolean = applyEvent(event, cacheOnly = false)
+
+  @JvmStatic
+  fun onCacheOnlyEvent(event: AccessibilityEvent) {
+    applyEvent(event, cacheOnly = true)
+  }
+
+  private fun applyEvent(event: AccessibilityEvent, cacheOnly: Boolean): Boolean {
     val type = event.eventType
     if (type and IGNORED_EVENT_TYPES != 0) return false
-    advanceRevision(event)
+    advanceRevision(event, cacheOnly)
     val savedRoot = root ?: return false
     val windowId = event.windowId
     if (WindowCachePolicy.isForeignContentChange(event, savedRoot.windowId)) return false
-    if (LatencyExperiments.Feature.SCOPED_CACHE.enabled() &&
+    if ((cacheOnly || LatencyExperiments.Feature.SCOPED_CACHE.enabled()) &&
       !WindowCachePolicy.affectsOrder(event, savedRoot.windowId)) return false
     if (
       type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
@@ -514,7 +521,7 @@ object TraversalTreeCache {
       ) {
         if (regionGraceEnabled) {
           if (!gracedChangeUnknown) {
-            val bounds = if (gracedChangeRegions.size < MAX_GRACED_CHANGE_REGIONS)
+            val bounds = if (!cacheOnly && gracedChangeRegions.size < MAX_GRACED_CHANGE_REGIONS)
               sourceBounds(event) else null
             noteGracedChange(windowId, bounds)
           }

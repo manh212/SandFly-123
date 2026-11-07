@@ -863,15 +863,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     super.onCreate();
     backgroundEventGate = new BackgroundEventGate(
         this::handleAccessibilityEvent, this::isExpectedScrollResponse,
-        event -> {
-          // Deferred active-window changes must invalidate the reading order *now*, not
-          // only when their latest copy is delivered. Otherwise gestures can follow
-          // nodes that vanished while a feed was refreshing its cards.
-          AsyncTraversalOrder.onEvent(event);
-          TraversalTreeCache.onAccessibilityEvent(event);
-          markRootDirtyForEvent(event);
-          PreparedFocusSpeech.onAccessibilityEvent(event);
-        });
+        this::invalidateFilteredEvent);
 
     this.setTheme(R.style.TalkbackBaseTheme);
 
@@ -1179,6 +1171,10 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
+    boolean strict = backgroundEventGate != null && backgroundEventGate.isStrict();
+    if (strict && !backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
+      return;
+    }
     touchVolumeState.onEvent(event.getEventType());
     BrailleImeInputPolicy.onKeyboardPickerClick(this, event);
     if (directTouchController != null) {
@@ -1195,9 +1191,24 @@ public class TalkBackService extends AccessibilityServiceCompat
     } else if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
       LatencyExperiments.onTouch(false);
     }
-    if (backgroundEventGate == null || backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
+    if (strict || backgroundEventGate == null
+        || backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
       handleAccessibilityEvent(event, receivedAt);
     }
+  }
+
+  private void invalidateFilteredEvent(AccessibilityEvent event) {
+    if (backgroundEventGate.isStrict()) {
+      TraversalTreeCache.onCacheOnlyEvent(event);
+      if (rootNode == null || WindowCachePolicy.affectsRoot(event, rootNode.getWindowId())) {
+        setRootDirty(true);
+      }
+    } else {
+      AsyncTraversalOrder.onEvent(event);
+      TraversalTreeCache.onAccessibilityEvent(event);
+      markRootDirtyForEvent(event);
+    }
+    PreparedFocusSpeech.onAccessibilityEvent(event);
   }
 
   private boolean isExpectedScrollResponse(AccessibilityEvent event) {
@@ -3866,6 +3877,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (backgroundEventGate != null) {
       backgroundEventGate.setProcessingLevel(ProcessorEventQueue.getProcessingLevel());
       backgroundEventGate.setInteractionPriorityEnabled(pinnedLatencyEnabled);
+      updateAccessibilityEventSubscriptions(backgroundEventGate.subscribedEventTypes());
     }
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
@@ -5286,6 +5298,14 @@ public class TalkBackService extends AccessibilityServiceCompat
         return !"com.android.systemui".contentEquals(String.valueOf(event.getPackageName()));
       default:
         return false;
+    }
+  }
+
+  private void updateAccessibilityEventSubscriptions(int eventTypes) {
+    AccessibilityServiceInfo info = getServiceInfo();
+    if (info != null && info.eventTypes != eventTypes) {
+      info.eventTypes = eventTypes;
+      setServiceInfo(info);
     }
   }
 

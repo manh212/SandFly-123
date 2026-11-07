@@ -162,6 +162,21 @@ class TraversalTreeCacheTest {
   }
 
   @Test
+  fun cacheOnlyTextKeepsOrderButRequiresFreshNodeAndSubtreeClearsOrder() {
+    val (_, child) = savedOrder()
+    assertTrue(TraversalTreeCache.holdsCurrent(child))
+
+    TraversalTreeCache.onCacheOnlyEvent(event(
+      AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT))
+    assertTrue(TraversalTreeCache.holds(child))
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+
+    TraversalTreeCache.onCacheOnlyEvent(event(
+      AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE))
+    assertFalse(TraversalTreeCache.holds(child))
+  }
+
+  @Test
   fun ignoredEventType_keepsSavedOrder() {
     val (_, child) = savedOrder()
 

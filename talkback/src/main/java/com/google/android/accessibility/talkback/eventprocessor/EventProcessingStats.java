@@ -27,6 +27,7 @@ public final class EventProcessingStats {
     long queueWaitMaxMs;
     long compositorTotalMs;
     long dropped;
+    long cacheOnly;
   }
 
   private EventProcessingStats() {}
@@ -60,6 +61,10 @@ public final class EventProcessingStats {
 
   public static synchronized void dropped(AccessibilityEvent event) {
     if (Performance.getInstance().getComputeStatsEnabled()) row(event).dropped++;
+  }
+
+  public static synchronized void cacheOnly(AccessibilityEvent event) {
+    if (Performance.getInstance().getComputeStatsEnabled()) row(event).cacheOnly++;
   }
 
   public static synchronized void admitted(AccessibilityEvent event, long waitMs) {
@@ -106,19 +111,19 @@ public final class EventProcessingStats {
     out.append("Interval: ").append(SystemClock.uptimeMillis() - startedAt).append(" ms\n");
     out.append("Background limit: ")
         .append("very_low".equals(ProcessorEventQueue.getProcessingLevel())
-            ? "one latest event globally per 500 ms; deferred during touch and for 150 ms after input"
+            ? "restricted subscription; passive updates only invalidate caches"
             : "off")
         .append('\n');
     out.append("Counts start at service entry; Android can still deliver suppressed events.\n");
     out.append("Admitted passes the early gate; later filters may still drop it.\n");
     out.append("Maximum compositor queue depth: ").append(maximumQueueDepth).append('\n');
-    out.append("source/type: received deferred coalesced dropped admitted gate_wait_total/max_ms "
+    out.append("source/type: received deferred coalesced dropped cache_only admitted gate_wait_total/max_ms "
         + "service_total/max_ms dequeued queue_wait_total/max_ms compositor_total_ms\n");
     for (Map.Entry<String, Row> entry : rows.entrySet()) {
       Row v = entry.getValue();
       out.append(String.format(Locale.ROOT,
-          "%s: %d %d %d %d %d %d/%d %d/%d %d %d/%d %d%n", entry.getKey(),
-          v.received, v.deferred, v.coalesced, v.dropped, v.admitted,
+          "%s: %d %d %d %d %d %d %d/%d %d/%d %d %d/%d %d%n", entry.getKey(),
+          v.received, v.deferred, v.coalesced, v.dropped, v.cacheOnly, v.admitted,
           v.gateWaitTotalMs, v.gateWaitMaxMs, v.serviceTotalMs, v.serviceMaxMs,
           v.dequeued, v.queueWaitTotalMs, v.queueWaitMaxMs, v.compositorTotalMs));
     }
