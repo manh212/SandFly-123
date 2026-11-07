@@ -726,3 +726,59 @@ test('user reports can only target the actual article or comment author', async 
   await assertSucceeds(db('owner').ref('forumReports').once('value'));
 });
 
+test('forum developer has the same private inbox and moderation access as forum owner', async () => {
+  const topic = await forumSetup();
+  await assertSucceeds(db('alice').ref('forumProfiles/alice').set({name:'Thành viên A'}));
+  await assertSucceeds(db('bob').ref('forumProfiles/bob').set({name:'Nhà phát triển'}));
+  const message = fid('9');
+  await assertSucceeds(db('alice').ref('forumChats/alice/messages/' + message)
+    .set({from:'alice',text:'Tin nhắn riêng',createdAt:{'.sv':'timestamp'}}));
+  const first = (await db('alice').ref('forumChats/alice/messages/' + message).once('value')).val();
+  await assertSucceeds(db('alice').ref('forumChatIndex/alice')
+    .set({from:'alice',lastMessage:message,lastAt:first.createdAt}));
+
+  await assertFails(db('bob').ref('forumChatIndex').orderByChild('lastAt').limitToLast(50).once('value'));
+  await assertFails(db('bob').ref('forumChats/alice/messages').once('value'));
+  await assertSucceeds(db('owner').ref('forumChats/alice/messages').once('value'));
+  await assertSucceeds(db('owner').ref('forumChatIndex')
+    .orderByChild('lastAt').limitToLast(50).once('value'));
+
+  await assertSucceeds(db('owner').ref('forumDeveloperUid').set('bob'));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/bob').set({badge:'developer'}));
+  await assertSucceeds(db('bob').ref('forumChats/alice/messages').once('value'));
+  await assertSucceeds(db('bob').ref('forumChatIndex')
+    .orderByChild('lastAt').limitToLast(50).once('value'));
+
+  const response = fid('8');
+  await assertSucceeds(db('bob').ref('forumChats/alice/messages/' + response)
+    .set({from:'bob',text:'Đã nhận tin',createdAt:{'.sv':'timestamp'}}));
+  const saved = (await db('bob').ref('forumChats/alice/messages/' + response).once('value')).val();
+  await assertSucceeds(db('bob').ref('forumChatIndex/alice')
+    .set({from:'bob',lastMessage:response,lastAt:saved.createdAt}));
+  await assertFails(db('bob').ref('forumChatIndex/alice').set({
+    from:'owner',lastMessage:response,lastAt:saved.createdAt
+  }));
+  await assertFails(db('alice').ref('forumChats/bob/messages').once('value'));
+  await assertSucceeds(db('bob').ref('forumPinnedTopics/' + topic).set(true));
+  await assertSucceeds(db('bob').ref('forumTopics/' + topic)
+    .update({locked:true,moderationLocked:true}));
+  await assertFails(db('bob').ref('forumModerators/alice')
+    .set({enabled:true}));
+  await assertFails(db('bob').ref('requests').once('value'));
+  await assertFails(db('bob').ref('devices').once('value'));
+
+  await assertSucceeds(db('owner').ref('forumDeveloperUid').set('alice'));
+  await assertFails(db('bob').ref('forumChatIndex')
+    .orderByChild('lastAt').limitToLast(50).once('value'));
+  await assertFails(db('bob').ref('forumChats/alice/messages').once('value'));
+  await assertFails(db('bob').ref('forumPinnedTopics/' + topic).remove());
+  await assertSucceeds(db('alice').ref('forumChats/alice/messages').once('value'));
+});
+
+test('developer badge cannot be written onto the administrator UID', async () => {
+  await forumSetup();
+  await assertSucceeds(db('alice').ref('forumProfiles/alice').set({name:'Thành viên A'}));
+  await assertSucceeds(db('owner').ref('forumDeveloperUid').set('alice'));
+  await assertFails(db('owner').ref('forumPublicRoles/owner').set({badge:'developer'}));
+  await assertSucceeds(db('owner').ref('forumPublicRoles/alice').set({badge:'developer'}));
+});

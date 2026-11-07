@@ -256,7 +256,7 @@ final class ForumCommunityService {
     firebase.put("forumReports/" + topic + "/" + id,
         new JSONObject().put("uid", uid).put("post", post)
             .put("createdAt", FirebaseRest.timestamp()));
-    if (isModerator()) hide(topic, post);
+    if (isModerator() || isOwner()) hide(topic, post);
   }
 
   void reportUser(String topic, String post, String target) throws Exception {
@@ -388,7 +388,7 @@ final class ForumCommunityService {
   void changeLock(String topic, boolean locked) throws Exception {
     if (!ForumProtocol.validId(topic)) throw new IllegalArgumentException("Chủ đề không hợp lệ.");
     ensureCanWrite();
-    if (isModerator() || firebase.flag("admins/" + uid)) {
+    if (isModerator() || isOwner()) {
       firebase.patch("forumTopics/" + topic,
           new JSONObject().put("locked", locked).put("moderationLocked", locked));
     } else {

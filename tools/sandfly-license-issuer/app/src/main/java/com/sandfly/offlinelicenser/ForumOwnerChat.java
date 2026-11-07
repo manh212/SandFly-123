@@ -97,7 +97,6 @@ final class ForumOwnerChat {
   private void inbox() {
     work("Đang tải hộp thư…", () -> {
       FirebaseRest client = authorized();
-      client.put("forumPublicRoles/" + client.uid(), new JSONObject().put("badge", "developer"));
       JSONObject records = client.recent("forumChatIndex", "lastAt", 50, null);
       List<String> uids = new ArrayList<>();
       for (java.util.Iterator<String> it = records.keys(); it.hasNext();) {
@@ -141,6 +140,8 @@ final class ForumOwnerChat {
       String senderBadge = publicBadge(client, uid);
       String developerName = client.get("forumProfiles/" + client.uid())
           .optString("name", "Chủ sở hữu");
+      String badge = publicBadge(client, client.uid());
+      String senderRole = badge.isEmpty() ? " · Chủ sở hữu" : badge;
       JSONObject identity = client.get("forumIdentity/" + uid);
       String fingerprint = identity.optString("fingerprint");
       boolean banned = client.flag("forumBans/" + uid)
@@ -153,7 +154,7 @@ final class ForumOwnerChat {
           JSONObject item = records.optJSONObject(key);
           if (item == null) continue;
           String author = uid.equals(item.optString("from")) ? name + senderBadge
-              : developerName + " · Thẻ Nhà phát triển";
+              : developerName + senderRole;
           String when = DateFormat.getDateTimeInstance().format(new Date(item.optLong("createdAt")));
           text(content, author + ", " + when + ": " + item.optString("text"));
         }

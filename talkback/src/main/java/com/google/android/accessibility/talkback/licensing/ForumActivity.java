@@ -3,6 +3,7 @@ package com.google.android.accessibility.talkback.licensing;
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
 import android.content.SharedPreferences;
+import android.content.Intent;
 import androidx.core.view.ViewCompat;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -264,9 +265,15 @@ public final class ForumActivity extends ComponentActivity {
     int target = generation;
     work(() -> {
       ForumCommunityService service = new ForumCommunityService(this);
-      if (service.isModerator() || service.isOwner()) {
-        ui(target, () -> button("Điều hành", this::moderation));
-      }
+      boolean owner = service.isOwner();
+      boolean staff = owner || service.isModerator();
+      ui(target, () -> {
+        if (staff) button("Điều hành", this::moderation);
+        if (owner) {
+          button("Hộp thư thành viên",
+              () -> startActivity(new Intent(this, OwnerChatActivity.class)));
+        }
+      });
     });
   }
 
